@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Routes, Redirect } from 'react-router-dom';
-import LoginPage from './Login';
+import SignUpPage from './signup';
 
 const Router = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route exact path="/" element={<LoginPage/>}/>
+                <Route exact path="/" element={<SignUpPage/>}/>
             </Routes>
         </BrowserRouter>
     );
