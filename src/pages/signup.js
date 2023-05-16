@@ -27,7 +27,7 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
-
+//hello
 export default function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -102,8 +102,8 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  control={<Checkbox value="termsAndConditionsAccepted" color="primary" />}
+                  label="I accept the terms and conditions"
                 />
               </Grid>
             </Grid>
