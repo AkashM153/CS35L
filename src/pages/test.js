@@ -6,11 +6,14 @@ export default function Test (){
     const [text, setText] = useState("");
     function getText(){
         axios.get("http://localhost:5000/", { crossdomain: true }).then(
-            () => {
-                setText("Something wooo");
-                console.log("function call");
+        () => {
+            setText("Something wooo");
+            console.log("function call");
+        })
+        .catch((err) =>{
+            setText("Server Not Responding :(");
+        }
 
-            }
         )
     }
     return(
