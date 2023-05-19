@@ -5,9 +5,9 @@ import React, { useState } from "react";
 export default function Test (){
     const [text, setText] = useState("");
     function getText(){
-        axios.get("http://localhost:5000/", { crossdomain: true }).then(
-        () => {
-            setText("Something wooo");
+        axios.get("http://localhost:5000/test", { crossdomain: true }).then(
+        (response) => {
+            setText(response.data);
             console.log("function call");
         })
         .catch((err) =>{

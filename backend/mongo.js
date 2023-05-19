@@ -2,42 +2,33 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://ashish_basetty:gHffcx7KnULdcZOE@bruinconnect.nzayoje.mongodb.net/?retryWrites=true&w=majority";
 const mongoose = require('mongoose');
-
+const User = require('./userSchema');
 
 try{
-  mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
   console.log("Connected to mongoose!");
 }
 catch{
   console.log("Failed connection");
 }
 
-
-
-/*
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
+function newUser(data){
+  const nUser = new User({
+    firstName: data.firstName,
+    lastName: data.lastName,
+    email: data.email,
+    password: data.password
+  });
+  try{
+    nUser.save()
+    console.log('User Upload Successful!')
   }
-});
-
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+  catch{
+    console.log('User Upload Failure')
   }
 }
-run().catch(console.dir);
 
-*/
+module.exports = {
+  newUser
+};
 
-module.export = mongoose.Connection;

@@ -14,11 +14,6 @@ const corsOptions = {
   credentials: true,
 }
 
-app.use(cors(corsOptions))
-app.get("/", (req, res) => {
-    res.send("awoooga");
-}) 
-
 let port = process.env.PORT;
 if(port == null || port == "") {
  port = 5000;
@@ -28,4 +23,19 @@ app.listen(port, (err) => {
     if (!err){
         console.log("listening");
     }
+})
+
+///////RESPONSE HANDLERS///////////////////////////////////////
+//Test Page
+app.use(cors(corsOptions));
+app.get("/test", (req, res) => {
+    res.send("Something wooo");
+}) 
+
+//Signup Page
+app.use(express.json());
+app.post('/signup', (req, res) => {
+    const userData = req.body
+    console.log('Received data:', userData);
+    res.status(200).json({message: "Server received data:", userData});
 })

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
 
 function Copyright(props) {
   return (
@@ -27,16 +28,25 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
-//hello
+
 export default function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    axios.post('http://localhost:5000/signup', {
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
       email: data.get('email'),
-      password: data.get('password'),
-    });
+      password: data.get('password')
+    }, { crossdomain: true })
+    .then((res) => {
+      
+    })
+    .catch((err) => {
+      alert("Could not sign you up :(");
+    }) 
   };
+  //backend stuff
 
   return (
     <ThemeProvider theme={theme}>
@@ -60,7 +70,7 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete="given-name"
+                  autoComplete="first-name"
                   name="firstName"
                   required
                   fullWidth
@@ -76,7 +86,7 @@ export default function SignUp() {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
-                  autoComplete="family-name"
+                  autoComplete="last-name"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -100,12 +110,6 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="termsAndConditionsAccepted" color="primary" />}
-                  label="I accept the terms and conditions"
-                />
-              </Grid>
             </Grid>
             <Button
               type="submit"
@@ -117,7 +121,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link to="/login" variant="body2" onClick={()=> window.location.href='/login'}>
                   Already have an account? Sign in
                 </Link>
               </Grid>
