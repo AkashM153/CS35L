@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const User = require('./userSchema');
 
 try{
-  await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
   console.log("Connected to mongoose!");
 }
 catch{

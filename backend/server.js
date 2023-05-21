@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const { newUser } = require("./mongo")
 
 const whitelist = ["http://localhost:3000"]
 const corsOptions = {
@@ -37,5 +38,6 @@ app.use(express.json());
 app.post('/signup', (req, res) => {
     const userData = req.body
     console.log('Received data:', userData);
+    newUser(userData);
     res.status(200).json({message: "Server received data:", userData});
 })
