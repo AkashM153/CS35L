@@ -13,6 +13,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import bg from "./background.css"
+import Paper from '@mui/material/Paper';
+
+
 
 function Copyright(props) {
   return (
@@ -50,7 +54,8 @@ export default function SignUp() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      
+      <Container component="main" maxWidth="xs" sx={{ backgroundColor: '#f5f5f5' }}>
         <CssBaseline />
         <Box
           sx={{
@@ -58,6 +63,7 @@ export default function SignUp() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -66,7 +72,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{}}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
