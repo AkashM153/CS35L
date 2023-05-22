@@ -39,7 +39,6 @@ app.post('/signup', async (req, res) => {
     const userData = req.body
     console.log('Received data:', userData);
     const searchUser = await findUserFromEmail(userData.email);
-    console.log(searchUser)
     if (!searchUser){
       const empty = await newUser(userData);
       if (empty == 1){
