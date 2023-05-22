@@ -40,7 +40,12 @@ export default function SignUp() {
       password: data.get('password')
     }, { crossdomain: true })
     .then((res) => {
-      
+      if (res.status == 200){
+        alert("User already exists with this email, sign in through sign in page")
+      }
+      if (res.status == 202){
+        alert("Please fill out all fields")
+      }
     })
     .catch((err) => {
       alert("Could not sign you up :(");

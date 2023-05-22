@@ -12,7 +12,10 @@ catch{
   console.log("Failed connection");
 }
 
-function newUser(data){
+async function newUser(data){
+  if (data.firstName == ''|| data.lastName == ''|| data.email == ''|| data.password == ''){
+    return 1;
+  }
   const nUser = new User({
     firstName: data.firstName,
     lastName: data.lastName,
@@ -22,13 +25,42 @@ function newUser(data){
   try{
     nUser.save()
     console.log('User Upload Successful!')
+    return 0;
   }
   catch{
     console.log('User Upload Failure')
+    return 2;
+  }
+}
+
+async function findUserFromEmail(email){
+  try {
+    const user = await User.findOne({email: email});
+    if (user){
+      return user;
+    }
+  }
+  catch {
+    console.log("User search failure :(")
+  }
+  return null;
+}
+
+process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
+
+function gracefulExit(){
+  try{
+    mongoose.connection.close();
+    console.log('Closed mongoose connection');
+    process.exit(0);
+  }
+  catch{
+    console.log('Mongoose connection close failed');
   }
 }
 
 module.exports = {
-  newUser
+  newUser,
+  findUserFromEmail
 };
 

@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const { newUser } = require("./mongo")
+const { newUser, findUserFromEmail } = require("./mongo")
 
 const whitelist = ["http://localhost:3000"]
 const corsOptions = {
@@ -35,9 +35,22 @@ app.get("/test", (req, res) => {
 
 //Signup Page
 app.use(express.json());
-app.post('/signup', (req, res) => {
+app.post('/signup', async (req, res) => {
     const userData = req.body
     console.log('Received data:', userData);
-    newUser(userData);
-    res.status(200).json({message: "Server received data:", userData});
+    const searchUser = await findUserFromEmail(userData.email);
+    console.log(searchUser)
+    if (!searchUser){
+      const empty = await newUser(userData);
+      if (empty == 1){
+        res.status(202).json({message: "Empty fields, user not created"});
+      }
+      else {
+        res.status(201).json({message: "User created:", userData});
+        console.log("User created:", userData);
+      }
+    }
+    else {
+      res.status(200).json({message: "User already exists:", userData});
+    }
 })
