@@ -38,8 +38,8 @@ export default function SignUp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     axios.post('http://localhost:5000/signup', {
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
+      firstName: data.get('firstName').charAt(0).toUpperCase() + data.get('firstName').charAt(0).toLowerCase(),
+      lastName: data.get('lastName').charAt(0).toUpperCase() + data.get('lastName').charAt(0).toLowerCase(),
       email: data.get('email'),
       password: data.get('password')
     }, { crossdomain: true })
@@ -51,14 +51,16 @@ export default function SignUp() {
         alert("Please fill out all fields")
       }
       if (res.status == 201){
-        window.location.href = "/home";
+        localStorage.setItem('userId', res.data.id)
+        localStorage.setItem('name', res.data.name)
+        window.location.assign("/home");
       }
     })
     .catch((err) => {
       alert("Could not sign you up :(");
+      console.log("err: ", err)
     }) 
   };
-  //backend stuff
 
   return (
     <ThemeProvider theme={theme}>

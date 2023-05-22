@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const { newUser, findUserFromEmail, matchEmailPassword } = require("./mongo")
+const { newUser, findUserFromEmail, matchEmailPassword, addEvent } = require("./mongo")
 
 const whitelist = ["http://localhost:3000"]
 const corsOptions = {
@@ -40,18 +40,18 @@ app.post('/signup', async (req, res) => {
     console.log('Received data:', userData);
     const searchUser = await findUserFromEmail(userData.email);
     if (!searchUser){
-      const empty = await newUser(userData);
-      if (empty == 1){
+      if (userData.firstName == ''|| userData.lastName == ''|| userData.email == ''|| userData.password == ''){
         res.status(202).json({message: "Empty fields, user not created"});
       }
       else {
-        res.status(201).json({message: "User created:", userData});
+        const savedUser = await newUser(userData);
+        res.status(201).json({message: "User created", id: savedUser._id, name: savedUser.firstName + " " + savedUser.lastName});
         //User Login
         console.log("User created:", userData);
       }
     }
     else {
-      res.status(200).json({message: "User already exists:", userData});
+      res.status(200).json({message: "User already exists"});
     }
 })
 
@@ -62,9 +62,34 @@ app.post('/login', async (req, res) => {
   const searchUser = await matchEmailPassword(loginData.email, loginData.password);
   if (searchUser){
     //User Login
-    res.status(201).json({message: "Successful login, main page redirect"})
+    res.status(201).json({message: "Successful login, main page redirect", id: searchUser._id, name: searchUser.firstName + " " + searchUser.lastName})
   }
   else {
     res.status(202).json({message: "Invalid email/password"})
   }
+})
+
+//Event Adding
+app.post('/addevent', async (req, res) => {
+  const ev = await addEvent(req.body);
+  switch (ev){
+    case (0):{
+      res.status(200).json({message: "Event Upload Success"});
+      break;
+    }
+    case (1):{
+      res.status(201).json({message: "Invalid Input"});
+      break;
+    }
+    case (2):{
+      res.status(202).json({message: "Event Already Exists"});
+      break;
+    }
+    case (3):{
+      res.status(203).json({message: "Event Upload Failure"})
+      break;
+    }
+      
+  }
+  
 })

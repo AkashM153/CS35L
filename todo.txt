@@ -4,6 +4,8 @@ Login/Signup:
 - Password hashing
 - Add avatars
 - Check for school email
+- Lowercase check for email
+- Add logout
 
 Navbar
 Figure out fuse.js

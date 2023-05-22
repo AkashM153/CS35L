@@ -1,9 +1,9 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
+//import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
+//import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import { Navigate } from 'react-router-dom';
+
 
 
 
@@ -74,7 +76,9 @@ export default function SignIn() {
     }, { crossdomain: true })
     .then((res) => {
       if (res.status == 201){
-        window.location.href = "/home";
+        localStorage.setItem('userId', res.data.id)
+        localStorage.setItem('name', res.data.name)
+        window.location.assign("/home");
       }
       if (res.status == 202){
         alert("Invalid email/password, click sign up if you are a new user");

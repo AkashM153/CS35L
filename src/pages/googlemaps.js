@@ -1,6 +1,6 @@
 import React from 'react'
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
-import PrimarySearchAppBar from './navbar.tsx'
+import PrimarySearchAppBar from './navbar'
 
 
 const containerStyle = {

@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Router from "./pages/Routes";
 /*
@@ -13,7 +12,7 @@ const appStyle = {
 
 const App = ()=> {
   return (
-    <div className="WeRoutingFrrOng">
+    <div>
       <Router />
     </div>
   );
