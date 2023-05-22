@@ -1,5 +1,6 @@
 import React from 'react'
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import PrimarySearchAppBar from './navbar.tsx'
 
 
 const containerStyle = {
@@ -18,6 +19,8 @@ const center = {
 //creating a frontend function, which contians google maps api, and then specifies how much to zoom 
 function MyComponent() {
   return (
+    <>
+    <PrimarySearchAppBar/>
     <LoadScript
       googleMapsApiKey="AIzaSyDcT8vjUTGgqt6qgDd-15ZDqPIJK8Fqqrk"
     >
@@ -30,6 +33,7 @@ function MyComponent() {
         <></>
       </GoogleMap>
     </LoadScript>
+    </>
   )
 }
 

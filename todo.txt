@@ -1,0 +1,10 @@
+Login/Signup:
+- Make user account mean something
+- Adding red boxes for unfilled sections
+- Password hashing
+- Add avatars
+- Check for school email
+
+Navbar
+Figure out fuse.js
+Implement Material-ui paper
