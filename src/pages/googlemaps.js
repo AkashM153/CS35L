@@ -15,7 +15,7 @@ const center = {
 };
 
 
-//creating a fronted function, which contians google maps api, and then specifies how much to zoom 
+//creating a frontend function, which contians google maps api, and then specifies how much to zoom 
 function MyComponent() {
   return (
     <LoadScript

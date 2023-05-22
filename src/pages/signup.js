@@ -50,6 +50,9 @@ export default function SignUp() {
       if (res.status == 202){
         alert("Please fill out all fields")
       }
+      if (res.status == 201){
+        window.location.href = "/home";
+      }
     })
     .catch((err) => {
       alert("Could not sign you up :(");
@@ -139,7 +142,7 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        {/* <Copyright sx={{ mt: 5 }} /> */}
       </Container>
     </ThemeProvider>
   );

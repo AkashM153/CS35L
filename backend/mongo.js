@@ -46,6 +46,19 @@ async function findUserFromEmail(email){
   return null;
 }
 
+async function matchEmailPassword(email, password){
+  try {
+    const user = await User.findOne({email: email, password: password});
+    if (user){
+      return user;
+    }
+  }
+  catch {
+    console.log("User search failure :(")
+  }
+  return null;
+}
+
 process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
 
 function gracefulExit(){
@@ -61,6 +74,7 @@ function gracefulExit(){
 
 module.exports = {
   newUser,
-  findUserFromEmail
+  findUserFromEmail,
+  matchEmailPassword
 };
 

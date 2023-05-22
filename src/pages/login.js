@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
+
 
 
 function Copyright(props) {
@@ -66,10 +68,21 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    axios.post('http://localhost:5000/login', {
       email: data.get('email'),
-      password: data.get('password'),
-    });
+      password: data.get('password')
+    }, { crossdomain: true })
+    .then((res) => {
+      if (res.status == 201){
+        window.location.href = "/home";
+      }
+      if (res.status == 202){
+        alert("Invalid email/password, click sign up if you are a new user");
+      }
+    })
+    .catch((err) => {
+      alert("Could not log you in :(");
+    })
   };
 
   return (
@@ -110,10 +123,6 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -124,19 +133,19 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                {/*(<Link href="#" style={{color: 'white'}} variant="body2">
                   Forgot password?
-                </Link>
+                </Link>*/}
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="#" style={{color: 'white'}} variant="body2" onClick={()=> window.location.href='/signup'}>
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4}} />
+        {/* <Copyright sx={{ mt: 8, mb: 4}} /> */}
       </Container>
     </ThemeProvider>
   );

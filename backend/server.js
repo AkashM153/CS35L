@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const { newUser, findUserFromEmail } = require("./mongo")
+const { newUser, findUserFromEmail, matchEmailPassword } = require("./mongo")
 
 const whitelist = ["http://localhost:3000"]
 const corsOptions = {
@@ -46,10 +46,25 @@ app.post('/signup', async (req, res) => {
       }
       else {
         res.status(201).json({message: "User created:", userData});
+        //User Login
         console.log("User created:", userData);
       }
     }
     else {
       res.status(200).json({message: "User already exists:", userData});
     }
+})
+
+//Login Page
+app.post('/login', async (req, res) => {
+  const loginData = req.body
+  console.log('Received data:', loginData);
+  const searchUser = await matchEmailPassword(loginData.email, loginData.password);
+  if (searchUser){
+    //User Login
+    res.status(201).json({message: "Successful login, main page redirect"})
+  }
+  else {
+    res.status(202).json({message: "Invalid email/password"})
+  }
 })
