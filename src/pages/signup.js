@@ -38,8 +38,8 @@ export default function SignUp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     axios.post('http://localhost:5000/signup', {
-      firstName: data.get('firstName').charAt(0).toUpperCase() + data.get('firstName').charAt(0).toLowerCase(),
-      lastName: data.get('lastName').charAt(0).toUpperCase() + data.get('lastName').charAt(0).toLowerCase(),
+      firstName: data.get('firstName').charAt(0).toUpperCase() + data.get('firstName').substring(1).toLowerCase(),
+      lastName: data.get('lastName').charAt(0).toUpperCase() + data.get('lastName').substring(1).toLowerCase(),
       email: data.get('email'),
       password: data.get('password')
     }, { crossdomain: true })

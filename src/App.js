@@ -1,4 +1,3 @@
-import './App.css';
 import Router from "./pages/Routes";
 /*
 import backgroundImg from './bgimage.jpg';

@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const { newUser, findUserFromEmail, matchEmailPassword, addEvent } = require("./mongo")
+const { ObjectId } = require('mongodb');
+const { newUser, findUserFromEmail, matchEmailPassword, addEvent, getEventOrgTitle } = require("./mongo")
 
 const whitelist = ["http://localhost:3000"]
 const corsOptions = {
@@ -71,25 +72,26 @@ app.post('/login', async (req, res) => {
 
 //Event Adding
 app.post('/addevent', async (req, res) => {
-  const ev = await addEvent(req.body);
-  switch (ev){
-    case (0):{
+  if (!data.orgname || !data.title || !data.location){
+    res.status(201).json({message: "Invalid Input"});
+    return;
+  }
+  const oldEvent = await getEventOrgTitle(data.orgname, data.title);
+  if (oldEvent){
+    res.status(202).json({message: "Event Already Exists"});
+    return;
+  }
+  try{
+    const ev = await addEvent(req.body);
+    if (ev){
       res.status(200).json({message: "Event Upload Success"});
-      break;
     }
-    case (1):{
-      res.status(201).json({message: "Invalid Input"});
-      break;
+    else {
+      res.status(203).json({message: "Event Upload Failure"});
     }
-    case (2):{
-      res.status(202).json({message: "Event Already Exists"});
-      break;
-    }
-    case (3):{
-      res.status(203).json({message: "Event Upload Failure"})
-      break;
-    }
-      
+  }
+  catch{
+    res.status(203).json({message: "Event Upload Failure"});
   }
   
 })
