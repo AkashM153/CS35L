@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const { ObjectId } = require('mongodb');
 const { newUser, findUserFromEmail, matchEmailPassword, addEvent, getEventOrgTitle } = require("./mongo")
 
 const whitelist = ["http://localhost:3000"]

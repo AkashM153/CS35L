@@ -76,7 +76,7 @@ export default function SignIn() {
     }, { crossdomain: true })
     .then((res) => {
       if (res.status == 201){
-        localStorage.setItem('userId', res.data.id)
+        localStorage.setItem('userID', res.data.id)
         localStorage.setItem('name', res.data.name)
         window.location.assign("/home");
       }

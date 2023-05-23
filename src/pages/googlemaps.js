@@ -17,10 +17,9 @@ const center = {
 
 
 //creating a frontend function, which contians google maps api, and then specifies how much to zoom 
-function MyComponent() {
+function MapsComponent() {
   return (
     <>
-    <PrimarySearchAppBar/>
     <LoadScript
       googleMapsApiKey="AIzaSyDcT8vjUTGgqt6qgDd-15ZDqPIJK8Fqqrk"
     >
@@ -37,7 +36,7 @@ function MyComponent() {
   )
 }
 
-export default React.memo(MyComponent)
+export default React.memo(MapsComponent)
 
 
 

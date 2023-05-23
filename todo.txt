@@ -1,11 +1,8 @@
 Login/Signup:
-- Make user account mean something
 - Adding red boxes for unfilled sections
-- Password hashing
-- Add avatars
+- Password hashing (bcrypt)
 - Check for school email
 - Lowercase check for email
-- Add logout
 
 Navbar
 Figure out fuse.js
