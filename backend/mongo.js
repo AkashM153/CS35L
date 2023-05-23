@@ -58,13 +58,6 @@ async function matchEmailPassword(email, password){
 }
 
 async function addEvent(data){
-  if (!data.orgname || !data.title || !data.location){
-    return 1; //invalid input (a field is blank)
-  }
-  const fEvent = await Event.findOne({orgname: data.orgname, title: data.title});
-  if (fEvent){
-    return 2; //event with same orgname and title already exists
-  }
   const nEvent = new Event({
     creator: data.creator,
     orgname: data.orgname,
@@ -74,14 +67,19 @@ async function addEvent(data){
     location: data.location
   });
   try{
-    nEvent.save()
+    const newEvent = await nEvent.save()
     console.log('Event Upload Successful!')
-    return 0;
+    return newEvent;
   }
   catch{
     console.log('Event Upload Failure')
-    return 3;
+    return null;
   }
+}
+
+async function getEventOrgTitle(iorgname, ititle){
+  const fEvent = await Event.findOne({orgname: iorgname, title: ititle});
+  return fEvent;
 }
 
 process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
@@ -101,6 +99,7 @@ module.exports = {
   newUser,
   findUserFromEmail,
   matchEmailPassword,
-  addEvent
+  addEvent,
+  getEventOrgTitle
 };
 
