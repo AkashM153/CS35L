@@ -25,7 +25,7 @@ function MapsComponent() {
     >
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={center}
+        center={JSON.parse(localStorage.getItem('location'))}
         zoom={15}
       >
         { /* Child components, such as markers, info windows, etc. */ }
