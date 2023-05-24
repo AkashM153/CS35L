@@ -31,7 +31,40 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
+const theme = createTheme({
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          
+          '& .MuiOutlinedInput-root': {
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#fff', // Set the outline color to white
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#fff', // Set the outline color to white on hover
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#577ffa', // Set the outline color to light baby blue on focus
+            },
+          },
+          '& .MuiInputLabel-root': {
+            color: '#fff', // Set the label color to white
+          },
+          '& .MuiInputBase-input': {
+            color: '#fff', // Set the input text color to white
+          },
+          '&.Mui-focused .MuiInputLabel-root': {
+            color: '#FFF', // Set the focused label color to white
+          },
+          '&.Mui-focused .MuiInputBase-input': {
+            color: '#FFF', // Set the focused input text color to white
+          },
+        },
+      },
+    },
+  },
+});
 
 export default function SignUp() {
   const handleSubmit = (event) => {
@@ -65,24 +98,21 @@ export default function SignUp() {
   return (
     <ThemeProvider theme={theme}>
       
-      <Container component="main" maxWidth="xs" sx={{ backgroundColor: '#f5f5f5' }}>
+      <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 19,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-
+            color: 'white'
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{}}>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1}}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
