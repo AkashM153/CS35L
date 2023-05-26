@@ -44,17 +44,54 @@ async function findUserFromEmail(email){
   return null;
 }
 
-async function matchEmailPassword(email, password){
-  try {
-    const user = await User.findOne({email: email, password: password});
-    if (user){
-      return user;
+/*async function matchEmailPassword(email, password){
+    var user = await User.findOne({email: email});
+    if(!user){
+      console.log("Couldn't find user")
+      return null;
     }
-  }
-  catch {
-    console.log("Match failure :(")
-  }
+    else{
+      user.comparePassword(password, function(error, isMatch){
+        if (error){
+          console.log("There's an error??");
+          throw error;
+        }
+        if (isMatch){
+          console.log("There's a match")
+          return user;
+        }
+        else console.log("Match failure :(");
+      })
+    }
   return null;
+}*/
+
+async function matchEmailPassword(email, password) {
+  try {
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      console.log("Couldn't find user");
+      return null;
+    } else {
+      return new Promise((resolve, reject) => {
+        user.comparePassword(password, function (error, isMatch) {
+          if (error) {
+            console.log("There's an error??");
+            reject(error);
+          } else if (isMatch) {
+            console.log("There's a match");
+            resolve(user);
+          } else {
+            console.log("Match failure :(");
+            resolve(null);
+          }
+        });
+      });
+    }
+  } catch (error) {
+    console.log("Match failure :(");
+    return null;
+  }
 }
 
 async function addEvent(data){
