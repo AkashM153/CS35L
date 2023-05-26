@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -14,32 +14,23 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import EventPage1 from './eventpage1';
 import EventPage2 from './eventpage2';
-import EventPage3 from './eventpage3';
+import { Navigate } from 'react-router-dom';
+import PrimarySearchAppBar from './navbar';
+import dayjs from 'dayjs'
+import axios from 'axios'
 
+const moment = require('moment')
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+const mongoose = require('mongoose')
 
-const steps = ['Event details', 'Descriptions + Picture', 'Review'];
+const steps = ['Event details', 'Add Description'];
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <EventPage1 />;
+      return <EventPage1/>;
     case 1:
-      return <EventPage2 />;
-    case 2:
-      return <EventPage3 />;
+      return <EventPage2/>;
     default:
       throw new Error('Unknown step');
   }
@@ -52,33 +43,66 @@ export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
-    setActiveStep(activeStep + 1);
+    if (activeStep != steps.length-1){
+      setActiveStep(activeStep + 1);
+    }
+    else {
+      handleSubmit();
+    }
   };
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
 
+  const handleSubmit = () => {/*
+    if (localStorage.getItem("date") == null){
+      localStorage.setItem("date", dayjs())
+    }*/
+    const exDate = dayjs(localStorage.getItem("date")).format('YYYY-MM-DD')
+    const exStart = dayjs(localStorage.getItem("starttime")).format('THH:mm:ss')
+    const exEnd = dayjs(localStorage.getItem("endtime")).format('THH:mm:ss')
+    axios.post('http://localhost:5000/addevent', {
+      creator: localStorage.getItem('userID'),
+      orgname: localStorage.getItem('organization'),
+      title: localStorage.getItem('eventName'),
+      description: localStorage.getItem('description'),
+      eventtype: localStorage.getItem('eventtype'),
+      startDate: new Date(exDate+exStart),
+      endDate: new Date(exDate+exEnd),
+      location: {
+        type: 'Point',
+        coordinates: [34.072105,-118.453445]
+      }
+      
+
+    }, { crossdomain: true })
+    .then((res) => {
+      if (res.status == 200){
+        window.location.assign("/home");
+        alert("Event Successfully Uploaded");
+      }
+      if (res.status == 201){
+        alert("Invalid Input, Please Fill Out All Required Fields");
+      }
+      if (res.status == 202){
+        alert("Event Already Exists"); 
+      }
+      if (res.status == 203){
+        alert("Event Upload Failure :("); 
+      }
+    })
+    .catch((err) => {
+      alert("Could Not Log You In :(");
+    })
+  }
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <AppBar
-        position="absolute"
-        color="default"
-        elevation={0}
-        sx={{
-          position: 'relative',
-          borderBottom: (t) => `1px solid ${t.palette.divider}`,
-        }}
-      >
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Company name
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+      <PrimarySearchAppBar/>
+      <Container component="main" maxWidth="sm" sx={{ mb: 4 }} >
+        <Paper variant="outlined" sx={{ my: { xs: 10, md: 10 }, p: { xs: 2, md: 3 } }}>
           <Typography component="h1" variant="h4" align="center">
             Add Event
           </Typography>
@@ -89,18 +113,6 @@ export default function Checkout() {
               </Step>
             ))}
           </Stepper>
-          {activeStep === steps.length ? (
-            <React.Fragment>
-              <Typography variant="h5" gutterBottom>
-                Thank you for your order.
-              </Typography>
-              <Typography variant="subtitle1">
-                Your order number is #2001539. We have emailed your order
-                confirmation, and will send you an update when your order has
-                shipped.
-              </Typography>
-            </React.Fragment>
-          ) : (
             <React.Fragment>
               {getStepContent(activeStep)}
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -115,13 +127,11 @@ export default function Checkout() {
                   onClick={handleNext}
                   sx={{ mt: 3, ml: 1 }}
                 >
-                  {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                  {activeStep === steps.length - 1 ? 'Add Event' : 'Next'}
                 </Button>
               </Box>
             </React.Fragment>
-          )}
         </Paper>
-        <Copyright />
       </Container>
     </ThemeProvider>
   );
