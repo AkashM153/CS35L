@@ -15,8 +15,7 @@ const Router = () => {
                 <Route exact path="/" element={<Navigate to="/login" />}/>
                 <Route exact path="/login" element={<LogInPage/>}/>
                 <Route exact path="/home" element={<HomePage/>}/>
-                <Route exact path="/test" element={<Test/>}/>
-                <Route exact path="/eventpage" element={<EventPage/>}/>
+                <Route exact path="/addevent" element={<EventPage/>}/>
             </Routes>
         </BrowserRouter>
     );
