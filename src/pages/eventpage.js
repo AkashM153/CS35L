@@ -19,7 +19,6 @@ import PrimarySearchAppBar from './navbar';
 import dayjs from 'dayjs'
 import axios from 'axios'
 
-const moment = require('moment')
 
 const mongoose = require('mongoose')
 
