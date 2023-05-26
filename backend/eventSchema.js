@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
     creator: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         required: true
     },
     orgname: {
@@ -17,14 +17,28 @@ const eventSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    date: {
+    eventtype: {
+        type: String,
+        required: false
+    },
+    startDate: {
+        type: Date,
+        required: true
+    },
+    endDate: {
         type: Date,
         required: true
     },
     location: {
-        type: [Number],
-        index: '2dsphere',
-        required: true
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }   
     }
 
 });
