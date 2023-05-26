@@ -63,16 +63,18 @@ async function addEvent(data){
     orgname: data.orgname,
     title: data.title,
     description: data.description,
-    date: data.date,
+    eventtype: data.eventtype,
+    startDate: data.startDate,
+    endDate: data.endDate,
     location: data.location
   });
-  try{
+  try{                                                      
     const newEvent = await nEvent.save()
     console.log('Event Upload Successful!')
     return newEvent;
   }
-  catch{
-    console.log('Event Upload Failure')
+  catch (err) {
+    console.log('Event Upload Failure: ', err)
     return null;
   }
 }

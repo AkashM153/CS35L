@@ -72,10 +72,13 @@ app.post('/login', async (req, res) => {
 
 //Event Adding
 app.post('/addevent', async (req, res) => {
-  if (!data.orgname || !data.title || !data.location){
+  data = req.body;
+  console.log('Received data:', data);
+  if (!data.orgname || !data.title){
     res.status(201).json({message: "Invalid Input"});
     return;
   }
+  else {
   const oldEvent = await getEventOrgTitle(data.orgname, data.title);
   if (oldEvent){
     res.status(202).json({message: "Event Already Exists"});
@@ -83,7 +86,9 @@ app.post('/addevent', async (req, res) => {
   }
   try{
     const ev = await addEvent(req.body);
+    
     if (ev){
+      console.log("Successful Upload")
       res.status(200).json({message: "Event Upload Success"});
     }
     else {
@@ -91,7 +96,7 @@ app.post('/addevent', async (req, res) => {
     }
   }
   catch{
-    res.status(203).json({message: "Event Upload Failure"});
+    res.status(203).json({message: "Event Upload Failure ", err});
   }
-  
+  }
 })

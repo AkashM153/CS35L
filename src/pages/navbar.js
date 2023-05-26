@@ -6,8 +6,8 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom'
 import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
@@ -17,6 +17,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import stringAvatar from './stringAvatar';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Navigate } from 'react-router-dom';
+import dayjs from 'dayjs'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -88,12 +89,27 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleHomeClick = () => {
+    window.location.assign("/home");
+  }
+  
+  const handleAddClick = () => {
+    localStorage.setItem("eventName", "");
+    localStorage.setItem("organization", "");
+    localStorage.setItem("date", dayjs());
+    localStorage.setItem("starttime", "");
+    localStorage.setItem("endtime", "");
+    localStorage.setItem("description", "");
+    localStorage.setItem("eventtype", "");
+    window.location.assign("/addevent");
+  }
+
   const handleLogout = () => {
     handleMenuClose();
     localStorage.setItem('userId', '')
     localStorage.setItem('name', '')
   }
-
+  
   if (!localStorage.getItem('name')){
     return <Navigate to="/"/>
   }
@@ -141,6 +157,7 @@ export default function PrimarySearchAppBar() {
         <IconButton
           size="large"
           color="inherit"
+          onClick={handleAddClick}
         >
           <AddIcon />
         </IconButton>
@@ -162,14 +179,16 @@ export default function PrimarySearchAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
         <Toolbar>
+          <IconButton disableRipple variant="contained" style={{ backgroundColor: 'transparent' }} onClick={handleHomeClick}>
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+            color='white'
           >
             BruinConnect
           </Typography>
+          </IconButton>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -184,6 +203,7 @@ export default function PrimarySearchAppBar() {
             <IconButton
               size="large"
               color="inherit"
+              onClick={handleAddClick}
             >
               <AddIcon />
             </IconButton>
