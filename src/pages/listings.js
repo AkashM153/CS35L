@@ -3,31 +3,39 @@ import Paper from '@mui/material/Paper';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import Grid from '@mui/material/Grid'
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import { Container } from '@mui/material';
 
 export default function Listings({ setFeaturedPosts }) {
   const [listings, setListings] = useState(null);
 
-  async function retrieveListings() {
+  async function retrieveListings(){
     try {
-      const response = await axios.post('http://localhost:5000/getevents', {
-        loc: JSON.parse(localStorage.getItem('location')),
-        nEvents: 10
-      }, { crossdomain: true });
-
-      if (response && response.status === 200) {
-        setListings(response.data);
-      } else {
-        alert(response.data.message);
-      }
-    } catch (err) {
-      alert("Failed to retrieve events: " + err.message);
+        axios.post('http://localhost:5000/getevents', {
+            loc: JSON.parse(localStorage.getItem('location')),
+            nEvents: 10,
+            startdate: dayjs().startOf('day'),
+            enddate: dayjs().endOf('day'),
+            eventtype: null
+        }, { crossdomain: true })
+        .then((res) => {
+            if (res && res.status == 200){
+                setListings(res.data)
+            }
+            else {
+                alert(res.data.message)
+            }
+        })
     }
-  }
+    catch (err){
+        alert("Failed to retrieve events: ", err.message)
+    }
+}
 
   useEffect(() => {
     retrieveListings();
@@ -42,13 +50,16 @@ export default function Listings({ setFeaturedPosts }) {
   };
 
   return (
-    <Paper elevation={4} sx={{ p: 2 }}>
+    <React.Fragment>
+    <Grid container >
+
+    </Grid>
       <List>
         {listings &&
           listings.map((listing, index) => (
             <React.Fragment key={listing._id}>
-              <ListItem disablePadding>
-                <ListItemText
+              <Paper elevation={4} style={{ width: '300px', p: 2, padding: '20px'}}>
+                {/*<ListItemText
                   primary={listing.title}
                   secondary={listing.description}
                   onClick={() =>
@@ -63,13 +74,17 @@ export default function Listings({ setFeaturedPosts }) {
                       imageLabel: 'Image Text',
                     })
                   }
-                />
-              </ListItem>
+                />*/}
+                <Grid>
+                {listing.title}
+                {listing.description}
+                </Grid>
+              </Paper>
               <Divider />
             </React.Fragment>
           ))}
       </List>
-    </Paper>
+    </React.Fragment>
   );
 }
 

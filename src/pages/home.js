@@ -33,26 +33,7 @@ export default function HomePage() {
         <Grid item xs={12} md={6}>
           <MapsComponent />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Grid container spacing={2}>
-            {featuredPosts.map((post) => (
-              <Grid item xs={12} key={post.title}>
-                <Paper elevation={4} sx={{ p: 2 }}>
-                  <Typography variant="h5" component="h3" mb={1}>
-                    {post.title}
-                  </Typography>
-                  <Typography variant="subtitle1" color="text.secondary" mb={1}>
-                    {post.date}  {post.startTime}  {post.endTime}
-                  </Typography>
-                  <Typography variant="body2" mb={2}>
-                    {post.description}
-                  </Typography>
-                </Paper>
-              </Grid>
-            ))}
-          </Grid>
-        </Grid>
-        <Grid item xs={12}>
+        <Grid item >
           <Listings setFeaturedPosts={addFeaturedPost} />
         </Grid>
       </Grid>
