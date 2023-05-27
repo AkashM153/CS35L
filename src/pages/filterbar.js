@@ -27,6 +27,7 @@ export default function FilterBar(){
         setSelectedType(index);
         localStorage.setItem('searchtype', index);
         setTypeAnchorEl(null);
+        window.location.reload();
     }
     const handleTypeClick = (event) => {
         setTypeAnchorEl(event.currentTarget);
