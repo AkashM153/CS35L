@@ -13,6 +13,7 @@ import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import AddIcon from '@mui/icons-material/Add';
+import HomeIcon from '@mui/icons-material/Home'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import stringAvatar from './stringAvatar';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -90,6 +91,7 @@ export default function PrimarySearchAppBar() {
   };
 
   const handleHomeClick = () => {
+    localStorage.setItem('searchtype', 0)
     window.location.assign("/home");
   }
   
@@ -153,11 +155,19 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      <MenuItem onClick={handleHomeClick}>
         <IconButton
           size="large"
           color="inherit"
-          onClick={handleAddClick}
+          >
+          <HomeIcon />
+        </IconButton>
+        <p>Home</p>
+      </MenuItem>
+      <MenuItem onClick={handleAddClick}>
+        <IconButton
+          size="large"
+          color="inherit"
         >
           <AddIcon />
         </IconButton>
@@ -200,6 +210,13 @@ export default function PrimarySearchAppBar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <IconButton
+              size="large"
+              color="inherit"
+              onClick={handleHomeClick}
+            >
+              <HomeIcon />
+            </IconButton>
             <IconButton
               size="large"
               color="inherit"

@@ -122,9 +122,46 @@ async function getEventOrgTitle(iorgname, ititle){
   return fEvent;
 }
 
+async function getEventsTypeMatch(input){
+  try{
+    const evt = input.eventtype
+    const results = await Event.aggregate([
+      {
+        $geoNear: {
+          near: {
+            type: 'Point',
+            coordinates: [input.loc.lng, input.loc.lat]
+          },
+          distanceField: 'distance',
+          spherical: true
+        },
+      },
+      {
+        $sort: {
+          distance: 1
+        }
+      },
+      {
+        $match: {
+            eventtype: input.eventtype
+        }
+      },
+      {
+        $limit: input.nEvents
+      }
+    ]).exec();
+
+    return results;
+  }
+  catch (err){
+    console.log("getEvent error: ", err)
+    return null;
+  }
+}
 
 async function getEvents(input){
   try{
+    const evt = input.eventtype
     const results = await Event.aggregate([
       {
         $geoNear: {
@@ -173,6 +210,7 @@ module.exports = {
   matchEmailPassword,
   addEvent,
   getEventOrgTitle,
-  getEvents
+  getEvents,
+  getEventsTypeMatch
 };
 

@@ -167,7 +167,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link to="/login" variant="body2" onClick={()=> window.location.href='/login'}>
+                <Link to="/login" variant="body2" onClick={()=> {localStorage.setItem('searchtype', 0); window.location.href='/login'}}>
                   Already have an account? Sign in
                 </Link>
               </Grid>
