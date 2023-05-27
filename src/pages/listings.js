@@ -11,6 +11,8 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { Box, Container } from '@mui/material';
 
+export let locArray = [];
+
 export default function Listings({ setFeaturedPosts }) {
   const [listings, setListings] = useState(null);
 
@@ -46,27 +48,46 @@ export default function Listings({ setFeaturedPosts }) {
     });
   };
 
+  const getLocArray = (listings) => {
+    return listings ? listings.map((listing) => listing.loc) : [];
+  };
+
+  useEffect(() => {
+    if (listings) {
+      const newLocArray = getLocArray(listings);
+      locArray = newLocArray; // Assign the values to the existing locArray
+    }
+  }, [listings]);
+
   return (
     <React.Fragment>
       <Box elevation={0} style={{ height: '70vh', overflow: 'auto' }}>
         <List>
           {listings &&
-            listings.map((listing, index) => (
-              <React.Fragment key={listing._id}>
-                <Paper elevation={4} style={{ width: '300px', p: 2, padding: '20px', marginBottom: '20px' }}>
-                  <Grid>
-                    {listing.orgname}
-                    {listing.title} {listing.date}
-                    {listing.description}
-                    {listing.startTime}
-                    {listing.endTime}
-                  </Grid>
-                </Paper>
-                <Divider />
-              </React.Fragment>
-            ))}
+            listings.map((listing, index) => {
+              const { orgname, title, date, description, startTime, endTime } = listing;
+              return (
+                <React.Fragment key={listing._id}>
+                  <Paper elevation={4} style={{ width: '300px', p: 2, padding: '20px', marginBottom: '20px' }}>
+                    <Grid>
+                      {orgname}
+                      {title} {date}
+                      {description}
+                      {startTime}
+                      {endTime}
+                    </Grid>
+                  </Paper>
+                  <Divider />
+                </React.Fragment>
+              );
+            })}
         </List>
       </Box>
     </React.Fragment>
   );
 }
+
+
+
+
+
