@@ -9,33 +9,30 @@ import Divider from '@mui/material/Divider';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 
 export default function Listings({ setFeaturedPosts }) {
   const [listings, setListings] = useState(null);
 
-  async function retrieveListings(){
+  async function retrieveListings() {
     try {
-        axios.post('http://localhost:5000/getevents', {
-            loc: JSON.parse(localStorage.getItem('location')),
-            nEvents: 10,
-            startdate: dayjs().startOf('day'),
-            enddate: dayjs().endOf('day'),
-            eventtype: null
-        }, { crossdomain: true })
-        .then((res) => {
-            if (res && res.status == 200){
-                setListings(res.data)
-            }
-            else {
-                alert(res.data.message)
-            }
-        })
+      const res = await axios.post('http://localhost:5000/getevents', {
+        loc: JSON.parse(localStorage.getItem('location')),
+        nEvents: 10,
+        startdate: dayjs().startOf('day'),
+        enddate: dayjs().endOf('day'),
+        eventtype: null
+      }, { crossdomain: true });
+
+      if (res && res.status === 200) {
+        setListings(res.data);
+      } else {
+        alert(res.data.message);
+      }
+    } catch (err) {
+      alert('Failed to retrieve events: ', err.message);
     }
-    catch (err){
-        alert("Failed to retrieve events: ", err.message)
-    }
-}
+  }
 
   useEffect(() => {
     retrieveListings();
@@ -51,86 +48,25 @@ export default function Listings({ setFeaturedPosts }) {
 
   return (
     <React.Fragment>
-    <Grid container >
-
-    </Grid>
-      <List>
-        {listings &&
-          listings.map((listing, index) => (
-            <React.Fragment key={listing._id}>
-              <Paper elevation={4} style={{ width: '300px', p: 2, padding: '20px'}}>
-                {/*<ListItemText
-                  primary={listing.title}
-                  secondary={listing.description}
-                  onClick={() =>
-                    updateFeaturedPost(index, {
-                      title: listing.title,
-                      date: listing.startDate,
-                      description: listing.description,
-                      eventType: listing.eventtype,
-                      startTime: listing.startDate,
-                      endTime: listing.endDate,
-                      image: 'https://source.unsplash.com/random?wallpapers',
-                      imageLabel: 'Image Text',
-                    })
-                  }
-                />*/}
-                <Grid>
-                {listing.title}
-                {listing.description}
-                </Grid>
-              </Paper>
-              <Divider />
-            </React.Fragment>
-          ))}
-      </List>
+      <Box elevation={0} style={{ height: '70vh', overflow: 'auto' }}>
+        <List>
+          {listings &&
+            listings.map((listing, index) => (
+              <React.Fragment key={listing._id}>
+                <Paper elevation={4} style={{ width: '300px', p: 2, padding: '20px', marginBottom: '20px' }}>
+                  <Grid>
+                    {listing.orgname}
+                    {listing.title} {listing.date}
+                    {listing.description}
+                    {listing.startTime}
+                    {listing.endTime}
+                  </Grid>
+                </Paper>
+                <Divider />
+              </React.Fragment>
+            ))}
+        </List>
+      </Box>
     </React.Fragment>
   );
 }
-
-/*
-import List from '@mui/material/List';
-import Paper from '@mui/material/Paper';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-
-
-export default function Listings(){
-    const [listings, setListings] = useState(null);
-
-    async function retrieveListings(){
-        try {
-            axios.post('http://localhost:5000/getevents', {
-                loc: JSON.parse(localStorage.getItem('location')),
-                nEvents: 10,
-                startdate: dayjs().startOf('day'),
-                enddate: dayjs().endOf('day'),
-                eventtype: null
-            }, { crossdomain: true })
-            .then((res) => {
-                if (res && res.status == 200){
-                    setListings(res.data)
-                }
-                else {
-                    alert(res.data.message)
-                }
-            })
-        }
-        catch (err){
-            alert("Failed to retrieve events: ", err.message)
-        }
-    }
-    useEffect(()=>{
-        retrieveListings();
-    }, [])
-    return(
-        <>
-        </>
-    )
-} 
-*/
