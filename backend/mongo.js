@@ -97,6 +97,7 @@ async function matchEmailPassword(email, password) {
 async function addEvent(data){
   const nEvent = new Event({
     creator: data.creator,
+    creatorname: data.creatorname,
     orgname: data.orgname,
     title: data.title,
     description: data.description,
@@ -120,6 +121,7 @@ async function getEventOrgTitle(iorgname, ititle){
   const fEvent = await Event.findOne({orgname: iorgname, title: ititle});
   return fEvent;
 }
+
 
 async function getEvents(input){
   try{

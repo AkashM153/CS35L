@@ -63,6 +63,7 @@ export default function Checkout() {
     const exEnd = dayjs(localStorage.getItem("endtime")).format('THH:mm:ss')
     axios.post('http://localhost:5000/addevent', {
       creator: localStorage.getItem('userID'),
+      creatorname: localStorage.getItem('name'),
       orgname: localStorage.getItem('organization'),
       title: localStorage.getItem('eventName'),
       description: localStorage.getItem('description'),

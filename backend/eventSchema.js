@@ -5,6 +5,9 @@ const eventSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    creatorname: {
+        type: String,
+    },
     orgname: {
         type: String,
         required: true
