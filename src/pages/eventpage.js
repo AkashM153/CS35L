@@ -71,7 +71,7 @@ export default function Checkout() {
       endDate: new Date(exDate+exEnd),
       location: {
         type: 'Point',
-        coordinates: [34.072105,-118.453445]
+        coordinates: [-118.453445, 34.072105]
       }
       
 

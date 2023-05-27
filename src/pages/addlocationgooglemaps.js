@@ -1,7 +1,6 @@
 //DOESN'T WORK YET, NEED TO ADD HTML & CSS PAGES
 
 /**
- * @license
  * Copyright 2019 Google LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */

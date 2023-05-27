@@ -122,31 +122,34 @@ async function getEventOrgTitle(iorgname, ititle){
 }
 
 async function getEvents(input){
-  Event.aggregate([
-    {
-      $geoNear: {
-        near: {
-          type: 'Point',
-          coordinates: input.loc
+  try{
+    const results = await Event.aggregate([
+      {
+        $geoNear: {
+          near: {
+            type: 'Point',
+            coordinates: [input.loc.lng, input.loc.lat]
+          },
+          distanceField: 'distance',
+          spherical: true
         },
-        distanceField: 'distance',
-        spherical: true
       },
-    },
-    {
-      $sort: {
-        distance: 1
+      {
+        $sort: {
+          distance: 1
+        }
+      },
+      {
+        $limit: input.nEvents
       }
-    },
-    {
-      $limit: input.nEvent
-    }
-  ], (err, results) => {
-    if (err) {
-      return null;
-    }
+    ]).exec();
+
     return results;
-  })
+  }
+  catch (err){
+    console.log("getEvent error: ", err)
+    return null;
+  }
 }
 
 process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);

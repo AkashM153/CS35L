@@ -25,7 +25,7 @@ export default function HomePage(){
             <PrimarySearchAppBar/>
             <Grid container spacing={10} alignItems="center" style={{ minHeight: '100vh' }}>
                 <Grid item sx={{margin: '100px'}}>
-                    <MapsComponent/>
+                    {/*<MapsComponent/>*/}
                 </Grid>
                 <Grid item>
                     <Listings/>

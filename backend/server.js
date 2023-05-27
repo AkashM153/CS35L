@@ -102,10 +102,10 @@ app.post('/addevent', async (req, res) => {
 })
 
 app.post('/getevents', async (req, res) => {
-  const input = req.body;
-  console.log('Received input: ', input);
+  const data = req.body;
+  console.log('Received input: ', data);
   try{
-    const eventlist = await getEvents(input);
+    const eventlist = await getEvents(data);
     if (!eventlist){
       res.status(203).json({message: "Failure to retrieve events"})
     }
@@ -114,8 +114,7 @@ app.post('/getevents', async (req, res) => {
       res.status(200).json(eventlist)
     }
   }
-  catch{
-    res.status(203).json({message: "Failed to retrieve events"})
-    return
+  catch (err){
+    res.status(203).json({message: "Failed to retrieve events, err: ", err})
   }
 })
