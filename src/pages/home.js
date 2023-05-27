@@ -1,6 +1,8 @@
 import PrimarySearchAppBar from "./navbar"
 import MapsComponent from "./googlemaps"
 import React, { useEffect } from 'react'
+import { Grid } from "@mui/material"
+import Listings from "./listings"
 import { getNativeSelectUtilityClasses } from "@mui/material"
 
 export default function HomePage(){
@@ -21,7 +23,14 @@ export default function HomePage(){
     return(
         <>
             <PrimarySearchAppBar/>
-            <MapsComponent/>
+            <Grid container spacing={10} alignItems="center" style={{ minHeight: '100vh' }}>
+                <Grid item sx={{margin: '100px'}}>
+                    <MapsComponent/>
+                </Grid>
+                <Grid item>
+                    <Listings/>
+                </Grid>
+            </Grid>
         </>
     )
 }

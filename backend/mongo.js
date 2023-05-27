@@ -121,6 +121,34 @@ async function getEventOrgTitle(iorgname, ititle){
   return fEvent;
 }
 
+async function getEvents(input){
+  Event.aggregate([
+    {
+      $geoNear: {
+        near: {
+          type: 'Point',
+          coordinates: input.loc
+        },
+        distanceField: 'distance',
+        spherical: true
+      },
+    },
+    {
+      $sort: {
+        distance: 1
+      }
+    },
+    {
+      $limit: input.nEvent
+    }
+  ], (err, results) => {
+    if (err) {
+      return null;
+    }
+    return results;
+  })
+}
+
 process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
 
 function gracefulExit(){
@@ -139,6 +167,7 @@ module.exports = {
   findUserFromEmail,
   matchEmailPassword,
   addEvent,
-  getEventOrgTitle
+  getEventOrgTitle,
+  getEvents
 };
 

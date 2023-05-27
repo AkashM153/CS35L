@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { ObjectId } = require('mongodb');
-const { newUser, findUserFromEmail, matchEmailPassword, addEvent, getEventOrgTitle } = require("./mongo")
+const { newUser, findUserFromEmail, matchEmailPassword, addEvent, getEventOrgTitle, getEvents } = require("./mongo");
 
 const whitelist = ["http://localhost:3000"]
 const corsOptions = {
@@ -98,5 +98,24 @@ app.post('/addevent', async (req, res) => {
   catch{
     res.status(203).json({message: "Event Upload Failure ", err});
   }
+  }
+})
+
+app.post('/getevents', async (req, res) => {
+  const input = req.body;
+  console.log('Received input: ', input);
+  try{
+    const eventlist = await getEvents(input);
+    if (!eventlist){
+      res.status(203).json({message: "Failure to retrieve events"})
+    }
+    else {
+      console.log("Retrieved events: ", eventlist)
+      res.status(200).json(eventlist)
+    }
+  }
+  catch{
+    res.status(203).json({message: "Failed to retrieve events"})
+    return
   }
 })
