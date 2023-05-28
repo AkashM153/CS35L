@@ -11,9 +11,11 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { Box, Container } from '@mui/material';
 
+let locArray = [];
+
 export default function Listings({ setFeaturedPosts }) {
   const [listings, setListings] = useState(null);
-  const [locArray, setLocArray] = useState([]);
+  //const [locArray, setLocArray] = useState([]);
 
   async function retrieveListings() {
     try {
@@ -24,9 +26,15 @@ export default function Listings({ setFeaturedPosts }) {
         enddate: dayjs().endOf('day'),
         eventtype: null
       }, { crossdomain: true });
-
+  
+      console.log(res.data); // Check the received data from the server
+  
       if (res && res.status === 200) {
         setListings(res.data);
+        const newLocArray = res.data.map((listing) => listing.location.coordinates);
+        locArray = newLocArray;
+  
+        //setLocArray(newLocArray);
       } else {
         alert(res.data.message);
       }
@@ -34,6 +42,10 @@ export default function Listings({ setFeaturedPosts }) {
       alert('Failed to retrieve events: ', err.message);
     }
   }
+
+  /*function getlocArray() {
+    return locArray;
+  }*/
 
   useEffect(() => {
     retrieveListings();
@@ -46,13 +58,6 @@ export default function Listings({ setFeaturedPosts }) {
       return newPosts;
     });
   };
-
-  useEffect(() => {
-    if (listings) {
-      const newLocArray = listings.map((listing) => listing.loc);
-      setLocArray(newLocArray);
-    }
-  }, [listings]);
 
   return (
     <React.Fragment>
@@ -82,7 +87,11 @@ export default function Listings({ setFeaturedPosts }) {
   );
 }
 
-
+export function getlocArray() {
+  // Call the function from inside the Listings component
+  console.log(locArray)
+  return locArray;
+}
 
 
 

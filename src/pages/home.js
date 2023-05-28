@@ -31,7 +31,7 @@ export default function HomePage() {
       <PrimarySearchAppBar />
       <Grid container spacing={2} alignItems="center" style={{ minHeight: '100vh', padding: '20px' }}>
         <Grid item xs={12} md={6}>
-          <MapsComponent />
+         <MapsComponent />
         </Grid>
         <Grid item >
           <Listings setFeaturedPosts={addFeaturedPost} />
