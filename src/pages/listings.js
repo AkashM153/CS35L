@@ -11,10 +11,9 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { Box, Container } from '@mui/material';
 
-export let locArray = [];
-
 export default function Listings({ setFeaturedPosts }) {
   const [listings, setListings] = useState(null);
+  const [locArray, setLocArray] = useState([]);
 
   async function retrieveListings() {
     try {
@@ -48,14 +47,10 @@ export default function Listings({ setFeaturedPosts }) {
     });
   };
 
-  const getLocArray = (listings) => {
-    return listings ? listings.map((listing) => listing.loc) : [];
-  };
-
   useEffect(() => {
     if (listings) {
-      const newLocArray = getLocArray(listings);
-      locArray = newLocArray; // Assign the values to the existing locArray
+      const newLocArray = listings.map((listing) => listing.loc);
+      setLocArray(newLocArray);
     }
   }, [listings]);
 
@@ -86,6 +81,8 @@ export default function Listings({ setFeaturedPosts }) {
     </React.Fragment>
   );
 }
+
+
 
 
 
