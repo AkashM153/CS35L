@@ -3,7 +3,7 @@ import Paper from '@mui/material/Paper';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid'
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import axios from 'axios';
@@ -11,8 +11,9 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { Box, Container } from '@mui/material';
 
-export default function Listings({ setFeaturedPosts, onLocArrayChange }) {
+export default function Listings({ setFeaturedPosts }) {
   const [listings, setListings] = useState(null);
+  const [locArray, setLocArray] = useState([]);
 
   async function retrieveListings() {
     try {
@@ -26,7 +27,6 @@ export default function Listings({ setFeaturedPosts, onLocArrayChange }) {
 
       if (res && res.status === 200) {
         setListings(res.data);
-        //const locArray = res.data.map((listing) => listing.loc);
       } else {
         alert(res.data.message);
       }
@@ -38,6 +38,21 @@ export default function Listings({ setFeaturedPosts, onLocArrayChange }) {
   useEffect(() => {
     retrieveListings();
   }, []);
+
+  const updateFeaturedPost = (index, updatedPost) => {
+    setFeaturedPosts((prevPosts) => {
+      const newPosts = [...prevPosts];
+      newPosts[index] = updatedPost;
+      return newPosts;
+    });
+  };
+
+  useEffect(() => {
+    if (listings) {
+      const newLocArray = listings.map((listing) => listing.loc);
+      setLocArray(newLocArray);
+    }
+  }, [listings]);
 
   return (
     <React.Fragment>
