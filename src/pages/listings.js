@@ -16,6 +16,18 @@ const timezone = require('dayjs/plugin/timezone');
 dayjs.extend(timezone);
 
 export async function retrieveListings() {
+  const eventTypes = [
+    'All Events',
+    'Cultural Performance',
+    'Professional Development',
+    'Live Music',
+    'Social',
+    'Info Meeting',
+    'Workshop',
+    'Greek Life',
+    'Networking',
+    'Sports'
+  ];
   try {
     const res = await axios.post('http://localhost:5000/getevents', {
       loc: JSON.parse(localStorage.getItem('location')),
@@ -40,18 +52,7 @@ export async function retrieveListings() {
 
 export default function Listings({ setFeaturedPosts }) {
   const [listings, setListings] = useState(null);
-  const eventTypes = [
-    'All Events',
-    'Cultural Performance',
-    'Professional Development',
-    'Live Music',
-    'Social',
-    'Info Meeting',
-    'Workshop',
-    'Greek Life',
-    'Networking',
-    'Sports'
-];
+  
   useEffect(() => {
     async function fetchData() {
       const data = await retrieveListings();
