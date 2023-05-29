@@ -15,6 +15,29 @@ let locArray = [];
 const timezone = require('dayjs/plugin/timezone');
 dayjs.extend(timezone);
 
+export async function retrieveListings() {
+  try {
+    const res = await axios.post('http://localhost:5000/getevents', {
+      loc: JSON.parse(localStorage.getItem('location')),
+      nEvents: 10,
+      startdate: dayjs().startOf('day'),
+      enddate: dayjs().endOf('day'),
+      eventtype: eventTypes[localStorage.getItem('searchtype')]
+    }, { crossdomain: true })
+    .then((res) =>{
+      if (res && res.status === 200) {
+        const newLocArray = res.data.map((listing) => listing.location.coordinates);
+        locArray = newLocArray;
+        return res.data;
+      } else {
+        alert(res.data.message);
+      }
+    })
+  } catch (err) {
+    alert('Failed to retrieve events: ' + err.message);
+  }
+}
+
 export default function Listings({ setFeaturedPosts }) {
   const [listings, setListings] = useState(null);
   const eventTypes = [
@@ -29,54 +52,6 @@ export default function Listings({ setFeaturedPosts }) {
     'Networking',
     'Sports'
 ];
-
-  async function retrieveListings() {
-    try {
-        axios.post('http://localhost:5000/getevents', {
-            loc: JSON.parse(localStorage.getItem('location')),
-            nEvents: 10,
-            startdate: dayjs().startOf('day').toDate(),
-            enddate: dayjs().endOf('day').toDate(),
-            eventtype: eventTypes[localStorage.getItem('searchtype')]
-        }, { crossdomain: true })
-        .then((res) => {
-            if (res && res.status == 200){
-                setListings(res.data)
-            }
-            else {
-                alert(res.data.message)
-            }
-        })
-    }
-    catch (err){
-        alert("Failed to retrieve events: ", err.message)
-    }
-  }
-export async function retrieveListings() {
-  try {
-    const res = await axios.post('http://localhost:5000/getevents', {
-      loc: JSON.parse(localStorage.getItem('location')),
-      nEvents: 10,
-      startdate: dayjs().startOf('day'),
-      enddate: dayjs().endOf('day'),
-      eventtype: null
-    }, { crossdomain: true });
-
-    if (res && res.status === 200) {
-      const newLocArray = res.data.map((listing) => listing.location.coordinates);
-      locArray = newLocArray;
-      return res.data;
-    } else {
-      alert(res.data.message);
-    }
-  } catch (err) {
-    alert('Failed to retrieve events: ' + err.message);
-  }
-}
-
-export default function Listings({ setFeaturedPosts }) {
-  const [listings, setListings] = useState(null);
-
   useEffect(() => {
     async function fetchData() {
       const data = await retrieveListings();
@@ -121,6 +96,7 @@ export default function Listings({ setFeaturedPosts }) {
     </React.Fragment>
   );
 }
+
 
 export async function getlocArray() {
   const data = await retrieveListings();
