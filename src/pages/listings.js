@@ -3,7 +3,7 @@ import Paper from '@mui/material/Paper';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Grid from '@mui/material/Grid'
+import Grid from '@mui/material/Grid';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import axios from 'axios';
@@ -13,42 +13,38 @@ import { Box, Container } from '@mui/material';
 
 let locArray = [];
 
+export async function retrieveListings() {
+  try {
+    const res = await axios.post('http://localhost:5000/getevents', {
+      loc: JSON.parse(localStorage.getItem('location')),
+      nEvents: 10,
+      startdate: dayjs().startOf('day'),
+      enddate: dayjs().endOf('day'),
+      eventtype: null
+    }, { crossdomain: true });
+
+    if (res && res.status === 200) {
+      const newLocArray = res.data.map((listing) => listing.location.coordinates);
+      locArray = newLocArray;
+      return res.data;
+    } else {
+      alert(res.data.message);
+    }
+  } catch (err) {
+    alert('Failed to retrieve events: ' + err.message);
+  }
+}
+
 export default function Listings({ setFeaturedPosts }) {
   const [listings, setListings] = useState(null);
-  //const [locArray, setLocArray] = useState([]);
-
-  async function retrieveListings() {
-    try {
-      const res = await axios.post('http://localhost:5000/getevents', {
-        loc: JSON.parse(localStorage.getItem('location')),
-        nEvents: 10,
-        startdate: dayjs().startOf('day'),
-        enddate: dayjs().endOf('day'),
-        eventtype: null
-      }, { crossdomain: true });
-  
-      console.log(res.data); // Check the received data from the server
-  
-      if (res && res.status === 200) {
-        setListings(res.data);
-        const newLocArray = res.data.map((listing) => listing.location.coordinates);
-        locArray = newLocArray;
-  
-        //setLocArray(newLocArray);
-      } else {
-        alert(res.data.message);
-      }
-    } catch (err) {
-      alert('Failed to retrieve events: ', err.message);
-    }
-  }
-
-  /*function getlocArray() {
-    return locArray;
-  }*/
 
   useEffect(() => {
-    retrieveListings();
+    async function fetchData() {
+      const data = await retrieveListings();
+      setListings(data);
+    }
+
+    fetchData();
   }, []);
 
   const updateFeaturedPost = (index, updatedPost) => {
@@ -87,11 +83,14 @@ export default function Listings({ setFeaturedPosts }) {
   );
 }
 
-export function getlocArray() {
-  // Call the function from inside the Listings component
-  console.log(locArray)
+export async function getlocArray() {
+  const data = await retrieveListings();
   return locArray;
 }
+
+
+
+
 
 
 
