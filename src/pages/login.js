@@ -142,7 +142,7 @@ export default function SignIn() {
                 </Link>*/}
               </Grid>
               <Grid item>
-                <Link href="#" style={{color: 'white'}} variant="body2" onClick={()=> window.location.href='/signup'}>
+                <Link href="#" style={{color: 'white'}} variant="body2" onClick={()=> {localStorage.setItem('searchtype', 0); window.location.href='/signup'}}>
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

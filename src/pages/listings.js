@@ -12,7 +12,46 @@ import dayjs from 'dayjs';
 import { Box, Container } from '@mui/material';
 
 let locArray = [];
+const timezone = require('dayjs/plugin/timezone');
+dayjs.extend(timezone);
 
+export default function Listings({ setFeaturedPosts }) {
+  const [listings, setListings] = useState(null);
+  const eventTypes = [
+    'All Events',
+    'Cultural Performance',
+    'Professional Development',
+    'Live Music',
+    'Social',
+    'Info Meeting',
+    'Workshop',
+    'Greek Life',
+    'Networking',
+    'Sports'
+];
+
+  async function retrieveListings() {
+    try {
+        axios.post('http://localhost:5000/getevents', {
+            loc: JSON.parse(localStorage.getItem('location')),
+            nEvents: 10,
+            startdate: dayjs().startOf('day').toDate(),
+            enddate: dayjs().endOf('day').toDate(),
+            eventtype: eventTypes[localStorage.getItem('searchtype')]
+        }, { crossdomain: true })
+        .then((res) => {
+            if (res && res.status == 200){
+                setListings(res.data)
+            }
+            else {
+                alert(res.data.message)
+            }
+        })
+    }
+    catch (err){
+        alert("Failed to retrieve events: ", err.message)
+    }
+  }
 export async function retrieveListings() {
   try {
     const res = await axios.post('http://localhost:5000/getevents', {

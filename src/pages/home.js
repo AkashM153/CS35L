@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PrimarySearchAppBar from './navbar';
 import MapsComponent from './googlemaps';
 import Listings from './listings';
+import FilterBar from './filterbar'
 import { Grid, Paper, Typography } from '@mui/material';
 
 export default function HomePage() {
@@ -30,10 +31,11 @@ export default function HomePage() {
     <>
       <PrimarySearchAppBar />
       <Grid container spacing={2} alignItems="center" style={{ minHeight: '100vh', padding: '20px' }}>
-        <Grid item xs={12} md={6}>
-         <MapsComponent />
+        <Grid item md={6}>
+          <MapsComponent />
         </Grid>
         <Grid item >
+          <FilterBar/>
           <Listings setFeaturedPosts={addFeaturedPost} />
         </Grid>
       </Grid>
