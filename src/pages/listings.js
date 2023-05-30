@@ -81,20 +81,11 @@ export default function Listings({ setFeaturedPosts }) {
                 <Grid item xs={12}>
                   <Typography variant="h5">{listing.title}</Typography>
                 </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="body1">{listing.description}</Typography>
-                </Grid>
                 <Grid item xs={6}>
                   <Typography variant="body2">{listing.orgname}</Typography>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">{listing.date}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">{listing.startTime}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">{listing.endTime}</Typography>
+                <Grid item xs={12}>
+                  <Typography variant="body1">{listing.description}</Typography>
                 </Grid>
                 <Grid item xs={6}>
                   <Typography variant="body2">{dayjs(listing.startDate).format('YYYY-MM-DD')}</Typography>
