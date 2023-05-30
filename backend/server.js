@@ -88,7 +88,7 @@ app.post('/addevent', async (req, res) => {
     const ev = await addEvent(req.body);
     
     // Convert the image data to a Buffer
-    const imageData = Buffer.from(req.body.image, 'base64');
+    //const imageData = Buffer.from(req.body.image, 'base64');
 
     if (ev){
       console.log("Successful Upload")
@@ -98,7 +98,7 @@ app.post('/addevent', async (req, res) => {
       res.status(203).json({message: "Event Upload Failure"});
     }
   }
-  catch{
+  catch (err){
     res.status(203).json({message: "Event Upload Failure ", err});
   }
   }

@@ -45,12 +45,10 @@ const eventSchema = new mongoose.Schema({
     },
     image: {
         data: {
-          type: Buffer, // Store the image data as a Buffer
-          required: true
+          type: Buffer // Store the image data as a Buffer
         },
         contentType: {
-          type: String, // The MIME type of the image
-          required: true
+          type: String // The MIME type of the image
         }
       }
 

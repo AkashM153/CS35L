@@ -72,7 +72,7 @@ export default function Checkout() {
       endDate: new Date(exDate+exEnd),
       location: {
         type: 'Point',
-        coordinates: [-118.453445, 34.072105]
+        coordinates: [Number(localStorage.getItem("loclng")), Number(localStorage.getItem("loclat"))]
       },
       image: localStorage.getItem('image-upload')
       

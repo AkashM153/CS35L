@@ -104,11 +104,11 @@ async function addEvent(data){
     eventtype: data.eventtype,
     startDate: data.startDate,
     endDate: data.endDate,
-    location: data.location,
+    location: data.location,/*
     image: {
       data: Buffer.from(data.image, 'base64'),
       contentType: 'image/jpeg' // Adjust the content type based on your image format
-    }
+    }*/
   });
   try{                                                      
     const newEvent = await nEvent.save()

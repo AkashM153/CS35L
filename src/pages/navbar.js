@@ -110,6 +110,8 @@ export default function PrimarySearchAppBar() {
     localStorage.setItem("endtime", "");
     localStorage.setItem("description", "");
     localStorage.setItem("eventtype", "");
+    localStorage.setItem("loclng", "");
+    localStorage.setItem("loclat", "");
     window.location.assign("/addevent");
   }
 

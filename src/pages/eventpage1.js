@@ -40,6 +40,11 @@ export default function EventPage1() {
     localStorage.setItem(event.target.id, event.target.value)
   }
 
+  const handleLocationSelect = (location) => {
+    localStorage.setItem("loclat", "test");
+    localStorage.setItem("loclng", location.lng);
+  }
+
   return (
     <React.Fragment>
       <Grid container spacing={5} >
