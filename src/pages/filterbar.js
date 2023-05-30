@@ -5,6 +5,9 @@ import List from '@mui/material/List'
 import Grid from '@mui/material/Grid'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Button, Typography } from '@mui/material';
+
 
 export default function FilterBar(){
     const eventTypes = [
@@ -35,40 +38,35 @@ export default function FilterBar(){
     const handleTypeClose = () => {
         setTypeAnchorEl(null);
       };
-    return (
-        <Grid>
-        <List
-        component="nav"
-        sx={{ bgcolor: 'background.paper', width: '200px', height: '50px' }}
-        >
-        <ListItem
-          button
-          onClick={handleTypeClick}
-          sx={{display:'flex', align:'flex-end'}}
-        >
-          <ListItemText 
-            secondary="Event Type"
-            primary={eventTypes[selectedType]}
-          />
-        </ListItem>
+      return (
+        <List component="nav">
+          <ListItem button onClick={handleTypeClick} sx={{ display: 'flex', justifyContent: 'center', bgcolor: 'white', '&:hover': { bgcolor: 'white' } }}>
+            <ListItemText primaryTypographyProps={{ noWrap: true, variant: 'body1', color: 'black' }} primary={eventTypes[selectedType]} />
+            <ArrowDropDownIcon sx={{ fontSize: '2rem', color: 'black' }} />
+          </ListItem>
+    
+          <Menu id="lock-menu" anchorEl={typeAnchorEl} open={typeOpen} onClose={handleTypeClose}>
+            {eventTypes.map((option, index) => (
+              <MenuItem key={option} selected={index === selectedType} onClick={(event) => handleTypeItemClick(event, index)}>
+                {option}
+              </MenuItem>
+            ))}
+          </Menu>
         </List>
+      );
+    }
 
-        <Menu
-        id="lock-menu"
-        anchorEl={typeAnchorEl}
-        open={typeOpen}
-        onClose={handleTypeClose}
-      >
-        {eventTypes.map((option, index) => (
-          <MenuItem
-            key={option}
-            selected={index === selectedType}
-            onClick={(event) => handleTypeItemClick(event, index)}
-          >
-            {option}
-          </MenuItem>
-        ))}
-      </Menu>
-        </Grid>
-    );
-};
+    
+    
+    
+    
+    
+    
+   
+    
+    
+    
+    
+    
+    
+    

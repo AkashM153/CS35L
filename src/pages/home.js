@@ -6,6 +6,7 @@ import FilterBar from './filterbar'
 import { Box, Grid, Paper, Typography } from '@mui/material';
 
 
+
 export default function HomePage() {
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -30,14 +31,15 @@ export default function HomePage() {
 
   return (
     <>
-      <PrimarySearchAppBar />
+       <PrimarySearchAppBar>
+        <FilterBar /> {/* Include the FilterBar component within the PrimarySearchAppBar */}
+      </PrimarySearchAppBar>
       <Grid container spacing={2} alignItems="center" style={{ minHeight: '100vh', padding: '20px' }}>
         <Grid item md={6}>
           <MapsComponent />
         </Grid>
         <Grid item >
           <Box display="flex" flexDirection="column" height="100%">
-            <FilterBar />
             <Listings setFeaturedPosts={addFeaturedPost} />
           </Box>
         </Grid>

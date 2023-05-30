@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom'
+import { Link , useLocation } from 'react-router-dom'
 import InputBase from '@mui/material/InputBase';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
@@ -19,7 +19,9 @@ import stringAvatar from './stringAvatar';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Navigate } from 'react-router-dom';
 import dayjs from 'dayjs'
+import FilterBar from './filterbar'; // Import the FilterBar component
 
+/*
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -45,6 +47,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
 }));
+*/
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
@@ -61,6 +64,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const location = useLocation();
+
+  const isHomeScreen = location.pathname === '/home';
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -195,19 +202,17 @@ export default function PrimarySearchAppBar() {
             noWrap
             component="div"
             color='white'
+            sx={{ marginRight: '20px' }}
           >
             BruinConnect
           </Typography>
           </IconButton>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search for event..."
-              inputProps={{ 'aria-label': 'Search for event...' }}
-            />
-          </Search>
+          
+
+          
+          
+          {isHomeScreen && <FilterBar />} {/* Conditionally render FilterBar on the home screen */}
+          
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
@@ -255,3 +260,14 @@ export default function PrimarySearchAppBar() {
     </Box>
   );
 }
+
+/*<Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search for event..."
+              inputProps={{ 'aria-label': 'Search for event...' }}
+            />
+          </Search>*/
+          
