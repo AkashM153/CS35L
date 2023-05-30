@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { ObjectId } = require('mongodb');
-const { newUser, findUserFromEmail, matchEmailPassword, addEvent, getEventOrgTitle, getEvents, getUserIdName, getEventsTypeMatch  } = require("./mongo");
+const { newUser, findUserFromEmail, matchEmailPassword, addEvent, getEventOrgTitle, getEvents } = require("./mongo");
 
 const whitelist = ["http://localhost:3000"]
 const corsOptions = {
@@ -106,12 +106,7 @@ app.post('/getevents', async (req, res) => {
   console.log('Received input: ', data);
   try{
     let eventlist = null;
-    if (data.eventtype == 'All Events') {
-      eventlist = await getEvents(data);
-    }
-    else {
-      eventlist = await getEventsTypeMatch(data);
-    }
+    eventlist = await getEvents(data);
     if (!eventlist){
       res.status(203).json({message: "Failure to retrieve events"})
     }

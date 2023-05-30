@@ -16,6 +16,7 @@ function MapsComponent() {
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [listings, setListings] = useState([]);
+  const [hasData, setHasData] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -34,8 +35,8 @@ function MapsComponent() {
         );
       }
     }
-
     fetchData();
+    setHasData(true);
   }, []);
 
   const handleMarkerClick = (marker) => {
@@ -47,9 +48,9 @@ function MapsComponent() {
   };
 
   return (
-    <>
+    <>{hasData ? (
       <LoadScript googleMapsApiKey="AIzaSyB99JZitN5Z-9NqEcG-iSxxNyE28aDYCIE">
-        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
+        <GoogleMap mapContainerStyle={containerStyle} center={JSON.parse(localStorage.getItem("location"))} zoom={15}>
           {markers.map((marker) => (
             <Marker
               key={marker.key}
@@ -69,7 +70,7 @@ function MapsComponent() {
             </InfoWindow>
           )}
         </GoogleMap>
-      </LoadScript>
+      </LoadScript>) : <p> Loading Events ... </p>}
     </>
   );
 }
