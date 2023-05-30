@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -11,6 +11,9 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs'; // Import dayjs library and Dayjs type
 
+import { Autocomplete } from '@react-google-maps/api';
+
+import AutocompleteLocation from './autocomplete.js';
 
 
 export default function EventPage1() {
@@ -111,6 +114,10 @@ export default function EventPage1() {
               />
             </DemoContainer>
           </LocalizationProvider>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <AutocompleteLocation/>
         </Grid>
       </Grid>
     </React.Fragment>
