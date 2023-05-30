@@ -9,7 +9,10 @@ import Divider from '@mui/material/Divider';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { Box, Container } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
+import 'dayjs/locale/en';
+
+dayjs.locale('en');
 
 let locArray = [];
 const timezone = require('dayjs/plugin/timezone');
@@ -36,7 +39,6 @@ export async function retrieveListings() {
       enddate: dayjs().endOf('day'),
       eventtype: eventTypes[localStorage.getItem('searchtype')]
     }, { crossdomain: true })
-    .then((res) =>{
       if (res && res.status === 200) {
         const newLocArray = res.data.map((listing) => listing.location.coordinates);
         locArray = newLocArray;
@@ -44,7 +46,6 @@ export async function retrieveListings() {
       } else {
         alert(res.data.message);
       }
-    })
   } catch (err) {
     alert('Failed to retrieve events: ' + err.message);
   }
@@ -71,42 +72,55 @@ export default function Listings({ setFeaturedPosts }) {
   };
 
   return (
-    <React.Fragment>
-      <Box elevation={0} style={{ height: '70vh', overflow: 'auto' }}>
-        <List>
-          {listings &&
-            listings.map((listing, index) => {
-              const { orgname, title, date, description, startTime, endTime } = listing;
-              return (
-                <React.Fragment key={listing._id}>
-                  <Paper elevation={4} style={{ width: '300px', p: 2, padding: '20px', marginBottom: '20px' }}>
-                    <Grid>
-                      {orgname}
-                      {title} {date}
-                      {description}
-                      {startTime}
-                      {endTime}
-                    </Grid>
-                  </Paper>
-                  <Divider />
-                </React.Fragment>
-              );
-            })}
-        </List>
-      </Box>
-    </React.Fragment>
+    <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px' }}>
+      {listings &&
+        listings.map((listing, index) => (
+          <React.Fragment key={listing._id}>
+            <Paper elevation={4} style={{ width: '300px', marginBottom: '10px', padding: '10px' }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography variant="h5">{listing.title}</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body1">{listing.description}</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body2">{listing.orgname}</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body2">{listing.date}</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body2">{listing.startTime}</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body2">{listing.endTime}</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body2">{dayjs(listing.startDate).format('YYYY-MM-DD')}</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body2">{dayjs(listing.startDate).format('h:mm A')}</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body2">{dayjs(listing.endDate).format('YYYY-MM-DD')}</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body2">{dayjs(listing.endDate).format('h:mm A')}</Typography>
+                </Grid>
+              </Grid>
+            </Paper>
+            <Divider />
+          </React.Fragment>
+        ))}
+    </Box>
   );
 }
-
 
 export async function getlocArray() {
   const data = await retrieveListings();
   return locArray;
 }
-
-
-
-
 
 
 

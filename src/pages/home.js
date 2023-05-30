@@ -3,7 +3,8 @@ import PrimarySearchAppBar from './navbar';
 import MapsComponent from './googlemaps';
 import Listings from './listings';
 import FilterBar from './filterbar'
-import { Grid, Paper, Typography } from '@mui/material';
+import { Box, Grid, Paper, Typography } from '@mui/material';
+
 
 export default function HomePage() {
   useEffect(() => {
@@ -35,8 +36,10 @@ export default function HomePage() {
           <MapsComponent />
         </Grid>
         <Grid item >
-          <FilterBar/>
-          <Listings setFeaturedPosts={addFeaturedPost} />
+          <Box display="flex" flexDirection="column" height="100%">
+            <FilterBar />
+            <Listings setFeaturedPosts={addFeaturedPost} />
+          </Box>
         </Grid>
       </Grid>
     </>
