@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import { getlocArray, Listings } from './listings';
+import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import { getlocArray, retrieveListings } from './listings';
 
 const containerStyle = {
   width: '600px',
@@ -14,9 +14,13 @@ const center = {
 
 function MapsComponent() {
   const [markers, setMarkers] = useState([]);
+  const [selectedMarker, setSelectedMarker] = useState(null);
+  const [listings, setListings] = useState([]);
 
   useEffect(() => {
-    async function fetchMarkers() {
+    async function fetchData() {
+      const data = await retrieveListings();
+      setListings(data);
       const importedlocArray = await getlocArray();
       if (importedlocArray.length > 0) {
         setMarkers(
@@ -31,20 +35,39 @@ function MapsComponent() {
       }
     }
 
-    fetchMarkers();
+    fetchData();
   }, []);
+
+  const handleMarkerClick = (marker) => {
+    setSelectedMarker(marker);
+  };
+
+  const handleInfoWindowClose = () => {
+    setSelectedMarker(null);
+  };
 
   return (
     <>
       <LoadScript googleMapsApiKey="AIzaSyB99JZitN5Z-9NqEcG-iSxxNyE28aDYCIE">
         <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
-        {markers.map((marker) => (
-            <Marker 
-              key={marker.key} 
-              position={marker.position} 
+          {markers.map((marker) => (
+            <Marker
+              key={marker.key}
+              position={marker.position}
+              onClick={() => handleMarkerClick(marker)}
             />
           ))}
-          
+          {selectedMarker && (
+            <InfoWindow
+              position={selectedMarker.position}
+              onCloseClick={handleInfoWindowClose}
+            >
+              <div>
+                <h3>{listings[selectedMarker.key].title}</h3>
+                <p>{listings[selectedMarker.key].description}</p>
+              </div>
+            </InfoWindow>
+          )}
         </GoogleMap>
       </LoadScript>
     </>
@@ -52,6 +75,7 @@ function MapsComponent() {
 }
 
 export default React.memo(MapsComponent);
+
 
 
 
