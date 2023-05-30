@@ -87,6 +87,9 @@ app.post('/addevent', async (req, res) => {
   try{
     const ev = await addEvent(req.body);
     
+    // Convert the image data to a Buffer
+    const imageData = Buffer.from(req.body.image, 'base64');
+
     if (ev){
       console.log("Successful Upload")
       res.status(200).json({message: "Event Upload Success"});

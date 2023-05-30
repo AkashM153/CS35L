@@ -73,7 +73,8 @@ export default function Checkout() {
       location: {
         type: 'Point',
         coordinates: [-118.453445, 34.072105]
-      }
+      },
+      image: localStorage.getItem('image-upload')
       
 
     }, { crossdomain: true })

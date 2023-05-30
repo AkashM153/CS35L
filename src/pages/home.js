@@ -23,12 +23,29 @@ export default function HomePage() {
   }, []);
 
   const [featuredPosts, setFeaturedPosts] = useState([]);
+  const [imageURL, setImageURL] = useState(null);
 
   // Function to add a new featured post
   const addFeaturedPost = (newPost) => {
     setFeaturedPosts((prevPosts) => [...prevPosts, newPost]);
   };
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+  
+    reader.onloadend = () => {
+      const base64Image = reader.result;
+      localStorage.setItem('image-upload', base64Image);
+      // Update the imageURL state variable
+      setImageURL(base64Image);
+    };
+  
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+  
   return (
     <>
        <PrimarySearchAppBar>

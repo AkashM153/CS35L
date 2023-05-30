@@ -8,6 +8,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Button from '@mui/material/Button';
 
+
 const eventTypes = [
   {label: 'Cultural Performance'},
   {label: 'Professional Development'},
@@ -23,6 +24,8 @@ const eventTypes = [
 export default function EventPage2({ triggerFunc }) {
   const [description, setDescription] = React.useState('');
   const [selectedImage, setSelectedImage] = React.useState(null);
+  const [imageURL, setImageURL] = React.useState(null);
+  const [imagePreview, setImagePreview] = React.useState('');
 
   const handleDescriptionChange = (event) => {
     localStorage.setItem(event.target.id, event.target.value)
@@ -30,9 +33,17 @@ export default function EventPage2({ triggerFunc }) {
   };
 
   const handleImageChange = (event) => {
-    setSelectedImage(event.target.files[0]);
-  };
+    const file = event.target.files[0];
+    setSelectedImage(file);
 
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImagePreview(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -73,18 +84,21 @@ export default function EventPage2({ triggerFunc }) {
         </Grid>
 
         <Grid item xs={12}>
-          <input
-            accept="image/*"
-            id="image-upload"
-            type="file"
-            onChange={handleImageChange}
-          />
+          <input accept="image/*" id="image-upload" type="file" onChange={handleImageChange} />
+          {selectedImage && (
+            <div>
+              <Typography variant="body1">Selected Image:</Typography>
+              <img src={imagePreview} alt="Selected" style={{ maxWidth: '100%', marginTop: '10px' }} />
+            </div>
+          )}
           <label htmlFor="image-upload">
             <Button variant="contained" component="span">
               Upload Image
             </Button>
           </label>
         </Grid>
+
+
 
       </Grid>
     </React.Fragment>

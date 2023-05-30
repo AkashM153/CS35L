@@ -42,7 +42,17 @@ const eventSchema = new mongoose.Schema({
             type: [Number],
             required: true
         }   
-    }
+    },
+    image: {
+        data: {
+          type: Buffer, // Store the image data as a Buffer
+          required: true
+        },
+        contentType: {
+          type: String, // The MIME type of the image
+          required: true
+        }
+      }
 
 });
 

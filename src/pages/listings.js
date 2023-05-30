@@ -71,14 +71,15 @@ export default function Listings({ setFeaturedPosts }) {
     });
   };
 
+
   return (
     <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px' }}>
       {listings &&
         listings.map((listing, index) => (
           <React.Fragment key={listing._id}>
-            <Paper elevation={4} style={{ width: '300px', marginBottom: '10px', padding: '10px' }}>
+            <Paper elevation={4} style={{ width: '300px', height: 'auto', marginBottom: '10px', padding: '10px' }}>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+              <Grid item xs={12}>
                   <Typography variant="h5">{listing.title}</Typography>
                 </Grid>
                 <Grid item xs={6}>
@@ -99,6 +100,9 @@ export default function Listings({ setFeaturedPosts }) {
                 <Grid item xs={6}>
                   <Typography variant="body2">{dayjs(listing.endDate).format('h:mm A')}</Typography>
                 </Grid>
+                <Grid item xs={12}>
+                <img src={listing.image} alt="Listing Image" style={{ width: '100%' }} />
+              </Grid>
               </Grid>
             </Paper>
             <Divider />
