@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { ObjectId } = require('mongodb');
-const { newUser, findUserFromEmail, matchEmailPassword, addEvent, getEventOrgTitle, getEvents } = require("./mongo");
+const { newUser, findUserFromEmail, matchEmailPassword, addEvent, getEventOrgTitle, getEvents, addLike } = require("./mongo");
 
 const whitelist = ["http://localhost:3000"]
 const corsOptions = {
@@ -28,11 +28,8 @@ app.listen(port, (err) => {
 })
 
 ///////RESPONSE HANDLERS///////////////////////////////////////
-//Test Page
+
 app.use(cors(corsOptions));
-app.get("/test", (req, res) => {
-    res.send("Something wooo");
-}) 
 
 //Signup Page
 app.use(express.json());
@@ -101,6 +98,24 @@ app.post('/addevent', async (req, res) => {
   catch (err){
     res.status(203).json({message: "Event Upload Failure ", err});
   }
+  }
+})
+
+app.post('/likeevent', async(req, res) => {
+  const userID = req.body.userID;
+  const eventID = req.body.eventID;
+  console.log('Received event like: ', userID, eventID)
+  try{
+    const liked = addLike(userID, eventID)
+    if (liked){
+      res.status(200).json(liked)
+    }
+    else {
+      res.status(203).json({message: "Couldn't find event in database"})
+    }
+  }
+  catch (err){
+    res.status(203).json({message: "Failed to like event, err: ", err})
   }
 })
 

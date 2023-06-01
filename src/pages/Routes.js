@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import SignUpPage from './signup';
 import LogInPage from './login';
-import Test from './test';
 import GoogleMapsPage from "./googlemaps"
 import HomePage from "./home"
 import EventPage from "./eventpage"

@@ -50,7 +50,11 @@ const eventSchema = new mongoose.Schema({
         contentType: {
           type: String // The MIME type of the image
         }
-      }
+    },
+    likes: {
+        type: [String],
+        default: []
+    }
 
 });
 

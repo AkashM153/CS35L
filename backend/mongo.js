@@ -44,27 +44,6 @@ async function findUserFromEmail(email){
   return null;
 }
 
-/*async function matchEmailPassword(email, password){
-    var user = await User.findOne({email: email});
-    if(!user){
-      console.log("Couldn't find user")
-      return null;
-    }
-    else{
-      user.comparePassword(password, function(error, isMatch){
-        if (error){
-          console.log("There's an error??");
-          throw error;
-        }
-        if (isMatch){
-          console.log("There's a match")
-          return user;
-        }
-        else console.log("Match failure :(");
-      })
-    }
-  return null;
-}*/
 
 async function matchEmailPassword(email, password) {
   try {
@@ -152,6 +131,11 @@ async function getEvents(input){
       },
       {
         $limit: input.nEvents
+      },
+      {
+        $addFields: {
+          likesCount: {$size: "$likes"}
+        }
       }
     ]).exec();
 

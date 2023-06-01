@@ -34,7 +34,7 @@ export async function retrieveListings() {
   try {
     const res = await axios.post('http://localhost:5000/getevents', {
       loc: JSON.parse(localStorage.getItem('location')),
-      nEvents: 10,
+      nEvents: 20,
       startdate: dayjs().startOf('day'),
       enddate: dayjs().endOf('day'),
       eventtype: eventTypes[localStorage.getItem('searchtype')]
