@@ -1,7 +1,6 @@
 Change like button to different color on click
 Listing Images
 Refresh Markers issue
-Styling home page (move things more center and slightly down)
 
 If time permits:
 clicking on markers -> event pops up on right
