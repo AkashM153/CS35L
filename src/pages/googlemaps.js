@@ -22,14 +22,14 @@ function MapsComponent() {
   const [listings, setListings] = useState([]);
   const [hasData, setHasData] = useState(false);
 
-  const [shouldRender, setShouldRender] = useState(false);
-
   useEffect(() => {
     async function fetchData() {
       const data = await retrieveListings();
       setListings(data);
       const importedlocArray = await getlocArray();
-      await sleep(150);
+      await sleep(150); //this fixes the marker refresh so there is time to 
+      //get the location array before checking if the length is nonzero
+      
       if (importedlocArray.length > 0) {
         setMarkers(
           importedlocArray.map((location, index) => ({
@@ -43,18 +43,8 @@ function MapsComponent() {
       }
     }
 
-    const delayRendering = async () => {
-      await sleep(1000); // Delay for 5 seconds
-      setHasData(true);
-    };
-
     fetchData();
-    
-    // console.log("start of delay\n");
-    // console.log(markers);
     setHasData(true);
-    // console.log("end of delay\n");
-    // console.log(markers);
   }, []);
 
   const handleMarkerClick = (marker) => {
