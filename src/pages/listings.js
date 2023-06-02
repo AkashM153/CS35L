@@ -8,6 +8,7 @@ import Grid from '@mui/material/Grid';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
@@ -19,6 +20,8 @@ dayjs.locale('en');
 let locArray = [];
 const timezone = require('dayjs/plugin/timezone');
 dayjs.extend(timezone);
+
+let num = 0;
 
 export async function retrieveListings() {
   const eventTypes = [
@@ -53,24 +56,11 @@ export async function retrieveListings() {
   }
 }
 
-async function likeEvent(event) {
-  try{
-    const res = await axios.post('http://localhost:5000/likeevent', {
-      userID: localStorage.getItem('userID'),
-      eventID: event
-    }, {crossdomain: true})
-    if (res.status == 203){
-      alert(res.data.message)
-    }
-  }
-  catch (err) {
-    alert('Failed to like event: ' + err.message);
-  }
-}
 
 export default function Listings({ setFeaturedPosts }) {
   const [listings, setListings] = useState(null);
-  
+  const [likedListings, setLikedListings] = useState({});
+
   useEffect(() => {
     async function fetchData() {
       const data = await retrieveListings();
@@ -80,6 +70,30 @@ export default function Listings({ setFeaturedPosts }) {
     fetchData();
   }, []);
 
+
+  // this is supposed to do the saving of the likes but its not
+  useEffect(() => {
+    // Retrieve liked listings from local storage when the component mounts
+    const savedLikes = localStorage.getItem('likedListings');
+    if (savedLikes) {
+      setLikedListings(JSON.parse(savedLikes));
+    }
+  }, []);
+ 
+  //this function as well
+  useEffect(() => {
+    // Save liked listings to local storage whenever the likedListings state changes
+    localStorage.setItem('likedListings', JSON.stringify(likedListings));
+  }, [likedListings]);
+
+  //used to update the liked status of all the listings
+  const updateLikedStatus = (listingId, liked) => {
+    setLikedListings((prevLikedListings) => ({
+      ...prevLikedListings,
+      [listingId]: liked,
+    }));
+  };
+
   const updateFeaturedPost = (index, updatedPost) => {
     setFeaturedPosts((prevPosts) => {
       const newPosts = [...prevPosts];
@@ -87,52 +101,102 @@ export default function Listings({ setFeaturedPosts }) {
       return newPosts;
     });
   };
+  
+  
+  
+  async function likeEvent(listingId) {
+    try {
+      const userID = localStorage.getItem('userID');
+      const res = await axios.post('http://localhost:5000/likeevent', {
+        userID: userID,
+        eventID: listingId
+      }, { crossdomain: true });
+      
+      if (res.status === 200) {
+        const eventID = res.data;
+        let liked = eventID.likes.includes(userID);
+        console.log(num);
+        if(num %2 === 0){
+          updateLikedStatus(listingId, liked);
+          num++;
+        }
+        else{
+          updateLikedStatus(listingId, !liked);
+          num++;
+        }
+        if (liked) {
+          // User liked the event
+          // Apply formatting for liked event
+          // For example, change the color of the thumbs-up icon
+          console.log('User liked the event');  
+        } else {
+          // User did not like the event
+          // Apply formatting for unliked event
+          // For example, change the color of the thumbs-up icon
+          console.log('User did not like the event');
+        }
+      } else if (res.status === 203) {
+        alert(res.data.message);
+      }
+    } catch (err) {
+      alert('Failed to like event: ' + err.message);
+    }
+  }
+
 
   return (
     <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px' }}>
       {listings &&
-        listings.map((listing, index) => (
-          <React.Fragment key={listing._id}>
-            <Paper elevation={4} style={{ width: '95%', height: 'auto', marginBottom: '10px', padding: '10px' }}>
-              <Grid container spacing={2}>
-              <Grid item xs={12}>
-                  <Typography variant="h5">{listing.title}</Typography>
+        listings.map((listing, index) => {
+          const isLiked = likedListings[listing._id] || false;
+  
+          return (
+            <React.Fragment key={listing._id}>
+              <Paper elevation={4} style={{ width: '95%', height: 'auto', marginBottom: '10px', padding: '10px' }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography variant="h5">{listing.title}</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2">{listing.orgname}</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="body1">{listing.description}</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2">{dayjs(listing.startDate).format('YYYY-MM-DD')}</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2">{dayjs(listing.startDate).format('h:mm A')}</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2">{dayjs(listing.endDate).format('YYYY-MM-DD')}</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2">{dayjs(listing.endDate).format('h:mm A')}</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <img src={listing.image} alt="Listing Image" style={{ width: '100%' }} />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <IconButton
+                      size="large"
+                      color="inherit"
+                      onClick={() => likeEvent(listing._id)}
+                    >
+                      {isLiked ? (
+                        <ThumbUpIcon style={{ color: 'blue' }} />
+                      ) : (
+                        <ThumbUpOutlinedIcon style={{ color: 'gray' }} />
+                      )}
+                    </IconButton>
+                  </Grid>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">{listing.orgname}</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="body1">{listing.description}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">{dayjs(listing.startDate).format('YYYY-MM-DD')}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">{dayjs(listing.startDate).format('h:mm A')}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">{dayjs(listing.endDate).format('YYYY-MM-DD')}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">{dayjs(listing.endDate).format('h:mm A')}</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                <img src={listing.image} alt="Listing Image" style={{ width: '100%' }} />
-                </Grid>
-                <Grid item xs={6}>
-                <IconButton
-                size="large"
-                color="inherit"
-                onClick={() => {likeEvent(listing._id)}}
-                >
-                  <ThumbUpIcon />
-                </IconButton>
-                </Grid>
-              </Grid>
-            </Paper>
-            <Divider />
-          </React.Fragment>
-        ))}
+              </Paper>
+              <Divider />
+            </React.Fragment>
+          );
+        })}
     </Box>
   );
 }
@@ -141,7 +205,6 @@ export async function getlocArray() {
   const data = await retrieveListings();
   return locArray;
 }
-
 
 
 
