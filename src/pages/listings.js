@@ -3,13 +3,15 @@ import Paper from '@mui/material/Paper';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 import 'dayjs/locale/en';
 
 dayjs.locale('en');
@@ -51,6 +53,21 @@ export async function retrieveListings() {
   }
 }
 
+async function likeEvent(event) {
+  try{
+    const res = await axios.post('http://localhost:5000/likeevent', {
+      userID: localStorage.getItem('userID'),
+      eventID: event
+    }, {crossdomain: true})
+    if (res.status == 203){
+      alert(res.data.message)
+    }
+  }
+  catch (err) {
+    alert('Failed to like event: ' + err.message);
+  }
+}
+
 export default function Listings({ setFeaturedPosts }) {
   const [listings, setListings] = useState(null);
   
@@ -70,7 +87,6 @@ export default function Listings({ setFeaturedPosts }) {
       return newPosts;
     });
   };
-
 
   return (
     <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px' }}>
@@ -102,7 +118,16 @@ export default function Listings({ setFeaturedPosts }) {
                 </Grid>
                 <Grid item xs={12}>
                 <img src={listing.image} alt="Listing Image" style={{ width: '100%' }} />
-              </Grid>
+                </Grid>
+                <Grid item xs={6}>
+                <IconButton
+                size="large"
+                color="inherit"
+                onClick={() => {likeEvent(listing._id)}}
+                >
+                  <ThumbUpIcon />
+                </IconButton>
+                </Grid>
               </Grid>
             </Paper>
             <Divider />

@@ -106,8 +106,9 @@ app.post('/likeevent', async(req, res) => {
   const eventID = req.body.eventID;
   console.log('Received event like: ', userID, eventID)
   try{
-    const liked = addLike(userID, eventID)
+    const liked = await addLike(userID, eventID)
     if (liked){
+      console.log("liked event")
       res.status(200).json(liked)
     }
     else {

@@ -3,7 +3,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://ashish_basetty:gHffcx7KnULdcZOE@bruinconnect.nzayoje.mongodb.net/?retryWrites=true&w=majority";
 const mongoose = require('mongoose');
 const User = require('./userSchema');
-const Event = require('./eventSchema')
+const Event = require('./eventSchema');
 
 try{
   mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -147,6 +147,16 @@ async function getEvents(input){
   }
 }
 
+async function addLike(userID, eventID){
+  try{
+    const result = await Event.findByIdAndUpdate(eventID, { $push: {likes: userID}}, {new: true})
+    return result
+  }
+  catch{
+    return null
+  }
+}
+
 process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
 
 function gracefulExit(){
@@ -166,6 +176,7 @@ module.exports = {
   matchEmailPassword,
   addEvent,
   getEventOrgTitle,
-  getEvents
+  getEvents,
+  addLike
 };
 
