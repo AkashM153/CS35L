@@ -1,9 +1,8 @@
-Login/Signup:
-- Adding red boxes for unfilled sections
-- Password hashing (bcrypt)
-- Check for school email
-- Lowercase check for email
+Change like button to different color on click
+Listing Images
+Refresh Markers issue
 
-Navbar
-Figure out fuse.js
-Implement Material-ui paper
+If time permits:
+clicking on markers -> event pops up on right
+sorting by date
+markers by color

@@ -51,11 +51,11 @@ export default function HomePage() {
        <PrimarySearchAppBar>
         <FilterBar /> {/* Include the FilterBar component within the PrimarySearchAppBar */}
       </PrimarySearchAppBar>
-      <Grid container spacing={2} alignItems="center" style={{ minHeight: '100vh', padding: '20px' }}>
-        <Grid item md={6}>
+      <Grid container spacing={2} alignItems="center" justify="center" style={{ minHeight: '100vh', padding: '20px', marginTop: '30px'}}>
+        <Grid item md={6} style={{ marginLeft: '20px' }} >
           <MapsComponent />
         </Grid>
-        <Grid item >
+        <Grid item md={5}>
           <Box display="flex" flexDirection="column" height="100%">
             <Listings setFeaturedPosts={addFeaturedPost} />
           </Box>

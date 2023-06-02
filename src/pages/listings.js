@@ -93,7 +93,7 @@ export default function Listings({ setFeaturedPosts }) {
       {listings &&
         listings.map((listing, index) => (
           <React.Fragment key={listing._id}>
-            <Paper elevation={4} style={{ width: '300px', height: 'auto', marginBottom: '10px', padding: '10px' }}>
+            <Paper elevation={4} style={{ width: '95%', height: 'auto', marginBottom: '10px', padding: '10px' }}>
               <Grid container spacing={2}>
               <Grid item xs={12}>
                   <Typography variant="h5">{listing.title}</Typography>
