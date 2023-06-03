@@ -157,6 +157,16 @@ async function addLike(userID, eventID){
   }
 }
 
+async function unLike(userID, eventID){
+  try{
+    const result = await Event.findByIdAndUpdate(eventID, { $pull: {likes: userID}}, {new: true})
+    return result
+  }
+  catch{
+    return null
+  }
+}
+
 process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
 
 function gracefulExit(){
@@ -177,6 +187,7 @@ module.exports = {
   addEvent,
   getEventOrgTitle,
   getEvents,
-  addLike
+  addLike,
+  unLike
 };
 

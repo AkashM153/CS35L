@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { ObjectId } = require('mongodb');
-const { newUser, findUserFromEmail, matchEmailPassword, addEvent, getEventOrgTitle, getEvents, addLike } = require("./mongo");
+const { newUser, findUserFromEmail, matchEmailPassword, addEvent, getEventOrgTitle, getEvents, addLike, unLike } = require("./mongo");
 
 const whitelist = ["http://localhost:3000"]
 const corsOptions = {
@@ -117,6 +117,25 @@ app.post('/likeevent', async(req, res) => {
   }
   catch (err){
     res.status(203).json({message: "Failed to like event, err: ", err})
+  }
+})
+
+app.post('/unlikeevent', async(req, res) => {
+  const userID = req.body.userID;
+  const eventID = req.body.eventID;
+  console.log('Received event unlike: ', userID, eventID)
+  try{
+    const unliked = await unLike(userID, eventID)
+    if (unliked){
+      console.log("unliked event")
+      res.status(200).json(unliked)
+    }
+    else {
+      res.status(203).json({message: "Couldn't find event in database"})
+    }
+  }
+  catch (err){
+    res.status(203).json({message: "Failed to unlike event, err: ", err})
   }
 })
 
