@@ -21,10 +21,10 @@ const eventTypes = [
   {label: 'Sports'}
 ]
 
-export default function EventPage2({ triggerFunc }) {
+export default function EventPage2({ }) {
   const [description, setDescription] = React.useState('');
   const [selectedImage, setSelectedImage] = React.useState(null);
-  const [imageURL, setImageURL] = React.useState(null);
+  const [imageFile, setImageFile] = React.useState(null);
   const [imagePreview, setImagePreview] = React.useState('');
 
   const handleDescriptionChange = (event) => {
@@ -34,7 +34,7 @@ export default function EventPage2({ triggerFunc }) {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    setSelectedImage(file);
+    setImageFile(file);
 
     const reader = new FileReader();
     reader.onload = () => {
@@ -71,7 +71,7 @@ export default function EventPage2({ triggerFunc }) {
             variant="standard"
             defaultValue={localStorage.getItem("eventtype")}
             options={eventTypes}
-            renderInput={(params) => <TextField {...params} label="Event Type" />}
+            renderInput={(params) => <TextField {...params} label="Event Type" inputProps={params.inputProps} />}
             onChange={(event, option) => {
               if (option== null){
                 localStorage.setItem("eventtype", "")
@@ -79,13 +79,13 @@ export default function EventPage2({ triggerFunc }) {
               else{
                 localStorage.setItem("eventtype", option.label)
               }
-            }}
+            }} 
           />
         </Grid>
 
         <Grid item xs={12}>
           <input accept="image/*" id="image-upload" type="file" onChange={handleImageChange} />
-          {selectedImage && (
+          {imageFile && (
             <div>
               <Typography variant="body1">Selected Image:</Typography>
               <img src={imagePreview} alt="Selected" style={{ maxWidth: '100%', marginTop: '10px' }} />
