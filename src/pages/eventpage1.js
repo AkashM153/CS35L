@@ -11,8 +11,6 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs'; // Import dayjs library and Dayjs type
 
-import { Autocomplete } from '@react-google-maps/api';
-
 import AutocompleteLocation from './autocomplete.js';
 
 
