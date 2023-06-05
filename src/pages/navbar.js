@@ -119,6 +119,8 @@ export default function PrimarySearchAppBar() {
     handleMenuClose();
     localStorage.setItem('userId', '')
     localStorage.setItem('name', '')
+    localStorage.setItem("searchStartDate", '')
+    localStorage.setItem("searchEndDate", '')
   }
   
   if (!localStorage.getItem('name')){

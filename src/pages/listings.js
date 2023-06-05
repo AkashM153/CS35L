@@ -57,18 +57,16 @@ export async function retrieveListings() {
 }
 
 
-export default function Listings({ setFeaturedPosts }) {
+export default function Listings({ setFeaturedPosts, selectedStartDate, selectedEndDate }) {
   const [listings, setListings] = useState(null);
-  const [likedListings, setLikedListings] = useState({});
 
   useEffect(() => {
     async function fetchData() {
       const data = await retrieveListings();
       setListings(data);
     }
-
     fetchData();
-  }, []);
+  }, [selectedStartDate, selectedEndDate]);
 
   return (
     <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px' }}>

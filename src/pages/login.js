@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 
 
@@ -78,6 +79,8 @@ export default function SignIn() {
       if (res.status == 201){
         localStorage.setItem('userID', res.data.id)
         localStorage.setItem('name', res.data.name)
+        localStorage.setItem("searchStartDate", dayjs().toString())
+        localStorage.setItem("searchEndDate", dayjs().endOf('week').toString())
         window.location.assign("/home");
       }
       if (res.status == 202){
