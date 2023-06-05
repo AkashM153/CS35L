@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -22,7 +22,9 @@ import axios from 'axios'
 
 const mongoose = require('mongoose')
 
+
 const steps = ['Event details', 'Add Description'];
+
 
 function getStepContent(step) {
   switch (step) {
@@ -40,9 +42,14 @@ const defaultTheme = createTheme();
 
 export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [imageFile, setImageFile] = useState(null);
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setImageFile(file);
+  };
   const handleNext = () => {
-    if (activeStep != steps.length-1){
+    if (activeStep !== steps.length-1){
       setActiveStep(activeStep + 1);
     }
     else {
@@ -61,6 +68,19 @@ export default function Checkout() {
     const exDate = dayjs(localStorage.getItem("date")).format('YYYY-MM-DD')
     const exStart = dayjs(localStorage.getItem("starttime")).format('THH:mm:ss')
     const exEnd = dayjs(localStorage.getItem("endtime")).format('THH:mm:ss')
+    if (imageFile) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const dataUrl = event.target.result;
+        localStorage.setItem('image-upload',dataUrl);
+        continueFormSubmission(exDate,exStart, exEnd);
+      };
+      reader.readAsDataURL(imageFile);
+    } else {
+      continueFormSubmission(exDate, exStart, exEnd);
+    }
+  };
+  const continueFormSubmission = (exDate, exStart, exEnd) => {
     axios.post('http://localhost:5000/addevent', {
       creator: localStorage.getItem('userID'),
       creatorname: localStorage.getItem('name'),
