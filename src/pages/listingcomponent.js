@@ -112,11 +112,6 @@ class ListingComponent extends Component {
                       </Grid>
                     </Box>
                   </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body2" style={{ textTransform: 'uppercase' }}>
-                     {listing.orgname.toUpperCase()}
-                     </Typography>
-                  </Grid>
                   <Grid item xs={12}>
                     <img src={listing.image} alt="Listing Image" style={{ width: '100%' }} />
                   </Grid>
