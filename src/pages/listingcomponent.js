@@ -6,7 +6,6 @@ import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import { Box, Button, Container, Typography, Paper, Grid, Divider, IconButton } from '@mui/material';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
 import 'dayjs/locale/en';
 
 dayjs.locale('en');
@@ -76,79 +75,66 @@ class ListingComponent extends Component {
     
 
     render() {
-        const { listing } = this.props;
-        const { isLiked } = this.state;
-        const { count } = this.state;
-        return(
-            <React.Fragment key={listing._id}>
-              <Paper elevation={4} style={{ width: '95%', height: 'auto', marginBottom: '10px', padding: '10px' }}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <Typography variant="h5">{listing.title}</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body2">{listing.orgname}</Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Box border={1} borderColor="grey.400" borderRadius={4} p={1}>
-                      <Typography variant="body1" style={{ fontFamily: 'Arial', fontSize: '14px' }}>{listing.description}</Typography>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Box border={1} borderColor="grey.400" borderRadius={4} p={1}>
-                     <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                          <Typography variant="body2">{dayjs(listing.startDate).format('YYYY-MM-DD')}</Typography>
-                        </Grid>
-                        <Grid item xs={6}>
-                         <Typography variant="body2">{dayjs(listing.startDate).format('h:mm A')}</Typography>
-                        </Grid>
-                        <Grid item xs={6}>
-                          <Typography variant="body2">{dayjs(listing.endDate).format('YYYY-MM-DD')}</Typography>
-                        </Grid>
-                        <Grid item xs={6}>
-                          <Typography variant="body2">{dayjs(listing.endDate).format('h:mm A')}</Typography>
-                        </Grid>
-                      </Grid>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body2" style={{ textTransform: 'uppercase' }}>
-                     {listing.orgname.toUpperCase()}
-                     </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <img src={listing.image} alt="Listing Image" style={{ width: '100%' }} />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <IconButton
-                      size="large"
-                      color="inherit"
-                      onClick={() => {
-                        if (!isLiked){
-                          this.likeEvent(listing._id)
-                        }
-                        else {
-                          this.unlikeEvent(listing._id)
-                        }
-                      }}
-                    >
-                      {(isLiked) ? (
-                        <CheckBoxIcon style={{ color: 'blue' , fontSize: '32px'  }} />
-                      ) : (
-                        <CheckBoxOutlinedIcon style={{ color: 'gray' , fontSize: '32px' }} />
-                      )}
-                    </IconButton>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body1">{count}</Typography>
-                  </Grid>
-                </Grid>
-              </Paper>
-              <Divider />
-            </React.Fragment>
-        )
+      const { listing } = this.props;
+      console.log(listing.image);
+      const { isLiked } = this.state;
+      const { count } = this.state;
+      
+      return (
+        <React.Fragment key={listing._id}>
+          <Paper elevation={4} style={{ width: '95%', height: 'auto', marginBottom: '10px', padding: '10px', border: '4px solid orange' }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h5">{listing.title}</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="body2" style={{color: 'blue' }}>{listing.orgname}</Typography>
+              </Grid>
+              <Grid item xs={6} container justifyContent="flex-end">
+                <Typography variant="body2" style={{ marginRight: '10px' }}>{dayjs(listing.startDate).format('M/D/YY')}</Typography>
+                <Typography variant="body2">{dayjs(listing.startDate).format('h:mm A')}</Typography>
+                <Typography variant="body2" style={{ margin: '0 5px' }}>-</Typography>
+                <Typography variant="body2">{dayjs(listing.endDate).format('h:mm A')}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Box border={1} borderColor="grey.400" borderRadius={4} p={1}>
+                  <Typography variant="body1" style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '14px' }}>{listing.description}</Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+              </Grid>
+              <Grid item xs={12}>
+                <img src={listing.image} alt="Listing Image" style={{ width: '100%' }} />
+              </Grid>
+              <Grid item xs={12}>
+                <Box display="flex" alignItems="center" justifyContent="flex-end">
+                  <IconButton
+                    size="large"
+                    color="inherit"
+                    onClick={() => {
+                      if (!isLiked) {
+                        this.likeEvent(listing._id);
+                      } else {
+                        this.unlikeEvent(listing._id);
+                      }
+                    }}
+                  >
+                    {isLiked ? (
+                      <CheckBoxIcon style={{ color: 'green', fontSize: '32px' }} />
+                    ) : (
+                      <CheckBoxOutlinedIcon style={{ color: 'gray', fontSize: '32px' }} />
+                    )}
+                  </IconButton>
+                  <Typography variant="body1">{count} {count === 1 ? 'like' : 'likes'} </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+          </Paper>
+          <Divider />
+        </React.Fragment>
+      );
     }
+      
 }
 
 export default ListingComponent
