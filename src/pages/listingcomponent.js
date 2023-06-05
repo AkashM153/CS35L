@@ -90,19 +90,27 @@ class ListingComponent extends Component {
                     <Typography variant="body2">{listing.orgname}</Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography variant="body1">{listing.description}</Typography>
+                    <Box border={1} borderColor="grey.400" borderRadius={4} p={1}>
+                      <Typography variant="body1" style={{ fontFamily: 'Arial', fontSize: '14px' }}>{listing.description}</Typography>
+                    </Box>
                   </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body2">{dayjs(listing.startDate).format('YYYY-MM-DD')}</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body2">{dayjs(listing.startDate).format('h:mm A')}</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body2">{dayjs(listing.endDate).format('YYYY-MM-DD')}</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body2">{dayjs(listing.endDate).format('h:mm A')}</Typography>
+                  <Grid item xs={12}>
+                    <Box border={1} borderColor="grey.400" borderRadius={4} p={1}>
+                     <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                          <Typography variant="body2">{dayjs(listing.startDate).format('YYYY-MM-DD')}</Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                         <Typography variant="body2">{dayjs(listing.startDate).format('h:mm A')}</Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Typography variant="body2">{dayjs(listing.endDate).format('YYYY-MM-DD')}</Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Typography variant="body2">{dayjs(listing.endDate).format('h:mm A')}</Typography>
+                        </Grid>
+                      </Grid>
+                    </Box>
                   </Grid>
                   <Grid item xs={12}>
                     <img src={listing.image} alt="Listing Image" style={{ width: '100%' }} />
