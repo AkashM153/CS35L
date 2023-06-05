@@ -6,7 +6,6 @@ import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import { Box, Button, Container, Typography, Paper, Grid, Divider, IconButton } from '@mui/material';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
 import 'dayjs/locale/en';
 
 dayjs.locale('en');
@@ -91,28 +90,19 @@ class ListingComponent extends Component {
               <Grid item xs={6}>
                 <Typography variant="body2">{listing.orgname}</Typography>
               </Grid>
-              <Grid item xs={12}>
-                <Box border={1} borderColor="grey.400" borderRadius={4} p={1}>
-                  <Typography variant="body1" style={{ fontFamily: 'Georgia', fontSize: '14px' }}>{listing.description}</Typography>
-                </Box>
+              <Grid item xs={6} container justifyContent="flex-end">
+                <Typography variant="body2" style={{ marginRight: '10px' }}>{dayjs(listing.startDate).format('M/D/YY')}</Typography>
+                <Typography variant="body2">{dayjs(listing.startDate).format('h:mm A')}</Typography>
+                <Typography variant="body2" style={{ margin: '0 5px' }}>-</Typography>
+                <Typography variant="body2">{dayjs(listing.endDate).format('h:mm A')}</Typography>
+
               </Grid>
               <Grid item xs={12}>
                 <Box border={1} borderColor="grey.400" borderRadius={4} p={1}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <Typography variant="body2">{dayjs(listing.startDate).format('YYYY-MM-DD')}</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="body2">{dayjs(listing.startDate).format('h:mm A')}</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="body2">{dayjs(listing.endDate).format('YYYY-MM-DD')}</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="body2">{dayjs(listing.endDate).format('h:mm A')}</Typography>
-                    </Grid>
-                  </Grid>
+                  <Typography variant="body1" style={{ fontFamily: 'Montserrat', fontSize: '14px' }}>{listing.description}</Typography>
                 </Box>
+              </Grid>
+              <Grid item xs={12}>
               </Grid>
               <Grid item xs={12}>
                 <img src={listing.image} alt="Listing Image" style={{ width: '100%' }} />
