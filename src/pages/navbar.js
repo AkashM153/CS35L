@@ -20,7 +20,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Navigate } from 'react-router-dom';
 import dayjs from 'dayjs'
 import FilterBar from './filterbar'; // Import the FilterBar component
-
+import DateFilter from './datepicker'; //Import the Date Picker component
 /*
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -212,9 +212,14 @@ export default function PrimarySearchAppBar() {
           
 
           
-          
-          {isHomeScreen && <FilterBar />} {/* Conditionally render FilterBar on the home screen */}
-          
+          {isHomeScreen && (
+           <div style={{ display: 'flex', alignItems: 'center' }}>
+           <FilterBar />
+           <div style={{ marginLeft: '20px' }}></div>
+           <DateFilter />
+          </div>
+          )}
+
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
