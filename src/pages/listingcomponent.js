@@ -16,7 +16,8 @@ class ListingComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLiked: false
+            isLiked: false,
+            count: 0
         }
     }
 
@@ -25,7 +26,10 @@ class ListingComponent extends Component {
         if (isLiked) {
           this.setState({ isLiked: true });
         }
-
+        const { listing } = this.props;
+        if ( listing ) {
+            this.setState({ count: listing.likesCount })
+        }
     }
 
 
@@ -43,6 +47,7 @@ class ListingComponent extends Component {
             alert(res.data.message);
           }
           this.setState( { isLiked: true } )
+          this.setState ( { count: this.state.count + 1})
         } catch (err) {
           alert('Failed to like event: ' + err.message);
         }
@@ -62,6 +67,7 @@ class ListingComponent extends Component {
             alert(res.data.message);
           }
           this.setState( { isLiked: false } )
+          this.setState ( { count: this.state.count - 1})
         } catch (err) {
           alert('Failed to unlike event: ' + err.message);
         }
@@ -71,6 +77,7 @@ class ListingComponent extends Component {
     render() {
         const { listing } = this.props;
         const { isLiked } = this.state;
+        const { count } = this.state;
         return(
             <React.Fragment key={listing._id}>
               <Paper elevation={4} style={{ width: '95%', height: 'auto', marginBottom: '10px', padding: '10px' }}>
@@ -118,6 +125,9 @@ class ListingComponent extends Component {
                         <ThumbUpOutlinedIcon style={{ color: 'gray' }} />
                       )}
                     </IconButton>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body1">{count}</Typography>
                   </Grid>
                 </Grid>
               </Paper>
