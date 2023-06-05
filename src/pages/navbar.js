@@ -21,33 +21,6 @@ import { Navigate } from 'react-router-dom';
 import dayjs from 'dayjs'
 import FilterBar from './filterbar'; // Import the FilterBar component
 import DateFilter from './datepicker'; //Import the Date Picker component
-/*
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-*/
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
@@ -63,7 +36,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar({ onDateChange, onEventChange }) {
   const location = useLocation();
 
   const isHomeScreen = location.pathname === '/home';
@@ -216,9 +189,9 @@ export default function PrimarySearchAppBar() {
           
           {isHomeScreen && (
            <div style={{ display: 'flex', alignItems: 'center' }}>
-           <FilterBar />
+           <FilterBar onEventChange={onEventChange}/>
            <div style={{ marginLeft: '20px' }}></div>
-           <DateFilter />
+           <DateFilter onDateChange={onDateChange}/>
           </div>
           )}
 

@@ -57,7 +57,7 @@ export async function retrieveListings() {
 }
 
 
-export default function Listings({ setFeaturedPosts, selectedStartDate, selectedEndDate }) {
+export default function Listings({ setFeaturedPosts, selectedStartDate, selectedEndDate, eventType }) {
   const [listings, setListings] = useState(null);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export default function Listings({ setFeaturedPosts, selectedStartDate, selected
       setListings(data);
     }
     fetchData();
-  }, [selectedStartDate, selectedEndDate]);
+  }, [selectedStartDate, selectedEndDate, eventType]);
 
   return (
     <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px' }}>
@@ -74,8 +74,9 @@ export default function Listings({ setFeaturedPosts, selectedStartDate, selected
         listings.map((listing, index) => {
           return(
           <ListingComponent listing = {listing} isLiked = {listing.likes.includes(localStorage.getItem("userID"))}/>
-          )
-        })}
+          ) 
+        })
+      }
     </Box>
   );
 }

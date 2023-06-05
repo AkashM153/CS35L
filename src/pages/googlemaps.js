@@ -16,7 +16,7 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function MapsComponent() {
+function MapsComponent({toUpdate}) {
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [listings, setListings] = useState([]);
@@ -41,11 +41,14 @@ function MapsComponent() {
           }))
         );
       }
+      else {
+        setMarkers([])
+      }
     }
 
     fetchData();
     setHasData(true);
-  }, []);
+  }, [toUpdate]);
 
   const handleMarkerClick = (marker) => {
     setSelectedMarker(marker);

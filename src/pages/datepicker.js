@@ -13,16 +13,18 @@ import dayjs, { Dayjs } from 'dayjs'; // Import dayjs library and Dayjs type
 
 
 
-export default function DateFilter(){
+export default function DateFilter({ onDateChange }){
     const [selectedStartDate, setSelectedStartDate] = React.useState(dayjs(localStorage.getItem("searchStartDate")));
     const [selectedEndDate, setSelectedEndDate] = React.useState(dayjs(localStorage.getItem("searchEndDate")));
 
     useEffect(() => {
       localStorage.setItem("searchStartDate", selectedStartDate.toString())
+      onDateChange(selectedStartDate, selectedEndDate)
     }, [selectedStartDate]);
 
     useEffect(() => {
       localStorage.setItem("searchEndDate", selectedEndDate.toString())
+      onDateChange(selectedStartDate, selectedEndDate)
     }, [selectedEndDate]);
 
     const handleStartDateChange = (date) => {
