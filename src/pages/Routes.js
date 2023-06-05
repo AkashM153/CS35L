@@ -5,6 +5,7 @@ import LogInPage from './login';
 import GoogleMapsPage from "./googlemaps"
 import HomePage from "./home"
 import EventPage from "./eventpage"
+import FriendPage from './friends';
 
 const Router = () => {
     return (
@@ -15,6 +16,7 @@ const Router = () => {
                 <Route exact path="/login" element={<LogInPage/>}/>
                 <Route exact path="/home" element={<HomePage/>}/>
                 <Route exact path="/addevent" element={<EventPage/>}/>
+                <Route exact path="/friends" element={<FriendPage/>}/>
             </Routes>
         </BrowserRouter>
     );

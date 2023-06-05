@@ -13,12 +13,13 @@ import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import AddIcon from '@mui/icons-material/Add';
-import HomeIcon from '@mui/icons-material/Home'
+import HomeIcon from '@mui/icons-material/Home';
+import PersonIcon from '@mui/icons-material/Person';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import stringAvatar from './stringAvatar';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Navigate } from 'react-router-dom';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 import FilterBar from './filterbar'; // Import the FilterBar component
 import DateFilter from './datepicker'; //Import the Date Picker component
 /*
@@ -96,6 +97,10 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleFriendClick = () => {
+    window.location.assign("/friends");
+  }
 
   const handleHomeClick = () => {
     localStorage.setItem('searchtype', 0)
@@ -182,6 +187,15 @@ export default function PrimarySearchAppBar() {
         </IconButton>
         <p>Create Event</p>
       </MenuItem>
+      <MenuItem onClick={handleFriendClick}>
+        <IconButton
+          size="large"
+          color="inherit"
+        >
+          <PersonIcon />
+        </IconButton>
+        <p>Friend</p>
+      </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -235,6 +249,13 @@ export default function PrimarySearchAppBar() {
               onClick={handleAddClick}
             >
               <AddIcon />
+            </IconButton>
+            <IconButton
+              size="large"
+              color="inherit"
+              onClick={handleFriendClick}
+            >
+              <PersonIcon />
             </IconButton>
             <IconButton
               size="large"
