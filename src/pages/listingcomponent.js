@@ -82,7 +82,7 @@ class ListingComponent extends Component {
       
       return (
         <React.Fragment key={listing._id}>
-          <Paper elevation={4} style={{ width: '95%', height: 'auto', marginBottom: '10px', padding: '10px' }}>
+          <Paper elevation={4} style={{ width: '95%', height: 'auto', marginBottom: '10px', padding: '10px', border: '4px solid orange'}}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="h5">{listing.title}</Typography>
