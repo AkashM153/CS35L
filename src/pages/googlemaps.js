@@ -58,7 +58,7 @@ function MapsComponent() {
   return (
     <>{hasData ? (
       <LoadScript googleMapsApiKey="AIzaSyB99JZitN5Z-9NqEcG-iSxxNyE28aDYCIE">
-        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
+        <GoogleMap mapContainerStyle={containerStyle} center={JSON.parse(localStorage.getItem('location'))} zoom={15}>
           {markers.map((marker) => (
             <Marker
               key={marker.key}
