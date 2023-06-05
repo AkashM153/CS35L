@@ -122,20 +122,25 @@ async function getEvents(input){
         },
       },
       {
+        $addFields: {
+          likesCount: {$size: "$likes"}
+        }
+      },
+      {
         $match: matchStage
       },
       {
+        $addFields: {
+          score: {$subtract: ["$distance", { $multiply: ["$likesCount", 200] } ]}
+        }
+      },
+      {
         $sort: {
-          distance: 1
+          score: 1
         }
       },
       {
         $limit: input.nEvents
-      },
-      {
-        $addFields: {
-          likesCount: {$size: "$likes"}
-        }
       }
     ]).exec();
 
