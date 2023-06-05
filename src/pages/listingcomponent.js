@@ -4,7 +4,8 @@ import axios from 'axios';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import { Box, Button, Container, Typography, Paper, Grid, Divider, IconButton } from '@mui/material';
-
+import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 import 'dayjs/locale/en';
 
@@ -120,9 +121,9 @@ class ListingComponent extends Component {
                       }}
                     >
                       {(isLiked) ? (
-                        <ThumbUpIcon style={{ color: 'blue' }} />
+                        <CheckBoxIcon style={{ color: 'blue' , fontSize: '32px'  }} />
                       ) : (
-                        <ThumbUpOutlinedIcon style={{ color: 'gray' }} />
+                        <CheckBoxOutlinedIcon style={{ color: 'gray' , fontSize: '32px' }} />
                       )}
                     </IconButton>
                   </Grid>
