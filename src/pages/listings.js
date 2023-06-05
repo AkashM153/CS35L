@@ -40,8 +40,8 @@ export async function retrieveListings() {
     const res = await axios.post('http://localhost:5000/getevents', {
       loc: JSON.parse(localStorage.getItem('location')),
       nEvents: 20,
-      startdate: localStorage.getItem('searchStartDate'),
-      enddate: localStorage.getItem('searchEndDate'),
+      startdate: new Date(localStorage.getItem('searchStartDate')),
+      enddate: new Date(localStorage.getItem('searchEndDate')),
       eventtype: eventTypes[localStorage.getItem('searchtype')]
     }, { crossdomain: true })
       if (res && res.status === 200) {

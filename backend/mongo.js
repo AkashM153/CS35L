@@ -130,6 +130,14 @@ async function getEvents(input){
         $match: matchStage
       },
       {
+        $match: {
+          startDate: {
+            $gte: new Date(input.startdate),
+            $lte: new Date(input.enddate)
+          }
+        }
+      },
+      {
         $addFields: {
           score: {$subtract: ["$distance", { $multiply: ["$likesCount", 200] } ]}
         }
