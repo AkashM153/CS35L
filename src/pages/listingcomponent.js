@@ -6,7 +6,6 @@ import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import { Box, Button, Container, Typography, Paper, Grid, Divider, IconButton } from '@mui/material';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
 import 'dayjs/locale/en';
 
 dayjs.locale('en');
@@ -83,36 +82,26 @@ class ListingComponent extends Component {
       
       return (
         <React.Fragment key={listing._id}>
-          <Paper elevation={4} style={{ width: '95%', height: 'auto', marginBottom: '10px', padding: '10px' }}>
+          <Paper elevation={4} style={{ width: '95%', height: 'auto', marginBottom: '10px', padding: '10px', border: '4px solid orange' }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="h5">{listing.title}</Typography>
               </Grid>
               <Grid item xs={6}>
-                <Typography variant="body2">{listing.orgname}</Typography>
+                <Typography variant="body2" style={{color: 'blue' }}>{listing.orgname}</Typography>
+              </Grid>
+              <Grid item xs={6} container justifyContent="flex-end">
+                <Typography variant="body2" style={{ marginRight: '10px' }}>{dayjs(listing.startDate).format('M/D/YY')}</Typography>
+                <Typography variant="body2">{dayjs(listing.startDate).format('h:mm A')}</Typography>
+                <Typography variant="body2" style={{ margin: '0 5px' }}>-</Typography>
+                <Typography variant="body2">{dayjs(listing.endDate).format('h:mm A')}</Typography>
               </Grid>
               <Grid item xs={12}>
                 <Box border={1} borderColor="grey.400" borderRadius={4} p={1}>
-                  <Typography variant="body1" style={{ fontFamily: 'Georgia', fontSize: '14px' }}>{listing.description}</Typography>
+                  <Typography variant="body1" style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '14px' }}>{listing.description}</Typography>
                 </Box>
               </Grid>
               <Grid item xs={12}>
-                <Box border={1} borderColor="grey.400" borderRadius={4} p={1}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <Typography variant="body2">{dayjs(listing.startDate).format('YYYY-MM-DD')}</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="body2">{dayjs(listing.startDate).format('h:mm A')}</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="body2">{dayjs(listing.endDate).format('YYYY-MM-DD')}</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="body2">{dayjs(listing.endDate).format('h:mm A')}</Typography>
-                    </Grid>
-                  </Grid>
-                </Box>
               </Grid>
               <Grid item xs={12}>
                 <img src={listing.image} alt="Listing Image" style={{ width: '100%' }} />
@@ -136,7 +125,7 @@ class ListingComponent extends Component {
                       <CheckBoxOutlinedIcon style={{ color: 'gray', fontSize: '32px' }} />
                     )}
                   </IconButton>
-                  <Typography variant="body1">{count}</Typography>
+                  <Typography variant="body1">{count} {count === 1 ? 'like' : 'likes'} </Typography>
                 </Box>
               </Grid>
             </Grid>
