@@ -12,6 +12,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs'; // Import dayjs library and Dayjs type
 
 
+
 export default function DateFilter(){
     const [selectedStartDate, setSelectedStartDate] = React.useState(dayjs());
     const [selectedEndDate, setSelectedEndDate] = React.useState(dayjs());
@@ -40,13 +41,24 @@ export default function DateFilter(){
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       '& fieldset': {
+                        // Adjust the padding to make it thinner
+                        paddingTop: '6px',
+                        paddingBottom: '12px',
                         borderColor: 'white',
                         borderRadius: 0, 
                       },
                       '&:hover fieldset': {
                         borderColor: 'white',
                       },
+                      '& .MuiFormHelperText-root': {
+                        color: 'white',
+                      },
+                      '& .MuiOutlinedInput-input': {
+                        color: 'black',
+                      },
                       backgroundColor: 'white', // Set the fill color to white
+                      // Adjust the height to make it thinner
+                      height: '47px',
                     },
                   }}
                 />
@@ -65,13 +77,24 @@ export default function DateFilter(){
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       '& fieldset': {
+                        // Adjust the padding to make it thinner
+                        paddingTop: '6px',
+                        paddingBottom: '12px',
                         borderColor: 'white',
                         borderRadius: 0, 
                       },
                       '&:hover fieldset': {
                         borderColor: 'white',
                       },
+                      '& .MuiFormHelperText-root': {
+                        color: 'white',
+                      },
+                      '& .MuiOutlinedInput-input': {
+                        color: 'black',
+                      },
                       backgroundColor: 'white', // Set the fill color to white
+                      // Adjust the height to make it thinner
+                      height: '47px',
                     },
                   }}
                 />
