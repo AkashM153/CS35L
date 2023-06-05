@@ -21,8 +21,6 @@ let locArray = [];
 const timezone = require('dayjs/plugin/timezone');
 dayjs.extend(timezone);
 
-let num = 0;
-
 export async function retrieveListings() {
   const eventTypes = [
     'All Events',
@@ -39,7 +37,7 @@ export async function retrieveListings() {
   try {
     const res = await axios.post('http://localhost:5000/getevents', {
       loc: JSON.parse(localStorage.getItem('location')),
-      nEvents: 20,
+      nEvents: 10,
       startdate: dayjs().startOf('day'),
       enddate: dayjs().endOf('day'),
       eventtype: eventTypes[localStorage.getItem('searchtype')]
@@ -113,33 +111,30 @@ export default function Listings({ setFeaturedPosts }) {
       }, { crossdomain: true });
       
       if (res.status === 200) {
-        const eventID = res.data;
-        let liked = eventID.likes.includes(userID);
-        console.log(num);
-        if(num %2 === 0){
-          updateLikedStatus(listingId, liked);
-          num++;
-        }
-        else{
-          updateLikedStatus(listingId, !liked);
-          num++;
-        }
-        if (liked) {
-          // User liked the event
-          // Apply formatting for liked event
-          // For example, change the color of the thumbs-up icon
-          console.log('User liked the event');  
-        } else {
-          // User did not like the event
-          // Apply formatting for unliked event
-          // For example, change the color of the thumbs-up icon
-          console.log('User did not like the event');
-        }
+
       } else if (res.status === 203) {
         alert(res.data.message);
       }
     } catch (err) {
       alert('Failed to like event: ' + err.message);
+    }
+  }
+
+  async function unlikeEvent(listingId){
+    try {
+      const userID = localStorage.getItem('userID');
+      const res = await axios.post('http://localhost:5000/unlikeevent', {
+        userID: userID,
+        eventID: listingId
+      }, { crossdomain: true });
+      
+      if (res.status === 200) {
+        
+      } else if (res.status === 203) {
+        alert(res.data.message);
+      }
+    } catch (err) {
+      alert('Failed to unlike event: ' + err.message);
     }
   }
 
@@ -182,9 +177,16 @@ export default function Listings({ setFeaturedPosts }) {
                     <IconButton
                       size="large"
                       color="inherit"
-                      onClick={() => likeEvent(listing._id)}
+                      onClick={() => {
+                        if (!listing.likes.includes(localStorage.getItem("userID"))){
+                          likeEvent(listing._id)
+                        }
+                        else {
+                          unlikeEvent(listing._id)
+                        }
+                      }}
                     >
-                      {isLiked ? (
+                      {(listing.likes.includes(localStorage.getItem("userID"))) ? (
                         <ThumbUpIcon style={{ color: 'blue' }} />
                       ) : (
                         <ThumbUpOutlinedIcon style={{ color: 'gray' }} />

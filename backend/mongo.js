@@ -149,8 +149,12 @@ async function getEvents(input){
 
 async function addLike(userID, eventID){
   try{
-    const result = await Event.findByIdAndUpdate(eventID, { $push: {likes: userID}}, {new: true})
-    return result
+    const event = await Event.findById(eventID).exec()
+    if (!event.likes.includes(userID)){
+      event.likes.push(userID)
+      event.save()
+    }
+    return event
   }
   catch{
     return null
