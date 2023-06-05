@@ -18,12 +18,12 @@ export default function DateFilter(){
     const [selectedEndDate, setSelectedEndDate] = React.useState(dayjs());
 
     const handleStartDateChange = (date) => {
-        localStorage.setItem("startDate", date.toString())
+        localStorage.setItem("searchStartDate", date.toString())
         setSelectedStartDate(date);
     };
 
     const handleEndDateChange = (date) => {
-        localStorage.setItem("endDate", date.toString())
+        localStorage.setItem("searchEndDate", date.toString())
         setSelectedEndDate(date);
     };
 

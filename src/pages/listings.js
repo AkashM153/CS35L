@@ -15,6 +15,7 @@ import dayjs from 'dayjs';
 import { Box, Button, Container, Typography } from '@mui/material';
 import ListingComponent from './listingcomponent';
 import 'dayjs/locale/en';
+import DateFilter from './datepicker';
 
 dayjs.locale('en');
 
@@ -39,8 +40,8 @@ export async function retrieveListings() {
     const res = await axios.post('http://localhost:5000/getevents', {
       loc: JSON.parse(localStorage.getItem('location')),
       nEvents: 20,
-      startdate: dayjs().startOf('day'),
-      enddate: dayjs().endOf('day'),
+      startdate: localStorage.getItem('searchStartDate'),
+      enddate: localStorage.getItem('searchEndDate'),
       eventtype: eventTypes[localStorage.getItem('searchtype')]
     }, { crossdomain: true })
       if (res && res.status === 200) {
