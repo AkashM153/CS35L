@@ -88,18 +88,17 @@ class ListingComponent extends Component {
                 <Typography variant="h5">{listing.title}</Typography>
               </Grid>
               <Grid item xs={6}>
-                <Typography variant="body2">{listing.orgname}</Typography>
+                <Typography variant="body2" style={{color: 'blue' }}>{listing.orgname}</Typography>
               </Grid>
               <Grid item xs={6} container justifyContent="flex-end">
                 <Typography variant="body2" style={{ marginRight: '10px' }}>{dayjs(listing.startDate).format('M/D/YY')}</Typography>
                 <Typography variant="body2">{dayjs(listing.startDate).format('h:mm A')}</Typography>
                 <Typography variant="body2" style={{ margin: '0 5px' }}>-</Typography>
                 <Typography variant="body2">{dayjs(listing.endDate).format('h:mm A')}</Typography>
-
               </Grid>
               <Grid item xs={12}>
                 <Box border={1} borderColor="grey.400" borderRadius={4} p={1}>
-                  <Typography variant="body1" style={{ fontFamily: 'Montserrat', fontSize: '14px' }}>{listing.description}</Typography>
+                  <Typography variant="body1" style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '14px' }}>{listing.description}</Typography>
                 </Box>
               </Grid>
               <Grid item xs={12}>
