@@ -171,6 +171,15 @@ export default function PrimarySearchAppBar({ onDateChange, onEventChange }) {
         </IconButton>
         <p>Friends</p>
       </MenuItem>
+      <MenuItem onClick={handleLogout} style={{color: 'red'}}>
+        <IconButton
+          size="large"
+          color="inherit"
+        >
+          <LogoutIcon />
+        </IconButton>
+        <p>Logout</p>
+      </MenuItem>
     </Menu>
   );
 
