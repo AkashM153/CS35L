@@ -37,7 +37,7 @@ export default function DateFilter({ onDateChange }){
 
     return(
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={6} style={{ marginTop: '-7px' }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={['DatePicker']}>
                 <DatePicker
@@ -73,7 +73,7 @@ export default function DateFilter({ onDateChange }){
               </DemoContainer>
             </LocalizationProvider>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} style={{ marginTop: '-7px' }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={['DatePicker']}>
                 <DatePicker
