@@ -1,0 +1,11 @@
+.title-likes-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+    padding: 10px;
+  }
+  
+  .title-likes-container .MuiTypography-root {
+    flex: 1;
+  }
