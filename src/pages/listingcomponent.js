@@ -7,6 +7,7 @@ import { Box, Button, Container, Typography, Paper, Grid, Divider, IconButton } 
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import 'dayjs/locale/en';
+import './styles.css';
 
 dayjs.locale('en');
 const timezone = require('dayjs/plugin/timezone');
@@ -85,10 +86,32 @@ class ListingComponent extends Component {
           <Paper elevation={4} style={{ width: '95%', height: 'auto', marginBottom: '10px', padding: '10px', border: '4px solid orange'}}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h5">{listing.title}</Typography>
+                <div className="title-likes-container">
+                <Typography variant="h5"style={{ fontFamily: 'Lato, sans-serif', fontSize: '26px', color: 'blue' }}>{listing.title}</Typography>
+                  <div className="likes-count">
+                    <Typography variant="body1">{count}</Typography>
+                  </div>
+                    <IconButton
+                      size="large"
+                      color="inherit"
+                      onClick={() => {
+                        if (!isLiked) {
+                          this.likeEvent(listing._id);
+                        } else {
+                         this.unlikeEvent(listing._id);
+                        }
+                      }}
+                   >
+                      {isLiked ? (
+                        <CheckBoxIcon style={{ color: 'green', fontSize: '32px' }} />
+                      ) : (
+                        <CheckBoxOutlinedIcon style={{ color: 'gray', fontSize: '32px' }} />
+                      )}
+                    </IconButton>
+                </div>
               </Grid>
               <Grid item xs={6}>
-                <Typography variant="body2" style={{color: 'blue' }}>{listing.orgname}</Typography>
+                <Typography variant="body2" >{listing.orgname}</Typography>
               </Grid>
               <Grid item xs={6} container justifyContent="flex-end">
                 <Typography variant="body2" style={{ marginRight: '10px' }}>{dayjs(listing.startDate).format('M/D/YY')}</Typography>
@@ -97,7 +120,7 @@ class ListingComponent extends Component {
                 <Typography variant="body2">{dayjs(listing.endDate).format('h:mm A')}</Typography>
               </Grid>
               <Grid item xs={12}>
-                <Box border={1} borderColor="grey.400" borderRadius={4} p={1}>
+                <Box border={1} borderColor="orange" p={1}>
                   <Typography variant="body1" style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '14px' }}>{listing.description}</Typography>
                 </Box>
               </Grid>
@@ -105,28 +128,6 @@ class ListingComponent extends Component {
               </Grid>
               <Grid item xs={12}>
                 <img src={listing.image} alt="Listing Image" style={{ width: '100%' }} />
-              </Grid>
-              <Grid item xs={12}>
-                <Box display="flex" alignItems="center" justifyContent="flex-end">
-                  <IconButton
-                    size="large"
-                    color="inherit"
-                    onClick={() => {
-                      if (!isLiked) {
-                        this.likeEvent(listing._id);
-                      } else {
-                        this.unlikeEvent(listing._id);
-                      }
-                    }}
-                  >
-                    {isLiked ? (
-                      <CheckBoxIcon style={{ color: 'green', fontSize: '32px' }} />
-                    ) : (
-                      <CheckBoxOutlinedIcon style={{ color: 'gray', fontSize: '32px' }} />
-                    )}
-                  </IconButton>
-                  <Typography variant="body1">{count}</Typography>
-                </Box>
               </Grid>
             </Grid>
           </Paper>
