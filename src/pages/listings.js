@@ -57,8 +57,10 @@ export async function retrieveListings() {
 }
 
 
-export default function Listings({ setFeaturedPosts, selectedStartDate, selectedEndDate, eventType }) {
+export default function Listings({ selectedMarker, selectedStartDate, selectedEndDate, eventType }) {
   const [listings, setListings] = useState(null);
+
+  const boxRef = React.useRef(null)
 
   useEffect(() => {
     async function fetchData() {
@@ -68,8 +70,15 @@ export default function Listings({ setFeaturedPosts, selectedStartDate, selected
     fetchData();
   }, [selectedStartDate, selectedEndDate, eventType]);
 
+  useEffect(() => {
+    if (selectedMarker != null){
+      const scrollP = selectedMarker * 300
+      boxRef.current.scrollTop = scrollP
+    }
+  }, [selectedMarker])
+
   return (
-    <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px' }}>
+    <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px' }} ref={boxRef}>
       {listings &&
         listings.map((listing, index) => {
           return(

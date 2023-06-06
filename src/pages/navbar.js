@@ -19,6 +19,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import stringAvatar from './stringAvatar';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Navigate } from 'react-router-dom';
+import PeopleIcon from '@mui/icons-material/People';
 import dayjs from 'dayjs';
 import FilterBar from './filterbar'; // Import the FilterBar component
 import DateFilter from './datepicker'; //Import the Date Picker component
@@ -122,7 +123,6 @@ export default function PrimarySearchAppBar({ onDateChange, onEventChange }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}><AccountCircle style={{margin: '10px'}}/>My Profile</MenuItem>
       <MenuItem style={{color: 'red'}}onClick={handleLogout}><LogoutIcon style={{margin: '10px'}}/>Logout</MenuItem>
     </Menu>
   );
@@ -167,18 +167,9 @@ export default function PrimarySearchAppBar({ onDateChange, onEventChange }) {
           size="large"
           color="inherit"
         >
-          <PersonIcon />
+          <PeopleIcon />
         </IconButton>
-        <p>Friend</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
+        <p>Friends</p>
       </MenuItem>
     </Menu>
   );
@@ -242,7 +233,10 @@ export default function PrimarySearchAppBar({ onDateChange, onEventChange }) {
               color="inherit"
             >
               {avContent}
+              <Typography variant="body1" sx={{ margin: '5px' }}> {localStorage.getItem('name')}</Typography>
             </IconButton>
+            <Box>
+            </Box>
           </Box>
           {<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -263,14 +257,4 @@ export default function PrimarySearchAppBar({ onDateChange, onEventChange }) {
     </Box>
   );
 }
-
-/*<Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search for event..."
-              inputProps={{ 'aria-label': 'Search for event...' }}
-            />
-          </Search>*/
           

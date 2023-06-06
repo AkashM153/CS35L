@@ -28,11 +28,16 @@ export default function HomePage() {
   const [selectedEndDate, setSelectedEndDate] = useState(null)
   const [eventType, setEventType] = useState(null)
   const [updateCount, setUpdateCount] = useState(0)
+  const [selectedMarker, setSelectedMarker] = useState(null)
 
   const setDates = (startDate, endDate) => {
     setSelectedStartDate(startDate)
     setSelectedEndDate(endDate)
     setUpdateCount(updateCount+1)
+  }
+
+  const setMarker = (marker) => {
+    setSelectedMarker(marker)
   }
 
   const setEvent = (type) => {
@@ -66,11 +71,11 @@ export default function HomePage() {
       <PrimarySearchAppBar onDateChange={setDates} onEventChange={setEvent}/>
       <Grid container spacing={2} alignItems="center" justify="center" style={{ minHeight: '100vh', padding: '20px', marginTop: '30px'}}>
         <Grid item md={6} style={{ marginLeft: '20px' }} >
-          <MapsComponent toUpdate={updateCount}/>
+          <MapsComponent toUpdate={updateCount} onMarkerSelect={setMarker}/>
         </Grid>
         <Grid item md={5}>
           <Box display="flex" flexDirection="column" height="100%">
-            <Listings setFeaturedPosts={addFeaturedPost} selectedStartDate={selectedStartDate} selectedEndDate={selectedEndDate} eventType={eventType}/>
+            <Listings selectedMarker={selectedMarker} selectedStartDate={selectedStartDate} selectedEndDate={selectedEndDate} eventType={eventType}/>
           </Box>
         </Grid>
       </Grid>
