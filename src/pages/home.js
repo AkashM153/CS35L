@@ -71,7 +71,9 @@ export default function HomePage() {
       <PrimarySearchAppBar onDateChange={setDates} onEventChange={setEvent}/>
       <Grid container spacing={2} alignItems="center" justify="center" style={{ minHeight: '100vh', padding: '20px', marginTop: '30px'}}>
         <Grid item md={6} style={{ marginLeft: '20px' }} >
-          <MapsComponent toUpdate={updateCount} onMarkerSelect={setMarker}/>
+          <div style={{ width: '600px', height: '600px', border: '4px solid goldenrod', borderRadius: '5px'}}>
+            <MapsComponent toUpdate={updateCount} onMarkerSelect={setMarker} />
+          </div>
         </Grid>
         <Grid item md={5}>
           <Box display="flex" flexDirection="column" height="100%">
