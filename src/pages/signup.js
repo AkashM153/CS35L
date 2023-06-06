@@ -13,23 +13,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import dayjs from 'dayjs';
 import bg from "./background.css"
 import Paper from '@mui/material/Paper';
 
-
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const theme = createTheme({
   components: {
@@ -86,6 +73,8 @@ export default function SignUp() {
       if (res.status == 201){
         localStorage.setItem('userId', res.data.id)
         localStorage.setItem('name', res.data.name)
+        localStorage.setItem("searchStartDate", dayjs().toString())
+        localStorage.setItem("searchEndDate", dayjs().endOf('week').toString())
         window.location.assign("/home");
       }
     })

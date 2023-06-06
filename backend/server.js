@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { ObjectId } = require('mongodb');
-const { newUser, findUserFromEmail, matchEmailPassword, addEvent, getEventOrgTitle, getEvents, addLike, unLike } = require("./mongo");
+const { newUser, findUserFromEmail, findUserFromName, matchEmailPassword, addEvent, getEventOrgTitle, getEvents, addLike, unLike } = require("./mongo");
 
 const whitelist = ["http://localhost:3000"]
 const corsOptions = {
@@ -155,5 +155,23 @@ app.post('/getevents', async (req, res) => {
   }
   catch (err){
     res.status(203).json({message: "Failed to retrieve events, err: ", err})
+  }
+})
+
+app.post('/friends', async (req, res) => {
+  const userData = req.body;
+  console.log('Received input: ', userData);
+  try{
+    let searchUser = await findUserFromName(userData.firstName,userData.lastName);
+    if (!searchUser){
+      res.status(203).json({message: "Failure to retrieve user"})
+    }
+    else {
+      console.log("Retrieved user: ", searchUser)
+      res.status(200).json(searchUser)
+    }
+  }
+  catch (err){
+    res.status(203).json({message: "Failed to retrieve user, err: ", err})
   }
 })

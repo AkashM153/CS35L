@@ -40,8 +40,8 @@ export async function retrieveListings() {
     const res = await axios.post('http://localhost:5000/getevents', {
       loc: JSON.parse(localStorage.getItem('location')),
       nEvents: 20,
-      startdate: localStorage.getItem('searchStartDate'),
-      enddate: localStorage.getItem('searchEndDate'),
+      startdate: new Date(localStorage.getItem('searchStartDate')),
+      enddate: new Date(localStorage.getItem('searchEndDate')),
       eventtype: eventTypes[localStorage.getItem('searchtype')]
     }, { crossdomain: true })
       if (res && res.status === 200) {
@@ -57,27 +57,35 @@ export async function retrieveListings() {
 }
 
 
-export default function Listings({ setFeaturedPosts }) {
+export default function Listings({ selectedMarker, selectedStartDate, selectedEndDate, eventType }) {
   const [listings, setListings] = useState(null);
-  const [likedListings, setLikedListings] = useState({});
+
+  const boxRef = React.useRef(null)
 
   useEffect(() => {
     async function fetchData() {
       const data = await retrieveListings();
       setListings(data);
     }
-
     fetchData();
-  }, []);
+  }, [selectedStartDate, selectedEndDate, eventType]);
+
+  useEffect(() => {
+    if (selectedMarker != null){
+      const scrollP = selectedMarker * 300
+      boxRef.current.scrollTop = scrollP
+    }
+  }, [selectedMarker])
 
   return (
-    <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px' }}>
+    <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px' }} ref={boxRef}>
       {listings &&
         listings.map((listing, index) => {
           return(
           <ListingComponent listing = {listing} isLiked = {listing.likes.includes(localStorage.getItem("userID"))}/>
-          )
-        })}
+          ) 
+        })
+      }
     </Box>
   );
 }

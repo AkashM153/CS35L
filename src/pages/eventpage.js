@@ -100,7 +100,11 @@ export default function Checkout() {
     }, { crossdomain: true })
     .then((res) => {
       if (res.status == 200){
-        window.location.assign("/home");
+        localStorage.setItem('organization', '')
+        localStorage.setItem('eventName', '')
+        localStorage.setItem('description', '')
+        localStorage.setItem('eventtype', '')
+        window.location.assign("/home")
         alert("Event Successfully Uploaded");
       }
       if (res.status == 201){

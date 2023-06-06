@@ -19,36 +19,10 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import stringAvatar from './stringAvatar';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Navigate } from 'react-router-dom';
+import PeopleIcon from '@mui/icons-material/People';
 import dayjs from 'dayjs';
 import FilterBar from './filterbar'; // Import the FilterBar component
 import DateFilter from './datepicker'; //Import the Date Picker component
-/*
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-*/
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
@@ -64,7 +38,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar({ onDateChange, onEventChange }) {
   const location = useLocation();
 
   const isHomeScreen = location.pathname === '/home';
@@ -124,6 +98,8 @@ export default function PrimarySearchAppBar() {
     handleMenuClose();
     localStorage.setItem('userId', '')
     localStorage.setItem('name', '')
+    localStorage.setItem("searchStartDate", '')
+    localStorage.setItem("searchEndDate", '')
   }
   
   if (!localStorage.getItem('name')){
@@ -147,7 +123,6 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}><AccountCircle style={{margin: '10px'}}/>My Profile</MenuItem>
       <MenuItem style={{color: 'red'}}onClick={handleLogout}><LogoutIcon style={{margin: '10px'}}/>Logout</MenuItem>
     </Menu>
   );
@@ -192,18 +167,9 @@ export default function PrimarySearchAppBar() {
           size="large"
           color="inherit"
         >
-          <PersonIcon />
+          <PeopleIcon />
         </IconButton>
-        <p>Friend</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
+        <p>Friends</p>
       </MenuItem>
     </Menu>
   );
@@ -228,9 +194,9 @@ export default function PrimarySearchAppBar() {
           
           {isHomeScreen && (
            <div style={{ display: 'flex', alignItems: 'center' }}>
-           <FilterBar />
+           <FilterBar onEventChange={onEventChange}/>
            <div style={{ marginLeft: '20px' }}></div>
-           <DateFilter />
+           <DateFilter onDateChange={onDateChange}/>
           </div>
           )}
 
@@ -267,7 +233,10 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               {avContent}
+              <Typography variant="body1" sx={{ margin: '5px' }}> {localStorage.getItem('name')}</Typography>
             </IconButton>
+            <Box>
+            </Box>
           </Box>
           {<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -288,14 +257,4 @@ export default function PrimarySearchAppBar() {
     </Box>
   );
 }
-
-/*<Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search for event..."
-              inputProps={{ 'aria-label': 'Search for event...' }}
-            />
-          </Search>*/
           

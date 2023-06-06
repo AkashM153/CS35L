@@ -9,7 +9,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Button, Typography } from '@mui/material';
 
 
-export default function FilterBar(){
+export default function FilterBar({ onEventChange }){
     const eventTypes = [
         'All Events',
         'Cultural Performance',
@@ -29,8 +29,8 @@ export default function FilterBar(){
     const handleTypeItemClick = (event, index) => {
         setSelectedType(index);
         localStorage.setItem('searchtype', index);
+        onEventChange(index)
         setTypeAnchorEl(null);
-        window.location.reload();
     }
     const handleTypeClick = (event) => {
         setTypeAnchorEl(event.currentTarget);
