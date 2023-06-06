@@ -88,7 +88,7 @@ export default function FriendPage() {
           <Typography component="h1" variant="h4" align="center">
             Add/Remove Friends
           </Typography>
-            <Grid container spacing={5} >
+            <Grid container spacing={2} justifyContent="center">
                 <Grid item xs={12} sm={6} >
                     <TextField
                         required
@@ -113,7 +113,7 @@ export default function FriendPage() {
                         onChange={handleFieldChange}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} >
+                <Grid item xs={12} sm={6} style={{ display: 'flex', justifyContent: 'center' }}>
                     <Button
                         variant="contained"
                         onClick={handleSearch}

@@ -89,9 +89,9 @@ class ListingComponent extends Component {
             <Grid container spacing={2}>
               <Grid item xs={12}>
               <div className="title-likes-container" >
-                <Typography variant="h5"style={{ fontFamily: 'Cinzel, serif', fontSize: '26px', color: 'navy' }}>{listing.title}</Typography>
+                <Typography variant="h5"style={{ fontFamily: 'Lato, sans-serif', fontSize: '26px', color: 'navy' }}>{listing.title}</Typography>
                   <div className="likes-count">
-                    <Typography variant="body3" style={{ fontFamily: 'Allegro, serif' }}>{count}</Typography>
+                    <Typography variant="body3" >{count}</Typography>
                   </div>
                     <IconButton
                       size="large"
@@ -113,17 +113,17 @@ class ListingComponent extends Component {
                 </div>
               </Grid>
               <Grid item xs={6}>
-                <Typography variant="body3" style={{ fontFamily: 'Allegro, serif' }}> {'\u00A0\u00A0'}{listing.orgname}</Typography>
+                <Typography variant="body3" > {'\u00A0\u00A0'}{listing.orgname}</Typography>
               </Grid>
               <Grid item xs={6} container justifyContent="flex-end">
-                <Typography variant="body3" style={{ marginRight: '10px', fontFamily: 'Allegro, serif'}}>{dayjs(listing.startDate).format('M/D/YY')}</Typography>
-                <Typography variant="body3" style={{ fontFamily: 'Allegro, serif' }}>{dayjs(listing.startDate).format('h:mm A')}</Typography>
-                <Typography variant="body3" style={{ margin: '0 5px', fontFamily: 'Allegro, serif' }}>-</Typography>
-                <Typography variant="body3" style={{ fontFamily: 'Allegro, serif' }}>{dayjs(listing.endDate).format('h:mm A')}</Typography>
+                <Typography variant="body3" style={{ marginRight: '10px'}}>{dayjs(listing.startDate).format('M/D/YY')}</Typography>
+                <Typography variant="body3" >{dayjs(listing.startDate).format('h:mm A')}</Typography>
+                <Typography variant="body3" style={{ margin: '0 5px' }}>-</Typography>
+                <Typography variant="body3" >{dayjs(listing.endDate).format('h:mm A')}</Typography>
               </Grid>
               <Grid item xs={12}>
                 <Box border={1} borderColor="goldenrod" p={1}>
-                  <Typography variant="body1" style={{ fontFamily: 'Allegro, serif' }}>{listing.description}</Typography>
+                  <Typography variant="body1" style={{ fontFamily: 'Montserrat, sans-serif' }}>{listing.description}</Typography>
                 </Box>
               </Grid>
               <Grid item xs={12}>
