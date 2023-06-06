@@ -6,6 +6,8 @@ import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import { Box, Button, Container, Typography, Paper, Grid, Divider, IconButton } from '@mui/material';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import 'dayjs/locale/en';
 import './styles.css';
 
@@ -86,10 +88,10 @@ class ListingComponent extends Component {
           <Paper elevation={4} style={{ width: '95%', height: 'auto', marginBottom: '10px', padding: '10px', border: '4px solid goldenrod'}}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <div className="title-likes-container">
+              <div className="title-likes-container" >
                 <Typography variant="h5"style={{ fontFamily: 'Cinzel, serif', fontSize: '26px', color: 'navy' }}>{listing.title}</Typography>
                   <div className="likes-count">
-                    <Typography variant="body1" style={{ fontFamily: 'Allegro, serif' }}>{count}</Typography>
+                    <Typography variant="body3" style={{ fontFamily: 'Allegro, serif' }}>{count}</Typography>
                   </div>
                     <IconButton
                       size="large"
@@ -103,9 +105,9 @@ class ListingComponent extends Component {
                       }}
                    >
                       {isLiked ? (
-                        <CheckBoxIcon style={{ color: 'green', fontSize: '32px' }} />
+                        <FavoriteIcon style={{ color: 'crimson', fontSize: '32px' }} />
                       ) : (
-                        <CheckBoxOutlinedIcon style={{ color: 'gray', fontSize: '32px' }} />
+                        <FavoriteBorderIcon style={{ color: 'gray', fontSize: '32px' }} />
                       )}
                     </IconButton>
                 </div>
