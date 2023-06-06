@@ -44,6 +44,18 @@ async function findUserFromEmail(email){
   return null;
 }
 
+async function findUserFromName(firstName,lastName){
+  try {
+    const user = await User.findOne({firstName: firstName, lastName: lastName});
+    if (user){
+      return user;
+    }
+  }
+  catch {
+    console.log("User search failure :(")
+  }
+  return null;
+}
 
 async function matchEmailPassword(email, password) {
   try {
@@ -187,6 +199,7 @@ function gracefulExit(){
 module.exports = {
   newUser,
   findUserFromEmail,
+  findUserFromName,
   matchEmailPassword,
   addEvent,
   getEventOrgTitle,
