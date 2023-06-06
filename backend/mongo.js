@@ -174,6 +174,23 @@ async function getEvents(input, friendsList){
       }
     ]).exec();
 
+    for (const event of results){
+      const names = []
+      for (const friendID of event.friendLikes){
+        const friend = await User.findById(friendID).exec()
+        if (friend){
+          names.push(friend.firstName + " " + friend.lastName)
+        }
+      }
+      if (names.length > 0){
+        const j = Math.floor(Math.random() * names.length)
+        const temp = names[j]
+        names[j] = names[0]
+        names[0] = temp
+      }
+      event.friendLikesNames = names
+    }
+
     return results;
   }
   catch (err){
@@ -242,6 +259,7 @@ async function listFriends(userID){
     return null;
   }
 }
+
 
 process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
 

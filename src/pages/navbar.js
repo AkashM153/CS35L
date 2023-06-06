@@ -16,7 +16,7 @@ import AddIcon from '@mui/icons-material/Add';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import stringAvatar from './stringAvatar';
+import { stringAvatar } from './stringAvatar';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Navigate } from 'react-router-dom';
 import PeopleIcon from '@mui/icons-material/People';
@@ -230,7 +230,7 @@ export default function PrimarySearchAppBar({ onDateChange, onEventChange }) {
               color="inherit"
               onClick={handleFriendClick}
             >
-              <PersonIcon />
+              <PeopleIcon />
             </IconButton>
             <IconButton
               size="large"

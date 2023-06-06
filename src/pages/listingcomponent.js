@@ -7,6 +7,7 @@ import { Box, Button, Container, Typography, Paper, Grid, Divider, IconButton } 
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import LikesDisplay from './likesdisplay'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import 'dayjs/locale/en';
 import './styles.css';
@@ -90,6 +91,8 @@ class ListingComponent extends Component {
               <Grid item xs={12}>
               <div className="title-likes-container" >
                 <Typography variant="h5"style={{ fontFamily: 'Lato, sans-serif', fontSize: '26px', color: 'navy' }}>{listing.title}</Typography>
+                {/* Imported below is code for friends who liked this event, plz format if u can tysm! */}
+                <LikesDisplay friendLikesNames={listing.friendLikesNames} friendLikesCount={listing.friendLikesSize}/>
                   <div className="likes-count">
                     <Typography variant="body3" >{count}</Typography>
                   </div>

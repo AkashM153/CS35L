@@ -7,7 +7,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import stringAvatar from './stringAvatar';
+import { stringAvatar } from './stringAvatar';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import Button from '@mui/material/Button';

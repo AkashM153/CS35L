@@ -22,7 +22,7 @@ function stringToColor(string) {
     return color;
   }
   
-  function stringAvatar(name) {
+  export function stringAvatar(name) {
     return {
       sx: {
         bgcolor: stringToColor(name),
@@ -31,5 +31,16 @@ function stringToColor(string) {
     };
   }
 
-  export default stringAvatar;
+  export function smallStringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+        width: 30,
+        height: 30
+      },
+      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    };
+  }
+
+
   
