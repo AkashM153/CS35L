@@ -11,6 +11,8 @@ import Box from '@mui/material/Box';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 
+import FriendComponent from './friendcomponent';
+
 const defaultTheme = createTheme();
 
 export default function FriendPage() {
@@ -28,9 +30,8 @@ export default function FriendPage() {
         }, { crossdomain: true })
         .then((res) => {
             if (res.status == 200){
-              setSearched(true);
               setFriendObject(res.data);
-              alert("Found User"); 
+              setSearched(true); 
             }
             if (res.status == 203){
               alert("Could not find User"); 
@@ -41,25 +42,24 @@ export default function FriendPage() {
         })
     };
 
-    const handleAddFriend = () => {
-        axios.post('http://localhost:5000/addfriend', {
-          userID: localStorage.getItem('userID'),
-          friendUserID: friendObject._id
-        }, { crossdomain: true })
-        .then((res) => {
-            if (res.status == 200){
-              setSearched(true);
-              setFriendObject(res.data);
-              alert("Added User"); 
-            }
-            if (res.status == 203){
-              alert("Could not add User"); 
-            }
-        })
-        .catch((err) => {
-            alert("Could not add User, err: ", err);
-        })
-    }
+    /* For now, this is unncessary, as adding friends is handled in friendcomponent */
+    // const handleAddFriend = () => {
+    //     axios.post('http://localhost:5000/addfriend', {
+    //       userID: localStorage.getItem('userID'),
+    //       friendUserID: friendObject._id
+    //     }, { crossdomain: true })
+    //     .then((res) => {
+    //         if (res.status == 200){
+    //           alert("Added User"); 
+    //         }
+    //         if (res.status == 203){
+    //           alert("Could not add User"); 
+    //         }
+    //     })
+    //     .catch((err) => {
+    //         alert("Could not add User, err: ", err);
+    //     })
+    // }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -105,7 +105,7 @@ export default function FriendPage() {
                     Search Friends
                     </Button>
                 </Grid>
-                <Grid item xs={12} sm={6} >
+                {/* <Grid item xs={12} sm={6} >
                     <Button
                         variant="contained"
                         onClick={handleAddFriend}
@@ -113,7 +113,12 @@ export default function FriendPage() {
                     >
                     Add Friend
                     </Button>
-                </Grid>
+                </Grid> */}
+                <>{searched && friendObject !== null ? (
+                    <FriendComponent
+                        friendUser={friendObject}
+                    />
+                ) : <> </> }</>
             </Grid>
           </React.Fragment>
         </Paper>

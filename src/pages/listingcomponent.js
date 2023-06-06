@@ -126,9 +126,9 @@ class ListingComponent extends Component {
               </Grid>
               <Grid item xs={12}>
               </Grid>
-              <Grid item xs={12}>
+              {/*<Grid item xs={12}>
                 <img src={listing.image} alt="Listing Image" style={{ width: '100%' }} />
-              </Grid>
+              </Grid>*/}
             </Grid>
           </Paper>
           <Divider />
