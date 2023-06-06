@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { ObjectId } = require('mongodb');
-const { newUser, findUserFromEmail, findUserFromName, matchEmailPassword, addEvent, getEventOrgTitle, getEvents, addLike, unLike } = require("./mongo");
+const { newUser, findUserFromEmail, findUserFromName, matchEmailPassword, addEvent, getEventOrgTitle, getEvents, addLike, unLike, addFriend, removeFriend } = require("./mongo");
 
 const whitelist = ["http://localhost:3000"]
 const corsOptions = {
@@ -158,7 +158,7 @@ app.post('/getevents', async (req, res) => {
   }
 })
 
-app.post('/friends', async (req, res) => {
+app.post('/searchforfriends', async (req, res) => {
   const userData = req.body;
   console.log('Received input: ', userData);
   try{
@@ -173,5 +173,43 @@ app.post('/friends', async (req, res) => {
   }
   catch (err){
     res.status(203).json({message: "Failed to retrieve user, err: ", err})
+  }
+})
+
+app.post('/addfriend', async(req, res) => {
+  const userID = req.body.userID;
+  const friendUserID = req.body.friendUserID;
+  console.log('Received user and friend to add: ', userID, friendUserID)
+  try{
+    const nUser = await addFriend(userID, friendUserID)
+    if (nUser){
+      console.log("Added friend for user", nUser)
+      res.status(200).json(nUser)
+    }
+    else {
+      res.status(203).json({message: "Couldn't add friend"})
+    }
+  }
+  catch (err){
+    res.status(203).json({message: "Failed to add friend, err: ", err})
+  }
+})
+
+app.post('/removefriend', async(req, res) => {
+  const userID = req.body.userID;
+  const friendUserID = req.body.friendUserID;
+  console.log('Received user and friend to remove: ', userID, friendUserID)
+  try{
+    const nUser = await removeFriend(userID, friendUserID)
+    if (nUser){
+      console.log("Removed friend for user", nUser)
+      res.status(200).json(nUser)
+    }
+    else {
+      res.status(203).json({message: "Couldn't remove friend"})
+    }
+  }
+  catch (err){
+    res.status(203).json({message: "Failed to remove friend, err: ", err})
   }
 })
