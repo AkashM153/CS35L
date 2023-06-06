@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
@@ -14,18 +14,23 @@ import Button from '@mui/material/Button';
 const defaultTheme = createTheme();
 
 export default function FriendPage() {
+    const [searched, setSearched] = useState(false);
+    const [friendObject, setFriendObject] = useState(null);
+
     const handleFieldChange = (event) => {
         localStorage.setItem(event.target.id, event.target.value)
     }
 
-    const handleSubmit = () => {
-        axios.post('http://localhost:5000/friends', {
+    const handleSearch = () => {
+        axios.post('http://localhost:5000/searchforfriends', {
           firstName: localStorage.getItem('friendFirstName'),
           lastName: localStorage.getItem('friendLastName')
         }, { crossdomain: true })
         .then((res) => {
             if (res.status == 200){
-              alert("Found User");
+              setSearched(true);
+              setFriendObject(res.data);
+              alert("Found User"); 
             }
             if (res.status == 203){
               alert("Could not find User"); 
@@ -35,6 +40,26 @@ export default function FriendPage() {
             alert("Could not find User, err: ", err);
         })
     };
+
+    const handleAddFriend = () => {
+        axios.post('http://localhost:5000/addfriend', {
+          userID: localStorage.getItem('userID'),
+          friendUserID: friendObject._id
+        }, { crossdomain: true })
+        .then((res) => {
+            if (res.status == 200){
+              setSearched(true);
+              setFriendObject(res.data);
+              alert("Added User"); 
+            }
+            if (res.status == 203){
+              alert("Could not add User"); 
+            }
+        })
+        .catch((err) => {
+            alert("Could not add User, err: ", err);
+        })
+    }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -74,10 +99,19 @@ export default function FriendPage() {
                 <Grid item xs={12} sm={6} >
                     <Button
                         variant="contained"
-                        onClick={handleSubmit}
+                        onClick={handleSearch}
                         sx={{ mt: 3, ml: 1 }}
                     >
                     Search Friends
+                    </Button>
+                </Grid>
+                <Grid item xs={12} sm={6} >
+                    <Button
+                        variant="contained"
+                        onClick={handleAddFriend}
+                        sx={{ mt: 3, ml: 1 }}
+                    >
+                    Add Friend
                     </Button>
                 </Grid>
             </Grid>

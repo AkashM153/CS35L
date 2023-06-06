@@ -196,6 +196,30 @@ async function unLike(userID, eventID){
   }
 }
 
+async function addFriend(userID, friendUserID){
+  try {
+    const user = await User.findById(userID).exec()
+    if (!user.friends.includes(friendUserID)){
+      user.friends.push(friendUserID);
+      user.save();
+    }
+    return user
+  }
+  catch {
+    return null
+  }
+}
+
+async function removeFriend(userID, friendUserID){
+  try {
+    const result = await User.findByIdAndUpdate(userID, { $pull: {friends: friendUserID}}, {new: true})
+    return result
+  }
+  catch {
+    return null
+  }
+}
+
 process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
 
 function gracefulExit(){
@@ -218,6 +242,8 @@ module.exports = {
   getEventOrgTitle,
   getEvents,
   addLike,
-  unLike
+  unLike,
+  addFriend,
+  removeFriend
 };
 
