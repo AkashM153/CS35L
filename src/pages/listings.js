@@ -42,7 +42,8 @@ export async function retrieveListings() {
       nEvents: 20,
       startdate: new Date(localStorage.getItem('searchStartDate')),
       enddate: new Date(localStorage.getItem('searchEndDate')),
-      eventtype: eventTypes[localStorage.getItem('searchtype')]
+      eventtype: eventTypes[localStorage.getItem('searchtype')],
+      userID: localStorage.getItem('userID')
     }, { crossdomain: true })
       if (res && res.status === 200) {
         const newLocArray = res.data.map((listing) => listing.location.coordinates);

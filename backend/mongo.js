@@ -117,7 +117,7 @@ async function getEventOrgTitle(iorgname, ititle){
   return fEvent;
 }
 
-async function getEvents(input){
+async function getEvents(input, friendsList){
   try{
     const matchStage = input.eventtype === "All Events" ? {} :  {
       eventtype: input.eventtype
@@ -147,6 +147,16 @@ async function getEvents(input){
             $gte: new Date(input.startdate),
             $lte: new Date(input.enddate)
           }
+        }
+      },
+      {
+        $addFields: {
+          friendLikes: { $setIntersection: ["$likes", friendsList]}
+        }
+      },
+      {
+        $addFields: {
+          friendLikesSize: {$size: "$friendLikes"}
         }
       },
       {
@@ -220,6 +230,19 @@ async function removeFriend(userID, friendUserID){
   }
 }
 
+async function listFriends(userID){
+  try{
+    const user = await User.findById(userID).exec()
+    const friendslist = user.friends
+    const listFriends = await User.find({_id: { $in: friendslist}})
+    return listFriends
+  }
+  catch (err) {
+    console.log("listFriends error: ", err)
+    return null;
+  }
+}
+
 process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
 
 function gracefulExit(){
@@ -244,6 +267,7 @@ module.exports = {
   addLike,
   unLike,
   addFriend,
-  removeFriend
+  removeFriend,
+  listFriends
 };
 

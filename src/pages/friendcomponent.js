@@ -4,9 +4,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import PrimarySearchAppBar from './navbar';
+import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import stringAvatar from './stringAvatar';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import Button from '@mui/material/Button';
@@ -33,9 +34,10 @@ class FriendComponent extends Component {
         .then((res) => {
             if (res.status == 200){
               alert("Added User"); 
+              this.props.onPress()
             }
             if (res.status == 203){
-              alert("Could not add User"); 
+              alert(res.data.message); 
             }
         })
         .catch((err) => {
@@ -52,9 +54,10 @@ class FriendComponent extends Component {
         .then((res) => {
             if (res.status == 200){
               alert("Removed User"); 
+              this.props.onPress()
             }
             if (res.status == 203){
-              alert("Could not remove User"); 
+              alert(res.data.message); 
             }
         })
         .catch((err) => {
@@ -65,14 +68,18 @@ class FriendComponent extends Component {
     render() {
 
         const {friendUser} = this.props;
+        const {buttons} = this.props;
 
         return (
             <ThemeProvider theme={defaultTheme}>
               <Container component="main" maxWidth="sm" sx={{ mb: 4 }} >
-                <Paper variant="outlined" sx={{ my: { xs: 10, md: 10 }, p: { xs: 2, md: 3 } }}>
+                <Paper variant="outlined" sx={{ my: { xs: 10, md: 10 }, p: { xs: 2, md: 3 } }} elevation={3}>
                   <React.Fragment>
                     <Box container spacing={5} >
+                      <Avatar {...stringAvatar(friendUser.firstName + " " + friendUser.lastName)}/>
                         {friendUser.firstName + " " + friendUser.lastName + ": " + friendUser.email}
+                        { buttons ? (
+                        <React.Fragment>
                         <IconButton
                             size="large"
                             color="inherit"
@@ -87,6 +94,7 @@ class FriendComponent extends Component {
                         >
                         <RemoveIcon />
                         </IconButton>
+                        </React.Fragment>) : <></>}
                     </Box>
                   </React.Fragment>
                 </Paper>
@@ -95,6 +103,11 @@ class FriendComponent extends Component {
             </ThemeProvider>
           );
     }
+}
+
+FriendComponent.defaultProps = {
+  buttons: true,
+  onPress: ()=>{}
 }
 
 export default FriendComponent

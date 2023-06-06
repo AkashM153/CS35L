@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { ObjectId } = require('mongodb');
-const { newUser, findUserFromEmail, findUserFromName, matchEmailPassword, addEvent, getEventOrgTitle, getEvents, addLike, unLike, addFriend, removeFriend } = require("./mongo");
+const { newUser, findUserFromEmail, findUserFromName, matchEmailPassword, addEvent, getEventOrgTitle, getEvents, addLike, unLike, addFriend, removeFriend, listFriends} = require("./mongo");
 
 const whitelist = ["http://localhost:3000"]
 const corsOptions = {
@@ -143,8 +143,9 @@ app.post('/getevents', async (req, res) => {
   const data = req.body;
   console.log('Received input: ', data);
   try{
-    let eventlist = null;
-    eventlist = await getEvents(data);
+    const friends = await listFriends(data.userID)
+    const friendsList = friends.map(user => user._id.toString())
+    const eventlist = await getEvents(data, friendsList);
     if (!eventlist){
       res.status(203).json({message: "Failure to retrieve events"})
     }
@@ -162,9 +163,12 @@ app.post('/searchforfriends', async (req, res) => {
   const userData = req.body;
   console.log('Received input: ', userData);
   try{
-    let searchUser = await findUserFromName(userData.firstName,userData.lastName);
+    const searchUser = await findUserFromName(userData.firstName,userData.lastName);
     if (!searchUser){
-      res.status(203).json({message: "Failure to retrieve user"})
+      res.status(203).json({message: "Could not find user"})
+    }
+    else if (searchUser._id.toString() == userData.userID){
+      res.status(203).json({message: "You cannot add yourself as a friend!"})
     }
     else {
       console.log("Retrieved user: ", searchUser)
@@ -181,13 +185,18 @@ app.post('/addfriend', async(req, res) => {
   const friendUserID = req.body.friendUserID;
   console.log('Received user and friend to add: ', userID, friendUserID)
   try{
+    const friends = await listFriends(userID)
+    const friendsList = friends.map(user => user._id.toString())
     const nUser = await addFriend(userID, friendUserID)
-    if (nUser){
+    if (friendsList.includes(friendUserID)){
+      res.status(203).json({message: "User already your friend"})
+    }
+    else if (nUser){
       console.log("Added friend for user", nUser)
       res.status(200).json(nUser)
     }
     else {
-      res.status(203).json({message: "Couldn't add friend"})
+      res.status(203).json({message: "Couldn't find friend"})
     }
   }
   catch (err){
@@ -200,16 +209,33 @@ app.post('/removefriend', async(req, res) => {
   const friendUserID = req.body.friendUserID;
   console.log('Received user and friend to remove: ', userID, friendUserID)
   try{
+    const friends = await listFriends(userID)
+    const friendsList = friends.map(user => user._id.toString())
     const nUser = await removeFriend(userID, friendUserID)
-    if (nUser){
+    if (!friendsList.includes(friendUserID)){
+      res.status(203).json({message: "User is not currently your friend"})
+    }
+    else if (nUser){
       console.log("Removed friend for user", nUser)
       res.status(200).json(nUser)
     }
     else {
-      res.status(203).json({message: "Couldn't remove friend"})
+      res.status(203).json({message: "Couldn't find friend"})
     }
   }
   catch (err){
     res.status(203).json({message: "Failed to remove friend, err: ", err})
+  }
+})
+
+app.post('/listfriends', async(req, res) => {
+  const userID = req.body.userID;
+  console.log('Received friends list request')
+  try {
+    const friends = await listFriends(userID)
+    res.status(200).json(friends)
+  }
+  catch (err){
+    res.status(203).json({message: "Failed to retrieve friends, err: ", err})
   }
 })
