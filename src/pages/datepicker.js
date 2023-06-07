@@ -110,6 +110,9 @@ export default function DateFilter({ onDateChange }){
                       '&:hover fieldset': {
                         borderColor: 'white',
                       },
+                      '&.Mui-focused fieldset': {
+                        borderColor: 'white',
+                      },
                       '& .MuiFormHelperText-root': {
                         color: 'white',
                       },
