@@ -131,9 +131,6 @@ export default function EventPage1() {
           </LocalizationProvider>
         </Grid>
 
-        <Grid item xs={12} sm={5} container alignItems="flex-start" justifyContent="flex-end" sx={{ marginTop: '7px' }}>
-         <AutocompleteLocation />
-        </Grid>
       </Grid>
     </React.Fragment>
   );
