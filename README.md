@@ -5,8 +5,12 @@ Submitted for CS35L Project
 ## Getting Started with Create React App
 
 To start:
-node server.js within backend
-npm start within the app itself
+open 2 terminal windows
+on one type the following:
+  cd backend
+  node server.js
+on another terminal type: 
+  npm start
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
