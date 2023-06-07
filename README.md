@@ -7,7 +7,7 @@ Submitted for CS35L Project
 To start:
 open 2 terminal windows \
 on one type: \
-cd backend \ 
+cd backend\ 
 node server.js\
 on another terminal type:\
 npm start \
