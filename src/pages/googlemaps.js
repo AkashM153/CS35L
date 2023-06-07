@@ -24,6 +24,7 @@ function MapsComponent({ toUpdate, onMarkerSelect, selectedMarker }) {
   //const [selectedMarker, setSelectedMarker] = useState(null);
   const [listings, setListings] = useState([]);
   const [hasData, setHasData] = useState(false);
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -61,7 +62,7 @@ function MapsComponent({ toUpdate, onMarkerSelect, selectedMarker }) {
   };
 
   const renderMarkerIcon = (index) => {
-    if (selectedMarker !== null && selectedMarker=== index) {
+    if (selectedMarker !== null && selectedMarker === index) {
       return window.google.maps.Animation.BOUNCE;
     } else {
       return
@@ -72,17 +73,16 @@ function MapsComponent({ toUpdate, onMarkerSelect, selectedMarker }) {
     <>
       {hasData ? (
         <LoadScript googleMapsApiKey="AIzaSyB99JZitN5Z-9NqEcG-iSxxNyE28aDYCIE">
-          <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
+          <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15} >
             {markers.map((marker, index) => (
               <Marker
                 key={marker.key}
                 position={marker.position}
-                //icon={renderMarkerIcon(index)} // Use the icon property with a custom icon based on the selected state
                 onClick={() => handleMarkerClick(marker, index)}
                 animation={renderMarkerIcon(index)}
               >
                 {selectedMarker !== null && selectedMarker === index && (
-                  <InfoWindowF onCloseClick={handleInfoWindowClose}>
+                  <InfoWindowF onCloseClick={handleInfoWindowClose} position={marker.position}>
                     <div>
                       <h3>{listings[selectedMarker]?.title}</h3>
                       <h4>{listings[selectedMarker]?.locNameandRoom}</h4>
