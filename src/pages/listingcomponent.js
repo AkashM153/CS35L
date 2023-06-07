@@ -22,7 +22,8 @@ class ListingComponent extends Component {
         super(props);
         this.state = {
             isLiked: false,
-            count: 0
+            count: 0,
+            hovering: false
         }
     }
 
@@ -97,12 +98,11 @@ class ListingComponent extends Component {
       }
       const combinedStyle = { ...predefinedStyle, ...highlightStyle}
       
-      //onMouseEnter={()=>{setSelectedEvent(index)}} onMouseLeave={setSelectedEvent(null)}>
       return (
-        <div>
+        <div onMouseEnter={()=>{setSelectedEvent(index)}} onMouseLeave={() => {setSelectedEvent(null)}}>
           <Paper elevation={4} style={combinedStyle}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={12}> 
               <div className="title-likes-container" >
                 <Typography variant="h5"style={{ fontFamily: 'Lato, sans-serif', fontSize: '26px', color: 'navy' }}>{listing.title}</Typography>
                 {/* Imported below is code for friends who liked this event, plz format if u can tysm! */}

@@ -22,8 +22,6 @@ export default function HomePage() {
     });
   }, []);
 
-  const [featuredPosts, setFeaturedPosts] = useState([]);
-  const [imageURL, setImageURL] = useState(null);
   const [selectedStartDate, setSelectedStartDate] = useState(null)
   const [selectedEndDate, setSelectedEndDate] = useState(null)
   const [eventType, setEventType] = useState(null)
@@ -31,6 +29,7 @@ export default function HomePage() {
   const [selectedMarker, setSelectedMarker] = useState(null)
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [selected, setSelected] = useState(null)
+  const [scroll, setScroll] = useState(null)
 
   useEffect(()=>{
     setSelected(selectedMarker)
@@ -38,8 +37,8 @@ export default function HomePage() {
 
   useEffect(()=>{
     if (selectedMarker == null){
-      //alert('setting from listings: ', selectedEvent)
       setSelected(selectedEvent)
+      setScroll(selectedEvent)
     }
   }, [selectedEvent])
 
@@ -69,7 +68,7 @@ export default function HomePage() {
         </Grid>
         <Grid item md={5}>
           <Box display="flex" flexDirection="column" height="100%">
-            <Listings selected={selected} setSelectedEvent={setSelectedEvent} selectedStartDate={selectedStartDate} selectedEndDate={selectedEndDate} eventType={eventType}/>
+            <Listings selected={selected} setSelectedEvent={setSelectedEvent} selectedStartDate={selectedStartDate} selectedEndDate={selectedEndDate} eventType={eventType} scroll={scroll}/>
           </Box>
         </Grid>
       </Grid>
