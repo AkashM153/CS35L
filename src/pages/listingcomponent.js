@@ -11,6 +11,7 @@ import LikesDisplay from './likesdisplay'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import 'dayjs/locale/en';
 import './styles.css';
+import PlaceIcon from '@mui/icons-material/Place';
 
 dayjs.locale('en');
 const timezone = require('dayjs/plugin/timezone');
@@ -127,7 +128,17 @@ class ListingComponent extends Component {
               </Grid>
               <Grid item xs={6} alignContent='left'>
                 <Typography variant="body3" > {'\u00A0\u00A0'}{listing.orgname}</Typography>
-                <Typography variant="body2" >{'\u00A0\u00A0'}{listing.locNameandRoom}</Typography>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                {listing.locNameandRoom && (
+  <div style={{ display: 'flex', alignItems: 'center', marginTop: '7px' }}>
+    <PlaceIcon style={{ color: 'lightblue', fontSize: '20px', marginRight: '0px', marginLeft: '5px' }} />
+    <Typography variant="body2">{`\u00A0\u00A0${listing.locNameandRoom}`}</Typography>
+  </div>
+)}
+
+        </div>
+
+                
               </Grid>
               <Grid item xs={6} container justifyContent="flex-end">
                 <Typography variant="body3" style={{ marginRight: '10px'}}>{dayjs(listing.startDate).format('M/D/YY')}</Typography>
