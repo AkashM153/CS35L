@@ -18,6 +18,7 @@ const defaultTheme = createTheme();
 export default function FriendPage() {
     const [searched, setSearched] = useState(false);
     const [friendObject, setFriendObject] = useState(null);
+    const [searchedFriends, setSearchedFriends] = useState([]);
     const [friendsList, setFriendsList] = useState([]);
     const [changeCount, setChangeCount] = useState(0);
 
@@ -48,7 +49,7 @@ export default function FriendPage() {
         }, { crossdomain: true })
         .then((res) => {
             if (res.status == 200){
-              setFriendObject(res.data);
+              setSearchedFriends(res.data);
               setSearched(true); 
             }
             if (res.status == 203){
@@ -132,11 +133,16 @@ export default function FriendPage() {
                     </Button>
                 </Grid> */}
             </Grid>
-            <Grid>{searched && friendObject !== null ? (
-                    <FriendComponent
-                        friendUser={friendObject} buttons={true} onPress={addCount}
+            <Grid>
+              {searched && searchedFriends.length > 0 && 
+                searchedFriends.map((friend, index) => {
+                  return(
+                    <FriendComponent 
+                      friendUser = {friend} buttons={true} onPress={addCount}
                     />
-                ) : <> </> }</Grid>
+                  )
+                })}
+            </Grid>
         </Paper>
         <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px' }}>
           {friendsList &&
