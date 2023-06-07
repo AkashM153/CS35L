@@ -6,11 +6,8 @@ Submitted for CS35L Project
 
 To start:
 open 2 terminal windows
-on one type the following:
-  cd backend
-  node server.js
-on another terminal type: 
-  npm start
+on one type cd backend and then node server.js
+on another terminal type npm start
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
