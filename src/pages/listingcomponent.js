@@ -85,6 +85,8 @@ class ListingComponent extends Component {
       const { isLiked } = this.state;
       const { count } = this.state;
       const { highlight } = this.props;
+      const { setSelectedEvent } = this.props;
+      const { index } = this.props;
       const borderWidth = highlight ? 8 : 4
       const borderColor = highlight ? 'goldenrod' : 'lightblue'
       const highlightStyle = {
@@ -95,8 +97,9 @@ class ListingComponent extends Component {
       }
       const combinedStyle = { ...predefinedStyle, ...highlightStyle}
       
+      //onMouseEnter={()=>{setSelectedEvent(index)}} onMouseLeave={setSelectedEvent(null)}>
       return (
-        <React.Fragment key={listing._id}>
+        <div>
           <Paper elevation={4} style={combinedStyle}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -157,7 +160,7 @@ class ListingComponent extends Component {
             </Grid>
           </Paper>
           <Divider />
-        </React.Fragment>
+        </div>
       );
     }
       

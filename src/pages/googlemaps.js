@@ -19,9 +19,9 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function MapsComponent({ toUpdate, onMarkerSelect }) {
+function MapsComponent({ toUpdate, onMarkerSelect, selectedMarker }) {
   const [markers, setMarkers] = useState([]);
-  const [selectedMarker, setSelectedMarker] = useState(null);
+  //const [selectedMarker, setSelectedMarker] = useState(null);
   const [listings, setListings] = useState([]);
   const [hasData, setHasData] = useState(false);
 
@@ -53,39 +53,39 @@ function MapsComponent({ toUpdate, onMarkerSelect }) {
   }, [toUpdate]);
 
   const handleMarkerClick = (marker, index) => {
-    setSelectedMarker({ marker, index });
     onMarkerSelect(index);
   };
 
   const handleInfoWindowClose = () => {
-    setSelectedMarker(null);
     onMarkerSelect(null);
   };
 
   const renderMarkerIcon = (index) => {
-    if (selectedMarker !== null && selectedMarker.index === index) {
-      return { url: selectedMarkerIcon, scaledSize: new window.google.maps.Size(40, 40) };
+    if (selectedMarker !== null && selectedMarker=== index) {
+      return window.google.maps.Animation.BOUNCE;
     } else {
-      return { url: defaultMarkerIcon, scaledSize: new window.google.maps.Size(40, 40) };
+      return
     }
   };
 
   return (
     <>
       {hasData ? (
-        <LoadScript googleMapsApiKey="YOUR_API_KEY">
+        <LoadScript googleMapsApiKey="AIzaSyB99JZitN5Z-9NqEcG-iSxxNyE28aDYCIE">
           <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
             {markers.map((marker, index) => (
               <Marker
                 key={marker.key}
                 position={marker.position}
-                icon={renderMarkerIcon(index)} // Use the icon property with a custom icon based on the selected state
+                //icon={renderMarkerIcon(index)} // Use the icon property with a custom icon based on the selected state
                 onClick={() => handleMarkerClick(marker, index)}
+                animation={renderMarkerIcon(index)}
               >
-                {selectedMarker !== null && selectedMarker.index === index && (
+                {selectedMarker !== null && selectedMarker === index && (
                   <InfoWindowF onCloseClick={handleInfoWindowClose}>
                     <div>
-                      <h3>{listings[selectedMarker.index]?.title}</h3>
+                      <h3>{listings[selectedMarker]?.title}</h3>
+                      <h4>{listings[selectedMarker]?.locNameandRoom}</h4>
                     </div>
                   </InfoWindowF>
                 )}
