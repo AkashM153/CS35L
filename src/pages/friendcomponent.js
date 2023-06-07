@@ -69,39 +69,58 @@ class FriendComponent extends Component {
 
         const {friendUser} = this.props;
         const {buttons} = this.props;
-
         return (
-            <ThemeProvider theme={defaultTheme}>
-              <Container component="main" maxWidth="sm" sx={{ mb: 4 }} >
-                <Paper variant="outlined" sx={{ my: { xs: 10, md: 10 }, p: { xs: 2, md: 3 } }} elevation={3}>
-                  <React.Fragment>
-                    <Box container spacing={5} >
-                      <Avatar {...stringAvatar(friendUser.firstName + " " + friendUser.lastName)}/>
-                        {friendUser.firstName + " " + friendUser.lastName + ": " + friendUser.email}
-                        { buttons ? (
-                        <React.Fragment>
-                        <IconButton
-                            size="large"
-                            color="inherit"
-                            onClick={this.handleAddFriend}
-                        >
+          <ThemeProvider theme={defaultTheme}>
+            <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+              <Paper
+                variant="outlined"
+                sx={{
+                  width: 500,
+                  my: { xs: 5, md: 5 },
+                  p: { xs: 2, md: 2 },
+                  marginLeft: "-25px",
+                  border: '1px solid goldenrod',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+                elevation={3}
+              >
+                <React.Fragment>
+                  <Box>
+                    <Typography variant="h6" color="#0047AB">
+                      {friendUser.firstName} {friendUser.lastName}
+                    </Typography>
+                    {/* Render other friend information here */}
+                    <Typography variant="body1">
+                      Email: {friendUser.email}
+                    </Typography>
+                    {/* Add more friend information as needed */}
+                  </Box>
+                  {buttons ? (
+                    <React.Fragment>
+                      <IconButton
+                        size="large"
+                        color="inherit"
+                        onClick={this.handleAddFriend}
+                        sx={{ marginRight: '-180px' }} // Adjust the margin-right value
+                      >
                         <AddIcon />
-                        </IconButton>
-                        <IconButton
-                            size="large"
-                            color="inherit"
-                            onClick={this.handleRemoveFriend}
-                        >
+                      </IconButton>
+                      <IconButton
+                        size="large"
+                        color="inherit"
+                        onClick={this.handleRemoveFriend}
+                      >
                         <RemoveIcon />
-                        </IconButton>
-                        </React.Fragment>) : <></>}
-                    </Box>
-                  </React.Fragment>
-                </Paper>
-              </Container>
-              
-            </ThemeProvider>
-          );
+                      </IconButton>
+                    </React.Fragment>
+                  ) : <></>}
+                </React.Fragment>
+              </Paper>
+            </Container>
+          </ThemeProvider>
+        );        
     }
 }
 
