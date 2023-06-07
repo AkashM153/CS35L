@@ -35,8 +35,8 @@ function stringToColor(string) {
     return {
       sx: {
         bgcolor: stringToColor(name),
-        width: 30,
-        height: 30
+        width: 34,
+        height: 34
       },
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };

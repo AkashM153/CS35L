@@ -86,7 +86,6 @@ function MapsComponent({ toUpdate, onMarkerSelect }) {
                   <InfoWindowF onCloseClick={handleInfoWindowClose}>
                     <div>
                       <h3>{listings[selectedMarker.index]?.title}</h3>
-                      <p>{listings[selectedMarker.index]?.description}</p>
                     </div>
                   </InfoWindowF>
                 )}

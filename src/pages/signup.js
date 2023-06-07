@@ -71,7 +71,7 @@ export default function SignUp() {
         alert("Please fill out all fields")
       }
       if (res.status == 201){
-        localStorage.setItem('userId', res.data.id)
+        localStorage.setItem('userID', res.data.id)
         localStorage.setItem('name', res.data.name)
         localStorage.setItem("searchStartDate", dayjs().toString())
         localStorage.setItem("searchEndDate", dayjs().endOf('week').toString())
