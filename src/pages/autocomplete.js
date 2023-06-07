@@ -27,8 +27,10 @@ class AutocompleteLocation extends Component {
       const place = this.autocomplete.getPlace()
       if (place.geometry && place.geometry.location) {
         const { lat, lng } = place.geometry.location;
+        const locName = place.name;
         localStorage.setItem("loclat", lat());
         localStorage.setItem("loclng", lng());
+        localStorage.setItem("locname", locName)
       }
     } else {
       console.log('Autocomplete is not loaded yet!')
