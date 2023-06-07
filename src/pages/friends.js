@@ -18,6 +18,7 @@ const defaultTheme = createTheme();
 export default function FriendPage() {
     const [searched, setSearched] = useState(false);
     const [friendObject, setFriendObject] = useState(null);
+    const [searchedFriends, setSearchedFriends] = useState([]);
     const [friendsList, setFriendsList] = useState([]);
     const [changeCount, setChangeCount] = useState(0);
 
@@ -48,7 +49,7 @@ export default function FriendPage() {
         }, { crossdomain: true })
         .then((res) => {
             if (res.status == 200){
-              setFriendObject(res.data);
+              setSearchedFriends(res.data);
               setSearched(true); 
             }
             if (res.status == 203){
@@ -83,10 +84,10 @@ export default function FriendPage() {
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <PrimarySearchAppBar/>
-      <Container component="main" maxWidth="sm" sx={{ mb: 4 }} >
-        <Paper variant="outlined" sx={{ my: { xs: 10, md: 10 }, p: { xs: 2, md: 3 } }}>
-          <Typography component="h1" variant="h4" align="center">
-            Add/Remove Friends
+      <Container component="main" maxWidth="sm" sx={{ mb: 4, marginLeft: 0, marginRight: 'auto' }} >
+      <Paper variant="outlined" sx={{ my: { xs: 10, md: 10 }, p: { xs: 2, md: 3 }, marginLeft: 0, marginRight: 'auto', border: '4px solid goldenrod' }}>
+          <Typography component="h1" variant="h4" align="center" color =  '#0047AB'>
+            Manage Friends
           </Typography>
             <Grid container spacing={2} justifyContent="center">
                 <Grid item xs={12} sm={6} >
@@ -132,22 +133,44 @@ export default function FriendPage() {
                     </Button>
                 </Grid> */}
             </Grid>
-            <Grid>{searched && friendObject !== null ? (
-                    <FriendComponent
-                        friendUser={friendObject} buttons={true} onPress={addCount}
+            <Grid>
+              {searched && searchedFriends.length > 0 && 
+                searchedFriends.map((friend, index) => {
+                  return(
+                    <FriendComponent 
+                      friendUser = {friend} buttons={true} onPress={addCount}
                     />
-                ) : <> </> }</Grid>
+                  )
+                })}
+            </Grid>
         </Paper>
-        <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px' }}>
-          {friendsList &&
-            friendsList.map((friend, index) => {
-            return(
-              <FriendComponent friendUser = {friend} buttons={false}/>
-            ) 
-          } )
-           }
-        </Box>
-      </Container>
+        </Container>
+<Container component="main" maxWidth="sm" sx={{ mb: 4, marginLeft: 'auto', marginRight: 'auto', position: 'absolute', top: 80, right: 0 }}>
+  <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px', background: '#ffffff', border: '4px solid goldenrod'}}>
+    <Typography variant="h4" align="center" color =  '#0047AB' gutterBottom >
+      My Friends
+    </Typography>
+    {friendsList
+      .sort((a, b) => a.firstName.localeCompare(b.firstName)) // Sort the array by friend's first name
+      .map((friend, index) => (
+        <div key={index} style={{ border: '1px 	solid goldenrod', borderRadius: '4px', padding: '8px', marginBottom: '8px' }}>
+          <Typography variant="h6" color = '#0047AB'>
+            {friend.firstName} {friend.lastName}
+          </Typography>
+          {/* Render other friend information here */}
+          <Typography variant="body1">
+            Email: {friend.email}
+          </Typography>
+          {/* Add more friend information as needed */}
+        </div>
+      ))}
+  </Box>
+</Container>
+
+
+
+
+
     </ThemeProvider>
   );
 }

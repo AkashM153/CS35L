@@ -46,7 +46,7 @@ class AutocompleteLocation extends Component {
           >
             <TextField
               type="text"
-              placeholder="Event Location"
+              placeholder="Location"
             //   style={{
             //     boxSizing: `border-box`,
             //     border: `1px solid transparent`,
