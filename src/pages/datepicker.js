@@ -35,7 +35,8 @@ export default function DateFilter({ onDateChange }){
         setSelectedEndDate(date);
     };
 
-    return(
+    return (
+      <React.Fragment>
         <Grid container spacing={2}>
           <Grid item xs={6} style={{ marginTop: '-7px' }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -46,7 +47,13 @@ export default function DateFilter({ onDateChange }){
                   label="Start Date"
                   value={selectedStartDate}
                   onChange={handleStartDateChange}
+                  
                   sx={{
+                    '& .MuiInputLabel-root': {
+                      transform: 'translate(0, 0.5px)', // Move the label down
+                      fontSize: '10px', // Adjust the font size
+                      paddingLeft: '5px',
+                    },
                     '& .MuiOutlinedInput-root': {
                       '& fieldset': {
                         // Adjust the padding to make it thinner
@@ -82,7 +89,16 @@ export default function DateFilter({ onDateChange }){
                   label="End Date"
                   value={selectedEndDate}
                   onChange={handleEndDateChange}
+                  inputLabelProps={{
+                    shrink: true,
+                    style: { fontSize: '7px', position: 'absolute', top: '-7px', left: '10px' },
+                  }}
                   sx={{
+                    '& .MuiInputLabel-root': {
+                      transform: 'translate(0, 0.5px)', // Move the label down
+                      fontSize: '10px', // Adjust the font size
+                      paddingLeft: '5px',
+                    },
                     '& .MuiOutlinedInput-root': {
                       '& fieldset': {
                         // Adjust the padding to make it thinner
@@ -110,5 +126,6 @@ export default function DateFilter({ onDateChange }){
             </LocalizationProvider>
           </Grid>
         </Grid>
-    )
+      </React.Fragment>
+    );
 }
