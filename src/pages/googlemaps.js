@@ -12,6 +12,9 @@ const center = {
   lng: -118.448,
 };
 
+const defaultMarkerIcon = 'https://maps.google.com/mapfiles/ms/icons/red-dot.png';
+const selectedMarkerIcon = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -37,6 +40,7 @@ function MapsComponent({ toUpdate, onMarkerSelect }) {
               lat: location[1],
               lng: location[0],
             },
+            icon: defaultMarkerIcon, // Add the icon property to each marker
           }))
         );
       } else {
@@ -58,15 +62,24 @@ function MapsComponent({ toUpdate, onMarkerSelect }) {
     onMarkerSelect(null);
   };
 
+  const renderMarkerIcon = (index) => {
+    if (selectedMarker !== null && selectedMarker.index === index) {
+      return { url: selectedMarkerIcon, scaledSize: new window.google.maps.Size(40, 40) };
+    } else {
+      return { url: defaultMarkerIcon, scaledSize: new window.google.maps.Size(40, 40) };
+    }
+  };
+
   return (
     <>
       {hasData ? (
-        <LoadScript googleMapsApiKey="AIzaSyB99JZitN5Z-9NqEcG-iSxxNyE28aDYCIE">
+        <LoadScript googleMapsApiKey="YOUR_API_KEY">
           <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
             {markers.map((marker, index) => (
               <Marker
                 key={marker.key}
                 position={marker.position}
+                icon={renderMarkerIcon(index)} // Use the icon property with a custom icon based on the selected state
                 onClick={() => handleMarkerClick(marker, index)}
               >
                 {selectedMarker !== null && selectedMarker.index === index && (
@@ -100,11 +113,3 @@ function MapsComponent({ toUpdate, onMarkerSelect }) {
 }
 
 export default React.memo(MapsComponent);
-
-
-
-
-
-
-
-

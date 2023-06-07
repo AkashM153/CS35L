@@ -83,20 +83,6 @@ export default function EventPage2({ }) {
           />
         </Grid>
 
-        <Grid item xs={12}>
-          <input accept="image/*" id="image-upload" type="file" onChange={handleImageChange} />
-          {imageFile && (
-            <div>
-              <Typography variant="body1">Selected Image:</Typography>
-              <img src={imagePreview} alt="Selected" style={{ maxWidth: '100%', marginTop: '10px' }} />
-            </div>
-          )}
-          <label htmlFor="image-upload">
-            <Button variant="contained" component="span">
-              Upload Image
-            </Button>
-          </label>
-        </Grid>
 
 
 

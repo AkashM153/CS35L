@@ -136,9 +136,7 @@ class ListingComponent extends Component {
   </div>
 )}
 
-        </div>
-
-                
+        </div>  
               </Grid>
               <Grid item xs={6} container justifyContent="flex-end">
                 <Typography variant="body3" style={{ marginRight: '10px'}}>{dayjs(listing.startDate).format('M/D/YY')}</Typography>
