@@ -130,7 +130,8 @@ export default function EventPage1() {
             </DemoContainer>
           </LocalizationProvider>
         </Grid>
-        </Grid>
+
+      </Grid>
     </React.Fragment>
   );
 }
