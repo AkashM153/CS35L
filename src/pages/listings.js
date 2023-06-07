@@ -57,7 +57,7 @@ export async function retrieveListings() {
   }
 }
 
-export default function Listings({ selected, setSelectedEvent, selectedStartDate, selectedEndDate, eventType }) {
+export default function Listings({ selected, setSelectedEvent, selectedStartDate, selectedEndDate, eventType, scroll }) {
   const [listings, setListings] = useState(null);
   const boxRef = useRef(null);
   const listItemRefs = useRef([]);
@@ -71,7 +71,7 @@ export default function Listings({ selected, setSelectedEvent, selectedStartDate
   }, [selectedStartDate, selectedEndDate, eventType]);
 
   useEffect(() => {
-    if (selected != null && listItemRefs.current[selected]) {
+    if (scroll == null && selected != null && listItemRefs.current[selected]) {
       const listItemElement = listItemRefs.current[selected];
       const containerElement = boxRef.current;
 
