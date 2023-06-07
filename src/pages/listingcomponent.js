@@ -83,10 +83,20 @@ class ListingComponent extends Component {
       console.log(listing.image);
       const { isLiked } = this.state;
       const { count } = this.state;
+      const { highlight } = this.props;
+      const borderWidth = highlight ? 8 : 4
+      const borderColor = highlight ? 'goldenrod' : 'lightblue'
+      const highlightStyle = {
+        border: `${borderWidth}px solid ${borderColor}`
+      }
+      const predefinedStyle={
+        width: '95%', height: 'auto', marginBottom: '10px', padding: '10px'
+      }
+      const combinedStyle = { ...predefinedStyle, ...highlightStyle}
       
       return (
         <React.Fragment key={listing._id}>
-          <Paper elevation={4} style={{ width: '95%', height: 'auto', marginBottom: '10px', padding: '10px', border: '4px solid goldenrod'}}>
+          <Paper elevation={4} style={combinedStyle}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
               <div className="title-likes-container" >

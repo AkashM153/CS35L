@@ -91,6 +91,7 @@ export default function Listings({ selectedMarker, selectedStartDate, selectedEn
             <ListingComponent
               listing={listing}
               isLiked={listing.likes.includes(localStorage.getItem('userID'))}
+              highlight={index == selectedMarker}
             />
           </div>
         ))}
