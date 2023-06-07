@@ -166,6 +166,27 @@ export default function FriendPage() {
       ))}
   </Box>
 </Container>
+<Container component="main" maxWidth="sm" sx={{ mb: 4, marginLeft: 'auto', marginRight: 'auto', position: 'absolute', top: 80, right: 0 }}>
+  <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px', background: '#ffffff', border: '4px solid goldenrod'}}>
+    <Typography variant="h4" align="center" color =  '#0047AB' gutterBottom >
+      My Friends
+    </Typography>
+    {friendsList
+      .sort((a, b) => a.firstName.localeCompare(b.firstName)) // Sort the array by friend's first name
+      .map((friend, index) => (
+        <div key={index} style={{ border: '1px 	solid goldenrod', borderRadius: '4px', padding: '8px', marginBottom: '8px' }}>
+          <Typography variant="h6" color = '#0047AB'>
+            {friend.firstName} {friend.lastName}
+          </Typography>
+          {/* Render other friend information here */}
+          <Typography variant="body1">
+            Email: {friend.email}
+          </Typography>
+          {/* Add more friend information as needed */}
+        </div>
+      ))}
+  </Box>
+</Container>
 
 
 
