@@ -80,9 +80,7 @@ class FriendComponent extends Component {
                   p: { xs: 2, md: 2 },
                   marginLeft: "-25px",
                   border: '1px solid goldenrod',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
+                  position: 'relative', // Add relative positioning to the Paper component
                 }}
                 elevation={3}
               >
@@ -97,30 +95,38 @@ class FriendComponent extends Component {
                     </Typography>
                     {/* Add more friend information as needed */}
                   </Box>
-                  {buttons ? (
-                    <React.Fragment>
-                      <IconButton
-                        size="large"
-                        color="inherit"
-                        onClick={this.handleAddFriend}
-                        sx={{ marginRight: '-180px' }} // Adjust the margin-right value
-                      >
-                        <AddIcon />
-                      </IconButton>
-                      <IconButton
-                        size="large"
-                        color="inherit"
-                        onClick={this.handleRemoveFriend}
-                      >
-                        <RemoveIcon />
-                      </IconButton>
-                    </React.Fragment>
-                  ) : <></>}
+                  {buttons && (
+                    <Box
+                    sx={{
+                      position: 'absolute',
+                      top: '8px',
+                      right: '8px',
+                      display: 'flex',
+                      gap: '8px', // Add gap property to create spacing between buttons
+                      alignItems: 'center', // Align items vertically
+                    }}
+                  >
+                    <IconButton
+                      size="large"
+                      color="inherit"
+                      onClick={this.handleAddFriend}
+                    >
+                      <AddIcon />
+                    </IconButton>
+                    <IconButton
+                      size="large"
+                      color="inherit"
+                      onClick={this.handleRemoveFriend}
+                    >
+                      <RemoveIcon />
+                    </IconButton>
+                  </Box>
+                  )}
                 </React.Fragment>
               </Paper>
             </Container>
           </ThemeProvider>
-        );        
+        );         
     }
 }
 
