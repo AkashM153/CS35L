@@ -126,8 +126,8 @@ export default function Checkout() {
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <PrimarySearchAppBar/>
-      <Container component="main" maxWidth="sm" sx={{ mb: 4 }} >
-        <Paper variant="outlined" sx={{ my: { xs: 10, md: 10 }, p: { xs: 2, md: 3 } }}>
+      <Container component="main" maxWidth="sm" sx={{ mb: 4 }}  >
+        <Paper variant="outlined" sx={{ my: { xs: 10, md: 10 }, p: { xs: 2, md: 3 },border: '4px solid goldenrod' }}>
           <Typography component="h1" variant="h4" align="center">
             Add Event
           </Typography>
