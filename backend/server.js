@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { ObjectId } = require('mongodb');
-const { newUser, findUserFromEmail, findUserFromName, matchEmailPassword, addEvent, getEventOrgTitle, getEvents, addLike, unLike, addFriend, removeFriend, listFriends } = require("./mongo");
+const { newUser, findUserFromEmail, findUsersFromName, matchEmailPassword, addEvent, getEventOrgTitle, getEvents, addLike, unLike, addFriend, removeFriend, listFriends } = require("./mongo");
 
 const whitelist = ["http://localhost:3000"]
 const corsOptions = {
@@ -163,16 +163,19 @@ app.post('/searchforfriends', async (req, res) => {
   const userData = req.body;
   console.log('Received input: ', userData);
   try{
-    const searchUser = await findUserFromName(userData.firstName,userData.lastName);
-    if (!searchUser){
+    const searchUser = await findUsersFromName(userData.firstName,userData.lastName);
+    //rn the error is that we are getting an empty searchUser
+    if (searchUser.length === 0){
       res.status(203).json({message: "Could not find user"})
     }
-    else if (searchUser._id.toString() == userData.userID){
-      res.status(203).json({message: "You cannot add yourself as a friend!"})
-    }
     else {
-      console.log("Retrieved user: ", searchUser)
-      res.status(200).json(searchUser)
+      const filteredUsers = searchUser.filter(user => user._id.toString() !== userData.userID);
+      if (filteredUsers.length === 0) {
+        res.status(203).json({ message: "You cannot add yourself as a friend!" });
+      } else {
+        console.log("Retrieved users:", filteredUsers);
+        res.status(200).json(filteredUsers);
+      }
     }
   }
   catch (err){

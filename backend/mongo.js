@@ -44,17 +44,20 @@ async function findUserFromEmail(email){
   return null;
 }
 
-async function findUserFromName(firstName,lastName){
+async function findUsersFromName(firstName,lastName){
   try {
-    const user = await User.findOne({firstName: firstName, lastName: lastName});
-    if (user){
-      return user;
+    console.log(firstName, lastName)
+    const Users = await User.find({firstName: firstName, lastName: lastName});
+    console.log(Users)
+    if (Users.length > 0){
+      console.log("found")
+      return Users;
     }
   }
   catch {
     console.log("User search failure :(")
   }
-  return null;
+  return [];
 }
 
 async function matchEmailPassword(email, password) {
@@ -252,6 +255,7 @@ async function listFriends(userID){
     const user = await User.findById(userID).exec()
     const friendslist = user.friends
     const listFriends = await User.find({_id: { $in: friendslist}})
+    console.log(listFriends)
     return listFriends
   }
   catch (err) {
@@ -277,7 +281,7 @@ function gracefulExit(){
 module.exports = {
   newUser,
   findUserFromEmail,
-  findUserFromName,
+  findUsersFromName,
   matchEmailPassword,
   addEvent,
   getEventOrgTitle,
