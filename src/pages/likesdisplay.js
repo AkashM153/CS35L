@@ -21,7 +21,7 @@ export default function LikesDisplay({ friendLikesNames, friendLikesCount }){
         spotlight = (
             <React.Fragment>
                 <Avatar {...smallStringAvatar(name)} style={{margin: '10px'}}/>
-                <Typography variant="body2">Liked by {name} + {friendLikesCount} more</Typography>
+                <Typography variant="body2">Liked by {name} + {friendLikesCount-1} more</Typography>
             </React.Fragment>
         )
     }
