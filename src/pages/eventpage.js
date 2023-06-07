@@ -81,6 +81,8 @@ export default function Checkout() {
     }
   };
   const continueFormSubmission = (exDate, exStart, exEnd) => {
+    const room = localStorage.getItem('room')
+    const locNameandRoom = (room ? (localStorage.getItem('locname') + ', Room ' + room) : localStorage.getItem('locname'))
     axios.post('http://localhost:5000/addevent', {
       creator: localStorage.getItem('userID'),
       creatorname: localStorage.getItem('name'),
@@ -88,6 +90,7 @@ export default function Checkout() {
       title: localStorage.getItem('eventName'),
       description: localStorage.getItem('description'),
       eventtype: localStorage.getItem('eventtype'),
+      locNameandRoom: locNameandRoom,
       startDate: new Date(exDate+exStart),
       endDate: new Date(exDate+exEnd),
       location: {
@@ -104,6 +107,8 @@ export default function Checkout() {
         localStorage.setItem('eventName', '')
         localStorage.setItem('description', '')
         localStorage.setItem('eventtype', '')
+        localStorage.setItem('room', '')
+        localStorage.setItem('locname', '')
         window.location.assign("/home")
         alert("Event Successfully Uploaded");
       }

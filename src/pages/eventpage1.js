@@ -75,7 +75,20 @@ export default function EventPage1() {
           />
         </Grid>
         
+        <Grid item xs={12} sm={6}>
+          <AutocompleteLocation/>
+        </Grid>
 
+        <Grid item xs={12} sm={6}>
+          <TextField
+            id="room"
+            name="room"
+            label="Room (optional)"
+            variant="outlined"
+            defaultValue={localStorage.getItem("room")}
+            onChange={handleFieldChange}
+          />
+        </Grid>
         <Grid item xs={12} sm={6}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['TimePicker']}>
@@ -117,11 +130,7 @@ export default function EventPage1() {
             </DemoContainer>
           </LocalizationProvider>
         </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <AutocompleteLocation/>
         </Grid>
-      </Grid>
     </React.Fragment>
   );
 }

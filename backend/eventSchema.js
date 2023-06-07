@@ -43,6 +43,9 @@ const eventSchema = new mongoose.Schema({
             required: true
         }   
     },
+    locNameandRoom: {
+        type: String
+    },
     image: {
         data: {
           type: Buffer // Store the image data as a Buffer

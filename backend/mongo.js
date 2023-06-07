@@ -93,6 +93,7 @@ async function addEvent(data){
     title: data.title,
     description: data.description,
     eventtype: data.eventtype,
+    locNameandRoom: data.locNameandRoom,
     startDate: data.startDate,
     endDate: data.endDate,
     location: data.location,/*
@@ -161,7 +162,7 @@ async function getEvents(input, friendsList){
       },
       {
         $addFields: {
-          score: {$subtract: ["$distance", { $multiply: ["$likesCount", 200] } ]}
+          score: {$subtract: [{$subtract: ["$distance", { $multiply: ["$likesCount", 200] } ]}, { $multiply: ["$friendLikesSize", 500] } ]}
         }
       },
       {
