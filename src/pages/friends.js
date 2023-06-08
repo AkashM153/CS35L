@@ -184,7 +184,6 @@ export default function FriendPage() {
     <Typography variant="h4" align="center" color =  '#0047AB' gutterBottom >
       Friend Requests
     </Typography>
-    <>Friend Requests</>
     {requestsList
       .sort((a, b) => a.firstName.localeCompare(b.firstName)) // Sort the array by friend's first name
       .map((requestUser, index) => (

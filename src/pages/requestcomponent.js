@@ -21,6 +21,46 @@ const defaultTheme = createTheme();
 class RequestComponent extends Component {
     constructor(props) {
         super(props);
+        this.handleAcceptRequest = this.handleAcceptRequest.bind(this);
+        this.handleDeclineRequest = this.handleDeclineRequest.bind(this);
+    }
+
+    async handleAcceptRequest() {
+        const {request} = this.props;
+        axios.post('http://localhost:5000/acceptrequest', {
+          userID: localStorage.getItem('userID'),
+          friendUserID: request._id
+        }, { crossdomain: true })
+        .then((res) => {
+            if (res.status == 200){
+              alert("Accepted Request"); 
+            }
+            if (res.status == 203){
+              alert(res.data.message); 
+            }
+        })
+        .catch((err) => {
+            alert("Could not accept friend request, err: ", err);
+        })
+    }
+
+    async handleDeclineRequest() {
+        const {request} = this.props;
+        axios.post('http://localhost:5000/declinerequest', {
+          userID: localStorage.getItem('userID'),
+          friendUserID: request._id
+        }, { crossdomain: true })
+        .then((res) => {
+            if (res.status == 200){
+              alert("Declined Request"); 
+            }
+            if (res.status == 203){
+              alert(res.data.message); 
+            }
+        })
+        .catch((err) => {
+            alert("Could not decline friend request, err: ", err);
+        })
     }
 
     render() {
@@ -28,22 +68,37 @@ class RequestComponent extends Component {
 
         return (
             <div style={{ border: '1px 	solid goldenrod', borderRadius: '4px', padding: '8px', marginBottom: '8px' }}>
-            <Typography variant="h6" color = '#0047AB'>
-            {request.firstName} {request.lastName}
-            </Typography>
-            {/* Render other friend information here */}
-            <Typography variant="body1">
-            Email: {request.email}
-            </Typography>
-            {/* Add more friend information as needed */}
+                <Box>
+                    <Typography variant="h6" color = '#0047AB'>
+                    {request.firstName} {request.lastName}
+                    </Typography>
+                    {/* Render other friend information here */}
+                    <Typography variant="body1">
+                    Email: {request.email}
+                    </Typography>
+                    {/* Add more friend information as needed */}
+                </Box>
+
+                <Box
+                >
+                <IconButton
+                      size="large"
+                      color="inherit"
+                      onClick={this.handleAcceptRequest}
+                    >
+                      <AddIcon />
+                    </IconButton>
+                    <IconButton
+                      size="large"
+                      color="inherit"
+                      onClick={this.handleDeclineRequest}
+                    >
+                      <RemoveIcon />
+                    </IconButton>
+                </Box>
             </div>
         );
     }
-}
-
-RequestComponent.defaultProps = {
-  buttons: true,
-  onPress: ()=>{}
 }
 
 export default RequestComponent

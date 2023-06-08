@@ -214,27 +214,45 @@ app.post('/addrequest', async(req, res) => {
   }
 })
 
-app.post('/addfriend', async(req, res) => {
-  const userID = req.body.userID;
-  const friendUserID = req.body.friendUserID;
-  console.log('Received user and friend to add: ', userID, friendUserID)
+app.post('/acceptrequest', async(req, res) => {
+  const A = req.body.userID;
+  const B = req.body.friendUserID;
+  console.log('Received request to accept: ', A, B)
   try{
-    const friends = await listFriends(userID)
-    const friendsList = friends.map(user => user._id.toString())
-    const nUser = await addFriend(userID, friendUserID)
-    if (friendsList.includes(friendUserID)){
-      res.status(203).json({message: "User already your friend"})
-    }
-    else if (nUser){
-      console.log("Added friend for user", nUser)
-      res.status(200).json(nUser)
+    const [Av1,Bv1] = await resolveRequest(A,B)
+    console.log(Av1,Bv1)
+    const Av2 = await addFriend(Av1._id,Bv1._id)
+    const Bv2 = await addFriend(Bv1._id,Av1.id)
+    if (Av2 && Bv2){
+      console.log("Accepted request", Av2,Bv2)
+      res.status(200).json({Av2,Bv2})
     }
     else {
-      res.status(203).json({message: "Couldn't find friend"})
+      res.status(203).json({message: "Couldn't accept request"})
     }
   }
   catch (err){
-    res.status(203).json({message: "Failed to add friend, err: ", err})
+    res.status(203).json({message: "Failed to accept request, err: ", err})
+  }
+})
+
+app.post('/declinerequest', async(req, res) => {
+  const A = req.body.userID;
+  const B = req.body.friendUserID;
+  console.log('Received request to decline: ', A, B)
+  try{
+    const [Av1,Bv1] = await resolveRequest(A,B)
+    console.log(Av1,Bv1)
+    if (Av1 && Bv1){
+      console.log("Declined friend request", Av1,Bv1)
+      res.status(200).json({Av1,Bv1})
+    }
+    else {
+      res.status(203).json({message: "Couldn't decline request"})
+    }
+  }
+  catch (err){
+    res.status(203).json({message: "Failed to decline request, err: ", err})
   }
 })
 
