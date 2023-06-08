@@ -1,6 +1,0 @@
-Ashish's Credentials:
-    Username: ashish_basetty
-    Password: gHffcx7KnULdcZOE
-
-Shell Connection String:
-mongosh "mongodb+srv://bruinconnect.nzayoje.mongodb.net" --apiVersion 1 --username ashish_basetty
