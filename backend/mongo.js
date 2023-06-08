@@ -227,6 +227,31 @@ async function unLike(userID, eventID){
   }
 }
 
+async function addRequest(userID, friendUserID){
+  try {
+    const friend = await User.findById(friendUserID).exec()
+    if (!friend.requests.includes(userID)){
+      friend.requests.push(userID);
+      friend.save();
+    }
+    return friend
+  }
+  catch {
+    return null
+  }
+}
+
+async function resolveRequest(userID, friendUserID){ //remove both people from each other's friends
+  try {
+    const user = await User.findByIdAndUpdate(userID, { $pull: {requests: friendUserID}}, {new: true})
+    const friend = await User.findByIdAndUpdate(friendUserID, { $pull: {requests: userID}}, {new: true})
+    return [user,friend]
+  }
+  catch {
+    return null
+  }
+}
+
 async function addFriend(userID, friendUserID){
   try {
     const user = await User.findById(userID).exec()
@@ -265,6 +290,21 @@ async function listFriends(userID){
   }
 }
 
+async function listRequests(userID){ //incoming
+  try{
+    console.log("look at me")
+    const user = await User.findById(userID).exec()
+    const reqsList = user.requests
+    const listReqs = await User.find({_id: { $in: reqsList}})
+    console.log(listReqs)
+    return listReqs
+  }
+  catch (err) {
+    console.log("listreqs error: ", err)
+    return null;
+  }
+}
+
 
 process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
 
@@ -289,8 +329,11 @@ module.exports = {
   getEvents,
   addLike,
   unLike,
+  addRequest,
+  resolveRequest,
   addFriend,
   removeFriend,
-  listFriends
+  listFriends,
+  listRequests
 };
 

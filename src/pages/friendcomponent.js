@@ -22,6 +22,7 @@ class FriendComponent extends Component {
     constructor(props) {
         super(props);
         this.handleAddFriend = this.handleAddFriend.bind(this);
+        this.handleAddRequest = this.handleAddRequest.bind(this);
         this.handleRemoveFriend = this.handleRemoveFriend.bind(this);
     }
 
@@ -44,6 +45,26 @@ class FriendComponent extends Component {
             alert("Could not add User, err: ", err);
         })
     }
+
+    async handleAddRequest() {
+      const {friendUser} = this.props;
+      axios.post('http://localhost:5000/addrequest', {
+        userID: localStorage.getItem('userID'),
+        friendUserID: friendUser._id
+      }, { crossdomain: true })
+      .then((res) => {
+          if (res.status == 200){
+            alert("Sent Request"); 
+            this.props.onPress()
+          }
+          if (res.status == 203){
+            alert(res.data.message); 
+          }
+      })
+      .catch((err) => {
+          alert("Could not sent request, err: ", err);
+      })
+  }
 
     async handleRemoveFriend() {
         const {friendUser} = this.props;
@@ -82,52 +103,23 @@ class FriendComponent extends Component {
                           </Typography>
                             {/* Add more friend information as needed */}
                             { buttons ? (
-                        <React.Fragment>
-                        <IconButton
-                            size="large"
-                            color="inherit"
-                            onClick={this.handleAddFriend}
-                        >
-                        <AddIcon />
-                        </IconButton>
-                        <IconButton
-                            size="large"
-                            color="inherit"
-                            onClick={this.handleRemoveFriend}
-                        >
-                        <RemoveIcon />
-                        </IconButton>
-                        </React.Fragment>) : <></>}
+                              <React.Fragment>
+                                <IconButton
+                                  size="large"
+                                  color="inherit"
+                                  // onClick={this.handleAddFriend}
+                                >
+                                  <AddIcon />
+                                </IconButton>
+                                <IconButton
+                                  size="large"
+                                  color="inherit"
+                                  onClick={this.handleRemoveFriend}
+                                >
+                                  <RemoveIcon />
+                                </IconButton>
+                              </React.Fragment>) : <></>}
                         </div>
-                        
-              {/* <Container component="main" maxWidth="sm" sx={{ mb: 4 }} >
-                <Paper variant="outlined" sx={{ my: { xs: 10, md: 10 }, p: { xs: 2, md: 3 } }} elevation={3}>
-                  <React.Fragment>
-                    <Box container spacing={5} >
-                      <Avatar {...stringAvatar(friendUser.firstName + " " + friendUser.lastName)}/>
-                        
-                        { buttons ? (
-                        <React.Fragment>
-                        <IconButton
-                            size="large"
-                            color="inherit"
-                            onClick={this.handleAddFriend}
-                        >
-                        <AddIcon />
-                        </IconButton>
-                        <IconButton
-                            size="large"
-                            color="inherit"
-                            onClick={this.handleRemoveFriend}
-                        >
-                        <RemoveIcon />
-                        </IconButton>
-                        </React.Fragment>) : <></>}
-                    </Box>
-                  </React.Fragment>
-                </Paper>
-              </Container> */}
-              
             </ThemeProvider>
           );
     }
