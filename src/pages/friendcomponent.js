@@ -90,38 +90,64 @@ class FriendComponent extends Component {
 
         const {friendUser} = this.props;
         const {buttons} = this.props;
-
         return (
-            <ThemeProvider theme={defaultTheme}>
-              <div style={{ border: '1px 	solid goldenrod', borderRadius: '4px', padding: '8px', marginBottom: '8px' }}>
-                          <Typography variant="h6" color = '#0047AB'>
-                            {friendUser.firstName} {friendUser.lastName}
-                          </Typography>
-                            {/* Render other friend information here */}
-                          <Typography variant="body1">
-                            Email: {friendUser.email}
-                          </Typography>
-                            {/* Add more friend information as needed */}
-                            { buttons ? (
-                              <React.Fragment>
-                                <IconButton
-                                  size="large"
-                                  color="inherit"
-                                  onClick={this.handleAddRequest}
-                                >
-                                  <AddIcon />
-                                </IconButton>
-                                <IconButton
-                                  size="large"
-                                  color="inherit"
-                                  onClick={this.handleRemoveFriend}
-                                >
-                                  <RemoveIcon />
-                                </IconButton>
-                              </React.Fragment>) : <></>}
-                        </div>
-            </ThemeProvider>
-          );
+          <ThemeProvider theme={defaultTheme}>
+            <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+              <Paper
+                variant="outlined"
+                sx={{
+                  width: 500,
+                  my: { xs: 5, md: 5 },
+                  p: { xs: 2, md: 2 },
+                  marginLeft: "-25px",
+                  border: '1px solid goldenrod',
+                  position: 'relative', // Add relative positioning to the Paper component
+                }}
+                elevation={3}
+              >
+                <React.Fragment>
+                  <Box>
+                    <Typography variant="h6" color="#0047AB">
+                      {friendUser.firstName} {friendUser.lastName}
+                    </Typography>
+                    {/* Render other friend information here */}
+                    <Typography variant="body1">
+                      Email: {friendUser.email}
+                    </Typography>
+                    {/* Add more friend information as needed */}
+                  </Box>
+                  {buttons && (
+                    <Box
+                    sx={{
+                      position: 'absolute',
+                      top: '8px',
+                      right: '8px',
+                      display: 'flex',
+                      gap: '8px', // Add gap property to create spacing between buttons
+                      alignItems: 'center', // Align items vertically
+                    }}
+                  >
+                    <IconButton
+                      size="large"
+                      color="inherit"
+                      onClick={this.handleAddRequest}
+                    >
+                      <AddIcon />
+                    </IconButton>
+                    <IconButton
+                      size="large"
+                      color="inherit"
+                      onClick={this.handleRemoveFriend}
+                    >
+                      <RemoveIcon />
+                    </IconButton>
+                  </Box>
+                  )}
+                </React.Fragment>
+              </Paper>
+            </Container>
+          </ThemeProvider>
+        );
     }
 }
 

@@ -22,13 +22,25 @@ export default function HomePage() {
     });
   }, []);
 
-  const [featuredPosts, setFeaturedPosts] = useState([]);
-  const [imageURL, setImageURL] = useState(null);
   const [selectedStartDate, setSelectedStartDate] = useState(null)
   const [selectedEndDate, setSelectedEndDate] = useState(null)
   const [eventType, setEventType] = useState(null)
   const [updateCount, setUpdateCount] = useState(0)
   const [selectedMarker, setSelectedMarker] = useState(null)
+  const [selectedEvent, setSelectedEvent] = useState(null)
+  const [selected, setSelected] = useState(null)
+  const [scroll, setScroll] = useState(null)
+
+  useEffect(()=>{
+    setSelected(selectedMarker)
+  }, [selectedMarker])
+
+  useEffect(()=>{
+    if (selectedMarker == null){
+      setSelected(selectedEvent)
+      setScroll(selectedEvent)
+    }
+  }, [selectedEvent])
 
   const setDates = (startDate, endDate) => {
     setSelectedStartDate(startDate)
@@ -44,27 +56,6 @@ export default function HomePage() {
     setEventType(type)
     setUpdateCount(updateCount+1)
   }
-
-  // Function to add a new featured post
-  const addFeaturedPost = (newPost) => {
-    setFeaturedPosts((prevPosts) => [...prevPosts, newPost]);
-  };
-
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-  
-    reader.onloadend = () => {
-      const base64Image = reader.result;
-      localStorage.setItem('image-upload', base64Image);
-      // Update the imageURL state variable
-      setImageURL(base64Image);
-    };
-  
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
   
   return (
     <>
@@ -72,12 +63,12 @@ export default function HomePage() {
       <Grid container spacing={2} alignItems="center" justify="center" style={{ minHeight: '100vh', padding: '20px', marginTop: '30px'}}>
         <Grid item md={6} style={{ marginLeft: '20px' }} >
           <div style={{ width: '600px', height: '600px', border: '4px solid goldenrod', borderRadius: '5px'}}>
-            <MapsComponent toUpdate={updateCount} onMarkerSelect={setMarker} />
+            <MapsComponent toUpdate={updateCount} onMarkerSelect={setMarker} selectedMarker={selected}/>
           </div>
         </Grid>
         <Grid item md={5}>
           <Box display="flex" flexDirection="column" height="100%">
-            <Listings selectedMarker={selectedMarker} selectedStartDate={selectedStartDate} selectedEndDate={selectedEndDate} eventType={eventType}/>
+            <Listings selected={selected} setSelectedEvent={setSelectedEvent} selectedStartDate={selectedStartDate} selectedEndDate={selectedEndDate} eventType={eventType} scroll={scroll}/>
           </Box>
         </Grid>
       </Grid>

@@ -57,7 +57,7 @@ export async function retrieveListings() {
   }
 }
 
-export default function Listings({ selectedMarker, selectedStartDate, selectedEndDate, eventType }) {
+export default function Listings({ selected, setSelectedEvent, selectedStartDate, selectedEndDate, eventType, scroll }) {
   const [listings, setListings] = useState(null);
   const boxRef = useRef(null);
   const listItemRefs = useRef([]);
@@ -71,8 +71,8 @@ export default function Listings({ selectedMarker, selectedStartDate, selectedEn
   }, [selectedStartDate, selectedEndDate, eventType]);
 
   useEffect(() => {
-    if (selectedMarker != null && listItemRefs.current[selectedMarker]) {
-      const listItemElement = listItemRefs.current[selectedMarker];
+    if (scroll == null && selected != null && listItemRefs.current[selected]) {
+      const listItemElement = listItemRefs.current[selected];
       const containerElement = boxRef.current;
 
       const containerRect = containerElement.getBoundingClientRect();
@@ -81,7 +81,8 @@ export default function Listings({ selectedMarker, selectedStartDate, selectedEn
       const scrollTop = listItemRect.top - containerRect.top + containerElement.scrollTop;
       containerElement.scrollTo({ top: scrollTop, behavior: 'smooth' });
     }
-  }, [selectedMarker]);
+  }, [selected]);
+
 
   return (
     <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px' }} ref={boxRef}>
@@ -91,7 +92,9 @@ export default function Listings({ selectedMarker, selectedStartDate, selectedEn
             <ListingComponent
               listing={listing}
               isLiked={listing.likes.includes(localStorage.getItem('userID'))}
-              highlight={index == selectedMarker}
+              highlight={index == selected}
+              setSelectedEvent={setSelectedEvent}
+              index={index}
             />
           </div>
         ))}

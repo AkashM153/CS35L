@@ -12,15 +12,19 @@ const center = {
   lng: -118.448,
 };
 
+const defaultMarkerIcon = 'https://maps.google.com/mapfiles/ms/icons/red-dot.png';
+const selectedMarkerIcon = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function MapsComponent({ toUpdate, onMarkerSelect }) {
+function MapsComponent({ toUpdate, onMarkerSelect, selectedMarker }) {
   const [markers, setMarkers] = useState([]);
-  const [selectedMarker, setSelectedMarker] = useState(null);
+  //const [selectedMarker, setSelectedMarker] = useState(null);
   const [listings, setListings] = useState([]);
   const [hasData, setHasData] = useState(false);
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -37,6 +41,7 @@ function MapsComponent({ toUpdate, onMarkerSelect }) {
               lat: location[1],
               lng: location[0],
             },
+            icon: defaultMarkerIcon, // Add the icon property to each marker
           }))
         );
       } else {
@@ -49,31 +54,38 @@ function MapsComponent({ toUpdate, onMarkerSelect }) {
   }, [toUpdate]);
 
   const handleMarkerClick = (marker, index) => {
-    setSelectedMarker({ marker, index });
     onMarkerSelect(index);
   };
 
   const handleInfoWindowClose = () => {
-    setSelectedMarker(null);
     onMarkerSelect(null);
+  };
+
+  const renderMarkerIcon = (index) => {
+    if (selectedMarker !== null && selectedMarker === index) {
+      return window.google.maps.Animation.BOUNCE;
+    } else {
+      return
+    }
   };
 
   return (
     <>
       {hasData ? (
         <LoadScript googleMapsApiKey="AIzaSyB99JZitN5Z-9NqEcG-iSxxNyE28aDYCIE">
-          <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
+          <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15} >
             {markers.map((marker, index) => (
               <Marker
                 key={marker.key}
                 position={marker.position}
                 onClick={() => handleMarkerClick(marker, index)}
+                animation={renderMarkerIcon(index)}
               >
-                {selectedMarker !== null && selectedMarker.index === index && (
-                  <InfoWindowF onCloseClick={handleInfoWindowClose}>
+                {selectedMarker !== null && selectedMarker === index && (
+                  <InfoWindowF onCloseClick={handleInfoWindowClose} position={marker.position}>
                     <div>
-                      <h3>{listings[selectedMarker.index]?.title}</h3>
-                      <p>{listings[selectedMarker.index]?.description}</p>
+                      <h3>{listings[selectedMarker]?.title}</h3>
+                      <h4>{listings[selectedMarker]?.locNameandRoom}</h4>
                     </div>
                   </InfoWindowF>
                 )}
@@ -100,11 +112,3 @@ function MapsComponent({ toUpdate, onMarkerSelect }) {
 }
 
 export default React.memo(MapsComponent);
-
-
-
-
-
-
-
-
