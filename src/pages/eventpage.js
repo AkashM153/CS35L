@@ -22,10 +22,10 @@ import axios from 'axios'
 
 const mongoose = require('mongoose')
 
-
+// Array of step labels
 const steps = ['Event details', 'Add Description'];
 
-
+// Function to return the content for each step
 function getStepContent(step) {
   switch (step) {
     case 0:
@@ -44,11 +44,13 @@ export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [imageFile, setImageFile] = useState(null);
 
+  // Handler for image change event
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setImageFile(file);
   };
   const handleNext = () => {
+    // Check if it's the last step, then call handleSubmit function
     if (activeStep !== steps.length-1){
       setActiveStep(activeStep + 1);
     }
@@ -58,6 +60,7 @@ export default function Checkout() {
   };
 
   const handleBack = () => {
+    // Go back to the previous step
     setActiveStep(activeStep - 1);
   };
 
@@ -69,6 +72,7 @@ export default function Checkout() {
     const exStart = dayjs(localStorage.getItem("starttime")).format('THH:mm:ss')
     const exEnd = dayjs(localStorage.getItem("endtime")).format('THH:mm:ss')
     if (imageFile) {
+      // Read the image file as data URL
       const reader = new FileReader();
       reader.onload = (event) => {
         const dataUrl = event.target.result;
