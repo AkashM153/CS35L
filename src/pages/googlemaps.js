@@ -72,7 +72,7 @@ function MapsComponent({ toUpdate, onMarkerSelect, selectedMarker }) {
   return (
     <>
       {hasData ? (
-        <LoadScript googleMapsApiKey="AIzaSyB99JZitN5Z-9NqEcG-iSxxNyE28aDYCIE">
+        <LoadScript googleMapsApiKey="API-Key">
           <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15} >
             {markers.map((marker, index) => (
               <Marker

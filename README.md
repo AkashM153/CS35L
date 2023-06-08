@@ -12,7 +12,9 @@ git clone https://github.com/AkashM153/CS35L.git
 
 2- Install Node.js on your computer and run `npm install` in the actual Git directory.
 
-3- Open two terminals. Navigate one to the backend using `cd backend` and then run the command `node server.js`. In the other terminal type `npm start`. 
+3- This project utilizes a Google Maps API. In src/page/googlemaps.js, you must replace the filler API-Key with your actual API-Key. Keys can be obtained from Google Cloud Console.
+
+4- Open two terminals. Navigate one to the backend using `cd backend` and then run the command `node server.js`. In the other terminal type `npm start`. 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
