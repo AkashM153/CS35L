@@ -295,12 +295,31 @@ async function unLike(userID, eventID){
   }
 }
 
-/**
- * Adds a given friend user as a friend to the current user (only a one-way operation)
- * @param {string} userID - The objectID (in string form) of the current user adding a friend
- * @param {string} friendUserID - The objectID (in string form) of the other user being added as a friend
- * @returns {User|null} - The current user adding the friend, or null if failure or user not found
- */
+async function addRequest(userID, friendUserID){
+  try {
+    const friend = await User.findById(friendUserID).exec()
+    if (!friend.requests.includes(userID)){
+      friend.requests.push(userID);
+      friend.save();
+    }
+    return friend
+  }
+  catch {
+    return null
+  }
+}
+
+async function resolveRequest(userID, friendUserID){ //remove both people from each other's friends
+  try {
+    const user = await User.findByIdAndUpdate(userID, { $pull: {requests: friendUserID}}, {new: true})
+    const friend = await User.findByIdAndUpdate(friendUserID, { $pull: {requests: userID}}, {new: true})
+    return [user,friend]
+  }
+  catch {
+    return null
+  }
+}
+
 async function addFriend(userID, friendUserID){
   try {
     const user = await User.findById(userID).exec()
@@ -350,7 +369,21 @@ async function listFriends(userID){
   }
 }
 
-// Runs the function graefulExit() on the 'interrupt' or 'terminate' signals
+async function listRequests(userID){ //incoming
+  try{
+    console.log("look at me")
+    const user = await User.findById(userID).exec()
+    const reqsList = user.requests
+    const listReqs = await User.find({_id: { $in: reqsList}})
+    console.log(listReqs)
+    return listReqs
+  }
+  catch (err) {
+    console.log("listreqs error: ", err)
+    return null;
+  }
+}
+
 process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
 
 /**
@@ -378,8 +411,11 @@ module.exports = {
   getEvents,
   addLike,
   unLike,
+  addRequest,
+  resolveRequest,
   addFriend,
   removeFriend,
-  listFriends
+  listFriends,
+  listRequests
 };
 

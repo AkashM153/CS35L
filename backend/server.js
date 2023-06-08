@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { ObjectId } = require('mongodb');
-const { newUser, findUserFromEmail, findUsersFromName, matchEmailPassword, addEvent, getEventOrgTitle, getEvents, addLike, unLike, addFriend, removeFriend, listFriends } = require("./mongo");
+const { newUser, findUserFromEmail, findUsersFromName, matchEmailPassword, addEvent, getEventOrgTitle, getEvents, addLike, unLike, addRequest, resolveRequest, addFriend, removeFriend, listFriends, listRequests } = require("./mongo");
 
 const whitelist = ["http://localhost:3000"]
 const corsOptions = {
@@ -183,6 +183,37 @@ app.post('/searchforfriends', async (req, res) => {
   }
 })
 
+app.post('/addrequest', async(req, res) => {
+  //add userID to friendUserID's request list
+  const userID = req.body.userID;
+  const friendUserID = req.body.friendUserID;
+  console.log('Received user and friend to request: ', userID, friendUserID)
+  try{
+    const friends = await listFriends(userID)
+    const friendsList = friends.map(user => user._id.toString())
+    const requests  = await listRequests(friendUserID)
+    const reqList = requests.map(user => user._id.toString())
+    const nUser = await addRequest(userID, friendUserID)
+
+    if (friendsList.includes(friendUserID)){
+      res.status(203).json({message: "User already your friend"})
+    }
+    else if (reqList.includes(userID)){
+      res.status(203).json({message: "User already requested"})
+    }
+    else if (nUser){
+      console.log("Requested friend", nUser)
+      res.status(200).json(nUser)
+    }
+    else {
+      res.status(203).json({message: "Couldn't find friend"})
+    }
+  }
+  catch (err){
+    res.status(203).json({message: "Failed to add request, err: ", err})
+  }
+})
+
 app.post('/addfriend', async(req, res) => {
   const userID = req.body.userID;
   const friendUserID = req.body.friendUserID;
@@ -240,5 +271,17 @@ app.post('/listfriends', async(req, res) => {
   }
   catch (err){
     res.status(203).json({message: "Failed to retrieve friends, err: ", err})
+  }
+})
+
+app.post('/listrequests', async(req, res) => {
+  const userID = req.body.userID;
+  console.log('Received friend requests list request')
+  try {
+    const requests = await listRequests(userID)
+    res.status(200).json(requests)
+  }
+  catch (err){
+    res.status(203).json({message: "Failed to retrieve friend requests, err: ", err})
   }
 })
