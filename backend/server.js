@@ -184,18 +184,25 @@ app.post('/searchforfriends', async (req, res) => {
 })
 
 app.post('/addrequest', async(req, res) => {
+  //add userID to friendUserID's request list
   const userID = req.body.userID;
   const friendUserID = req.body.friendUserID;
   console.log('Received user and friend to request: ', userID, friendUserID)
   try{
     const friends = await listFriends(userID)
     const friendsList = friends.map(user => user._id.toString())
-    const nUser = await addFriend(userID, friendUserID)
+    const requests  = await listRequests(friendUserID)
+    const reqList = requests.map(user => user._id.toString())
+    const nUser = await addRequest(userID, friendUserID)
+
     if (friendsList.includes(friendUserID)){
       res.status(203).json({message: "User already your friend"})
     }
+    else if (reqList.includes(userID)){
+      res.status(203).json({message: "User already requested"})
+    }
     else if (nUser){
-      console.log("Added friend for user", nUser)
+      console.log("Requested friend", nUser)
       res.status(200).json(nUser)
     }
     else {
@@ -203,7 +210,7 @@ app.post('/addrequest', async(req, res) => {
     }
   }
   catch (err){
-    res.status(203).json({message: "Failed to add friend, err: ", err})
+    res.status(203).json({message: "Failed to add request, err: ", err})
   }
 })
 

@@ -12,6 +12,7 @@ import axios from 'axios';
 import Button from '@mui/material/Button';
 
 import FriendComponent from './friendcomponent';
+import RequestComponent from './requestcomponent';
 
 const defaultTheme = createTheme();
 
@@ -178,40 +179,21 @@ export default function FriendPage() {
       ))}
   </Box>
 </Container>
-{/* <Container component="main" maxWidth="sm" sx={{ mb: 4, marginLeft: 'auto', marginRight: 'auto', position: 'absolute', top: 80, right: 0 }}>
+<Container component="main" maxWidth="sm" sx={{ mb: 4, marginLeft: 'auto', marginRight: 'auto', position: 'absolute', top: 500, left: 0 }}>
   <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px', background: '#ffffff', border: '4px solid goldenrod'}}>
     <Typography variant="h4" align="center" color =  '#0047AB' gutterBottom >
       Friend Requests
     </Typography>
-    {friendsList
-      .sort((a, b) => a.firstName.localeCompare(b.firstName)) 
-      .map((friend, index) => (
-        <div key={index} style={{ border: '1px 	solid goldenrod', borderRadius: '4px', padding: '8px', marginBottom: '8px' }}>
-          <Typography variant="h6" color = '#0047AB'>
-            {friend.firstName} {friend.lastName}
-          </Typography>
-          <Typography variant="body1">
-            Email: {friend.email}
-          </Typography>
-        </div>
+    <>Friend Requests</>
+    {requestsList
+      .sort((a, b) => a.firstName.localeCompare(b.firstName)) // Sort the array by friend's first name
+      .map((requestUser, index) => (
+        <RequestComponent
+          request = {requestUser}
+        />
       ))}
   </Box>
-</Container> */}
-<>Friend Requests</>
-{requestsList
-      .sort((a, b) => a.firstName.localeCompare(b.firstName)) // Sort the array by friend's first name
-      .map((request, index) => (
-        <div key={index} style={{ border: '1px 	solid goldenrod', borderRadius: '4px', padding: '8px', marginBottom: '8px' }}>
-          <Typography variant="h6" color = '#0047AB'>
-            {request.firstName} {request.lastName}
-          </Typography>
-          {/* Render other friend information here */}
-          <Typography variant="body1">
-            Email: {request.email}
-          </Typography>
-          {/* Add more friend information as needed */}
-        </div>
-      ))}
+</Container>
 
 
 

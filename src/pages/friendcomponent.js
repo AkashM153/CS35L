@@ -107,7 +107,7 @@ class FriendComponent extends Component {
                                 <IconButton
                                   size="large"
                                   color="inherit"
-                                  // onClick={this.handleAddFriend}
+                                  onClick={this.handleAddRequest}
                                 >
                                   <AddIcon />
                                 </IconButton>
