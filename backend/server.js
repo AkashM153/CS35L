@@ -255,6 +255,7 @@ app.post('/addrequest', async(req, res) => {
   }
 })
 
+// Route to add friend
 app.post('/addfriend', async(req, res) => {
   // Extract user and new friend's id from the response
   const userID = req.body.userID;
@@ -331,10 +332,13 @@ app.post('/listfriends', async(req, res) => {
   }
 })
 
+// Route to list friend requests
 app.post('/listrequests', async(req, res) => {
+  // Extract user ID from the request
   const userID = req.body.userID;
-  console.log('Received friend requests list request')
+  console.log('Received friend requests list request') // Log our received data for backend monitoring
   try {
+    // List user friend requests, and send to frontend
     const requests = await listRequests(userID)
     res.status(200).json(requests)
   }

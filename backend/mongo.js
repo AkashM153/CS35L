@@ -1,6 +1,6 @@
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://ashish_basetty:gHffcx7KnULdcZOE@bruinconnect.nzayoje.mongodb.net/?retryWrites=true&w=majority";
+const uri = "CONNECTION STRING HERE";
 const mongoose = require('mongoose');
 const User = require('./userSchema');
 const Event = require('./eventSchema');
