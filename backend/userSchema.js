@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema({
     friends: {
         type: [String],
         default: []
+    },
+    requests: {
+        type: [String],
+        default: []
     }
 });
 

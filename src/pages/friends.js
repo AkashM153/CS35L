@@ -12,15 +12,28 @@ import axios from 'axios';
 import Button from '@mui/material/Button';
 
 import FriendComponent from './friendcomponent';
+import RequestComponent from './requestcomponent';
 
 const defaultTheme = createTheme();
 
 export default function FriendPage() {
     const [searched, setSearched] = useState(false);
-    const [friendObject, setFriendObject] = useState(null);
     const [searchedFriends, setSearchedFriends] = useState([]);
     const [friendsList, setFriendsList] = useState([]);
+    const [requestsList, setRequestsList] = useState([]);
     const [changeCount, setChangeCount] = useState(0);
+
+    useEffect(()=>{
+      console.log("hi")
+      axios.post('http://localhost:5000/listrequests', {
+        userID: localStorage.getItem('userID')
+      }, { crossdomain: true })
+      .then((res)=>{
+        if (res.status == 200){
+          setRequestsList(res.data)
+        }
+      })
+    }, [changeCount])
 
     useEffect(()=>{
       axios.post('http://localhost:5000/listfriends', {
@@ -163,6 +176,21 @@ export default function FriendPage() {
           </Typography>
           {/* Add more friend information as needed */}
         </div>
+      ))}
+  </Box>
+</Container>
+<Container component="main" maxWidth="sm" sx={{ mb: 4, marginLeft: 'auto', marginRight: 'auto', position: 'absolute', top: 500, left: 0 }}>
+  <Box elevation={0} style={{ maxHeight: '70vh', overflow: 'auto', padding: '10px', background: '#ffffff', border: '4px solid goldenrod'}}>
+    <Typography variant="h4" align="center" color =  '#0047AB' gutterBottom >
+      Friend Requests
+    </Typography>
+    <>Friend Requests</>
+    {requestsList
+      .sort((a, b) => a.firstName.localeCompare(b.firstName)) // Sort the array by friend's first name
+      .map((requestUser, index) => (
+        <RequestComponent
+          request = {requestUser}
+        />
       ))}
   </Box>
 </Container>

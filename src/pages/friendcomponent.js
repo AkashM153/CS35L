@@ -22,6 +22,7 @@ class FriendComponent extends Component {
     constructor(props) {
         super(props);
         this.handleAddFriend = this.handleAddFriend.bind(this);
+        this.handleAddRequest = this.handleAddRequest.bind(this);
         this.handleRemoveFriend = this.handleRemoveFriend.bind(this);
     }
 
@@ -44,6 +45,26 @@ class FriendComponent extends Component {
             alert("Could not add User, err: ", err);
         })
     }
+
+    async handleAddRequest() {
+      const {friendUser} = this.props;
+      axios.post('http://localhost:5000/addrequest', {
+        userID: localStorage.getItem('userID'),
+        friendUserID: friendUser._id
+      }, { crossdomain: true })
+      .then((res) => {
+          if (res.status == 200){
+            alert("Sent Request"); 
+            this.props.onPress()
+          }
+          if (res.status == 203){
+            alert(res.data.message); 
+          }
+      })
+      .catch((err) => {
+          alert("Could not sent request, err: ", err);
+      })
+  }
 
     async handleRemoveFriend() {
         const {friendUser} = this.props;
@@ -109,7 +130,7 @@ class FriendComponent extends Component {
                     <IconButton
                       size="large"
                       color="inherit"
-                      onClick={this.handleAddFriend}
+                      onClick={this.handleAddRequest}
                     >
                       <AddIcon />
                     </IconButton>
@@ -126,7 +147,7 @@ class FriendComponent extends Component {
               </Paper>
             </Container>
           </ThemeProvider>
-        );         
+        );
     }
 }
 
