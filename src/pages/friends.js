@@ -189,6 +189,7 @@ export default function FriendPage() {
       .map((requestUser, index) => (
         <RequestComponent
           request = {requestUser}
+          addCount = {addCount}
         />
       ))}
   </Box>

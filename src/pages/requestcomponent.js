@@ -27,6 +27,7 @@ class RequestComponent extends Component {
 
     async handleAcceptRequest() {
         const {request} = this.props;
+        const {addCount} = this.props;
         axios.post('http://localhost:5000/acceptrequest', {
           userID: localStorage.getItem('userID'),
           friendUserID: request._id
@@ -34,6 +35,7 @@ class RequestComponent extends Component {
         .then((res) => {
             if (res.status == 200){
               alert("Accepted Request"); 
+              addCount();
             }
             if (res.status == 203){
               alert(res.data.message); 

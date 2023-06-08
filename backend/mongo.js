@@ -351,6 +351,7 @@ async function addFriend(userID, friendUserID){
 async function removeFriend(userID, friendUserID){
   try {
     const result = await User.findByIdAndUpdate(userID, { $pull: {friends: friendUserID}}, {new: true})
+    const resultfriend = await User.findByIdAndUpdate(friendUserID, { $pull: {friends: userID}}, {new: true})
     return result
   }
   catch {
