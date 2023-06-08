@@ -11,23 +11,27 @@ class AutocompleteLocation extends Component {
     super(props)
 
     this.autocomplete = null
-
+    // Function bindings
     this.onLoad = this.onLoad.bind(this)
     this.onPlaceChanged = this.onPlaceChanged.bind(this)
   }
 
+  // Callback function triggered when Autocomplete is loaded
   onLoad (autocomplete) {
     console.log('autocomplete: ', autocomplete)
 
     this.autocomplete = autocomplete
   }
 
+  // Callback function triggered when the selected place changes
   onPlaceChanged () {
     if (this.autocomplete !== null) {
       const place = this.autocomplete.getPlace()
       if (place.geometry && place.geometry.location) {
         const { lat, lng } = place.geometry.location;
         const locName = place.name;
+
+        // Store location details in localStorage
         localStorage.setItem("loclat", lat());
         localStorage.setItem("loclng", lng());
         localStorage.setItem("locname", locName)
@@ -68,5 +72,7 @@ class AutocompleteLocation extends Component {
     )
   }
 }
-
+ 
+// used to export the AutocompleteLocation 
+// component as the default export of the file.
 export default React.memo(AutocompleteLocation);
