@@ -193,10 +193,18 @@ async function getEvents(input, friendsList){
       //Make sure event starts between the search date and time
       {
         $match: {
-          startDate: {
-            $gte: new Date(input.startdate),
-            $lte: new Date(input.enddate)
-          }
+          $and: [
+            { 
+              startDate: {
+                $lte: new Date(input.enddate)
+              } 
+            },
+            {
+              endDate: {
+                $gte: new Date(input.startdate)
+              }
+            }
+          ]
         }
       },
       //Make a list of the friends who liked the event
