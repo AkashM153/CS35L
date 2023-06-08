@@ -1,9 +1,10 @@
+/* Set default styles for the body element */
 body {
     margin: 0;
     padding: 0;
-    height: 100vh;
-    background-image: url("bgimage.jpg");
-    background-size: cover;
+    height: 100vh; /* Set the height of the body to fill the entire viewport */
+    background-image: url("bgimage.jpg");  /* Set the background image for the body */
+    background-size: cover; /* Scale the background image to cover the entire body */
 }
 
 
