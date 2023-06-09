@@ -19,10 +19,11 @@ import DateFilter from './datepicker';
 
 dayjs.locale('en');
 
-let locArray = [];
+let locArray = []; // Array to store location coordinates
 const timezone = require('dayjs/plugin/timezone');
 dayjs.extend(timezone);
 
+// Function to retrieve listings from the server
 export async function retrieveListings() {
   const eventTypes = [
     'All Events',
