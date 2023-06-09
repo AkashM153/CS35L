@@ -21,11 +21,13 @@ const defaultTheme = createTheme();
 class FriendComponent extends Component {
     constructor(props) {
         super(props);
+        // Bind event handlers
         this.handleAddFriend = this.handleAddFriend.bind(this);
         this.handleAddRequest = this.handleAddRequest.bind(this);
         this.handleRemoveFriend = this.handleRemoveFriend.bind(this);
     }
 
+    // Function to handle adding a friend
     async handleAddFriend() {
         const {friendUser} = this.props;
         axios.post('http://localhost:5000/addfriend', {
@@ -46,6 +48,7 @@ class FriendComponent extends Component {
         })
     }
 
+    // Function to handle sending a friend request
     async handleAddRequest() {
       const {friendUser} = this.props;
       axios.post('http://localhost:5000/addrequest', {
@@ -66,6 +69,7 @@ class FriendComponent extends Component {
       })
   }
 
+    // Function to handle removing a friend
     async handleRemoveFriend() {
         const {friendUser} = this.props;
         axios.post('http://localhost:5000/removefriend', {
