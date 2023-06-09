@@ -48,7 +48,7 @@ class ListingComponent extends Component {
           }, { crossdomain: true });
           
           if (res.status === 200) {
-    
+          // Handle success response if needed
           } else if (res.status === 203) {
             alert(res.data.message);
           }
@@ -67,6 +67,7 @@ class ListingComponent extends Component {
             eventID: listingId
           }, { crossdomain: true });
           
+          // Handle success response if needed
           if (res.status === 200) {
     
           } else if (res.status === 203) {
