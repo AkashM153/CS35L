@@ -19,25 +19,30 @@ export default function EventPage1() {
   const [endTime, setEndTime] = React.useState(null);
   const [selectedDate, setSelectedDate] = React.useState(dayjs());
   
+  // Handler for start time change event
   const handleStartTimeChange = (value) => {
     localStorage.setItem("starttime", value.toString())
     setStartTime(value);
   };
 
+  // Handler for end time change event
   const handleEndTimeChange = (value) => {
     localStorage.setItem("endtime", value.toString())
     setEndTime(value);
   };
   
+  // Handler for date change event
   const handleDateChange = (date) => {
     localStorage.setItem("date", date.toString())
     setSelectedDate(date);
   };
 
+  // Handler for text field change event
   const handleFieldChange = (event) => {
     localStorage.setItem(event.target.id, event.target.value)
   }
 
+  // Handler for location select event
   const handleLocationSelect = (location) => {
     localStorage.setItem("loclat", "test");
     localStorage.setItem("loclng", location.lng);
