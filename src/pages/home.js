@@ -9,6 +9,7 @@ import { Box, Grid, Paper, Typography } from '@mui/material';
 
 export default function HomePage() {
   useEffect(() => {
+    // Get user's current geolocation and store it in localStorage
     navigator.geolocation.getCurrentPosition((position) => {
       try {
         const loc = {
@@ -43,16 +44,19 @@ export default function HomePage() {
   }, [selectedEvent])
 
   const setDates = (startDate, endDate) => {
+    // Set selected start and end dates
     setSelectedStartDate(startDate)
     setSelectedEndDate(endDate)
     setUpdateCount(updateCount+1)
   }
 
   const setMarker = (marker) => {
+    // Set selected marker
     setSelectedMarker(marker)
   }
 
   const setEvent = (type) => {
+    // Set selected event type
     setEventType(type)
     setUpdateCount(updateCount+1)
   }
