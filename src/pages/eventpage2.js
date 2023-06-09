@@ -27,11 +27,13 @@ export default function EventPage2({ }) {
   const [imageFile, setImageFile] = React.useState(null);
   const [imagePreview, setImagePreview] = React.useState('');
 
+  // Handler for description change event
   const handleDescriptionChange = (event) => {
     localStorage.setItem(event.target.id, event.target.value)
     setDescription(event.target.value);
   };
 
+  // Handler for image change event
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setImageFile(file);
