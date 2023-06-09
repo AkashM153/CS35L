@@ -23,6 +23,7 @@ export default function FriendPage() {
     const [requestsList, setRequestsList] = useState([]);
     const [changeCount, setChangeCount] = useState(0);
 
+    // Fetch friend requests
     useEffect(()=>{
       console.log("hi")
       axios.post('http://localhost:5000/listrequests', {
@@ -35,6 +36,7 @@ export default function FriendPage() {
       })
     }, [changeCount])
 
+    // Fetch friends list
     useEffect(()=>{
       axios.post('http://localhost:5000/listfriends', {
         userID: localStorage.getItem('userID')
@@ -46,14 +48,17 @@ export default function FriendPage() {
       })
     }, [changeCount])
 
+    // Increment change count
     const addCount = () => {
       setChangeCount(changeCount+1)
     }
 
+    // Handle input field change
     const handleFieldChange = (event) => {
         localStorage.setItem(event.target.id, event.target.value)
     }
 
+    // Handle friend search
     const handleSearch = () => {
         axios.post('http://localhost:5000/searchforfriends', {
           firstName: localStorage.getItem('friendFirstName'),
