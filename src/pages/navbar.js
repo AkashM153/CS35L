@@ -24,6 +24,7 @@ import dayjs from 'dayjs';
 import FilterBar from './filterbar'; // Import the FilterBar component
 import DateFilter from './datepicker'; //Import the Date Picker component
 
+// Custom styling for the input field in the search bar
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
