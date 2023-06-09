@@ -9,7 +9,9 @@ export default function LikesDisplay({ friendLikesNames, friendLikesCount }){
     const [anchor, setAnchor] = React.useState(null);
     let name = friendLikesNames[0]
     const open = Boolean(anchor);
+    // Determine the content of the "spotlight" based on the number of likes
     if (friendLikesCount == 1){
+        // Display avatar and name if there's only one like
         spotlight = (
             <React.Fragment>
                 <Avatar {...smallStringAvatar(name)} style={{margin: '10px'}}/>
@@ -17,6 +19,7 @@ export default function LikesDisplay({ friendLikesNames, friendLikesCount }){
             </React.Fragment>
         )
     }
+    // Display avatar, name, and count if there are multiple likes
     else if (friendLikesCount >= 1){
         spotlight = (
             <React.Fragment>
@@ -25,7 +28,7 @@ export default function LikesDisplay({ friendLikesNames, friendLikesCount }){
             </React.Fragment>
         )
     }
-
+     // Event handlers for mouse enter and leave events on the IconButton
     const handleMouseEnter = (event) => {
         setAnchor(event.currentTarget)
     }
