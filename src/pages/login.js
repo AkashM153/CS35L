@@ -18,7 +18,7 @@ import dayjs from 'dayjs';
 
 
 
-
+// Component to display the copyright information
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -32,6 +32,7 @@ function Copyright(props) {
   );
 }
 
+// Custom theme for the sign-in form
 const theme = createTheme({
   components: {
     MuiTextField: {
