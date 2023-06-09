@@ -26,15 +26,18 @@ export default function FilterBar({ onEventChange }){
     const [typeAnchorEl, setTypeAnchorEl] = React.useState(null);
     const [selectedType, setSelectedType] = React.useState(localStorage.getItem('searchtype'));
     const typeOpen = Boolean(typeAnchorEl);
+    // Handle click on type item
     const handleTypeItemClick = (event, index) => {
         setSelectedType(index);
         localStorage.setItem('searchtype', index);
         onEventChange(index)
         setTypeAnchorEl(null);
     }
+    // Handle click on type button
     const handleTypeClick = (event) => {
         setTypeAnchorEl(event.currentTarget);
     };
+    // Handle close of type menu
     const handleTypeClose = () => {
         setTypeAnchorEl(null);
       };
