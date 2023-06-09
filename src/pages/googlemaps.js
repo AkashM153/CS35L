@@ -28,12 +28,15 @@ function MapsComponent({ toUpdate, onMarkerSelect, selectedMarker }) {
 
   useEffect(() => {
     async function fetchData() {
+      // Retrieve listings data
       const data = await retrieveListings();
       setListings(data);
+      // Retrieve location array
       const importedlocArray = await getlocArray();
       await sleep(150);
 
       if (importedlocArray.length > 0) {
+        // Create markers from location array
         setMarkers(
           importedlocArray.map((location, index) => ({
             key: index,
@@ -54,14 +57,17 @@ function MapsComponent({ toUpdate, onMarkerSelect, selectedMarker }) {
   }, [toUpdate]);
 
   const handleMarkerClick = (marker, index) => {
+    // Handle marker click event
     onMarkerSelect(index);
   };
 
   const handleInfoWindowClose = () => {
+    // Handle info window close event
     onMarkerSelect(null);
   };
 
   const renderMarkerIcon = (index) => {
+    // Render marker icon animation
     if (selectedMarker !== null && selectedMarker === index) {
       return window.google.maps.Animation.BOUNCE;
     } else {
